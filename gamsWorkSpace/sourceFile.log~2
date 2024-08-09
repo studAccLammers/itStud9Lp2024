@@ -1,0 +1,27 @@
+
+--- Job sourceFile.gms Start 08/07/24 16:16:21 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\Program Files (x86)\GAMS\47\gmsprmNT.txt
+--- GAMS Parameters defined
+    Input C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
+    PageSize 0
+    ScrDir C:\projects\itStud9Lp2024\gamsWorkSpace\225a\
+    SysDir "C:\Program Files (x86)\GAMS\47\"
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+Licensee: Course License                                 S240418|0002AO-GEN
+          Stiftung Universitaet Hildesheim                          DCE3433
+          C:\Program Files (x86)\GAMS\47\gamslice.txt
+          License Admin: Julia Rieck, rieck@bwl.uni-hildesheim.de          
+          Course license for use within the course and related course work
+          The evaluation period of the license will expire on Oct 15, 2024
+Processor information: 1 socket(s), 6 core(s), and 12 thread(s) available
+GAMS 47.4.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
+--- Starting compilation
+--- sourceFile.gms(45) 3 Mb
+--- Starting execution - empty program
+*** Status: Normal completion
+--- Job sourceFile.gms Stop 08/07/24 16:16:21 elapsed 0:00:00.015
