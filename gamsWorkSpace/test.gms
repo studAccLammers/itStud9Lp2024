@@ -1,34 +1,20 @@
 Sets
-    X /x1, x2, x3/
-    U /u1, u2, u3, u4/;
+    p /p1*p3/
+    s /s1*s2/
+    t /t1*t5/
+    TVM(t) /t2, t4/;
+
+Parameters
+    q_ps(p,s);
+
+q_ps(p,s) = 1;
 
 Variables
-    xu(x,u)      'Variablen xi für jede Kombination aus X und U'
-    y          'Variable y'
-    z          'Zielfunktion';
+x_pst(p,s,t)
+vQuali_ps(p,s);
 
-Equation
-    obj         'Zielfunktion'
-    xu_positive
-    y_lower
-    y_upper
-    sum_greater_100
-    sum_smaller_106;
-
-obj .. z =e= 5 * y * sum((X,U), xu(X,U));
-
-xu_positive(X,U) .. xu(X,U) =g= 6;
-
-y_lower .. y =g= 150;
-
-y_upper .. y =l= 200;
-
-sum_greater_100 .. sum((X,U), xu(X,U)) =g= 100;
-
-sum_smaller_106 .. sum((X,U), xu(X,U)) =l= 106;
-
-Model beispiel /all/;
-
-Solve beispiel using minlp minimizing z;
-
-Display xu.l, y.l, z.l;
+Equations
+    const_x_pst_smaller_q_ps_plus_v_quali_ps;
+    
+const_x_pst_smaller_q_ps_plus_v_quali_ps(p,s,t) ..
+    x_pst(p,s,t) =l= q_ps(p,s) + vQuali_ps(p,s)  $ (not (t in TVM));

@@ -1,13 +1,1 @@
 B 3 C o m p i l a t i o n
-B 45 Equation Listing    SOLVE beispiel Using MINLP From line 32
-D 48 obj
-D 53 xu_positive
-D 64 y_lower
-D 69 y_upper
-D 74 sum_greater_100
-D 83 sum_smaller_106
-B 89 Column Listing      SOLVE beispiel Using MINLP From line 32
-E 92 xu
-E 117 y
-E 126 z
-B 134 Model Statistics    SOLVE beispiel Using MINLP From line 32

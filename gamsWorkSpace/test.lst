@@ -1,153 +1,39 @@
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/09/24 16:58:33 Page 1
+GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/09/24 22:21:39 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 C o m p i l a t i o n
 
 
    1  Sets
-   2      X /x1, x2, x3/
-   3      U /u1, u2, u3, u4/;
-   4   
-   5  Variables
-   6      xu(x,u)      'Variablen xi für jede Kombination aus X und U'
-   7      y          'Variable y'
-   8      z          'Zielfunktion';
+   2      p /p1*p3/
+   3      s /s1*s2/
+   4      t /t1*t5/
+   5      TVM(t) /t2, t4/;
+   6   
+   7  Parameters
+   8      q_ps(p,s);
    9   
-  10  Equation
-  11      obj         'Zielfunktion'
-  12      xu_positive
-  13      y_lower
-  14      y_upper
-  15      sum_greater_100
-  16      sum_smaller_106;
-  17   
-  18  obj .. z =e= 5 * y * sum((X,U), xu(X,U));
-  19   
-  20  xu_positive(X,U) .. xu(X,U) =g= 6;
-  21   
-  22  y_lower .. y =g= 150;
-  23   
-  24  y_upper .. y =l= 200;
-  25   
-  26  sum_greater_100 .. sum((X,U), xu(X,U)) =g= 100;
-  27   
-  28  sum_smaller_106 .. sum((X,U)$(not U.val=4), xu(X,U)) =l= 106;
-  29   
-  30  Model beispiel /all/;
-  31   
-  32  Solve beispiel using minlp minimizing z;
-  33   
-  34  Display xu.l, y.l, z.l;
+  10  q_ps(p,s) = 1;
+  11   
+  12  Variables
+  13  x_pst(p,s,t)
+  14  vQuali_ps(p,s);
+  15   
+  16  Equations
+  17      const_x_pst_smaller_q_ps_plus_v_quali_ps;
+  18   
+  19  const_x_pst_smaller_q_ps_plus_v_quali_ps(p,s,t) ..
+  20      x_pst(p,s,t) =l= q_ps(p,s) + vQuali_ps(p,s)  $ (not (t in TVM));
+****                                                              $148,8,409
+****   8  ')' expected
+**** 148  Dimension different - The symbol is referenced with more/less
+****         indices as declared
+**** 409  Unrecognizable item - skip to find a new statement
+****        looking for a ';' or a key word to get started again
+
+**** 3 ERROR(S)   0 WARNING(S)
 
 
 COMPILATION TIME     =        0.000 SECONDS      3 MB  47.4.0 838fd78c WEX-WEI
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/09/24 16:58:33 Page 2
-G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Equation Listing    SOLVE beispiel Using MINLP From line 32
-
-
----- obj  =E=  Zielfunktion
-
-obj..  (0)*xu(x1,u1) + (0)*xu(x1,u2) + (0)*xu(x1,u3) + (0)*xu(x1,u4) + (0)*xu(x2,u1) + (0)*xu(x2,u2) + (0)*xu(x2,u3) + (0)*xu(x2,u4) + (0)*xu(x3,u1) + (0)*xu(x3,u2) + (0)*xu(x3,u3) + (0)*xu(x3,u4) + (0)*y + z =E= 0 ; (LHS = 0)
-     
-
----- xu_positive  =G=  
-
-xu_positive(x1,u1)..  xu(x1,u1) =G= 6 ; (LHS = 0, INFES = 6 ****)
-     
-xu_positive(x1,u2)..  xu(x1,u2) =G= 6 ; (LHS = 0, INFES = 6 ****)
-     
-xu_positive(x1,u3)..  xu(x1,u3) =G= 6 ; (LHS = 0, INFES = 6 ****)
-     
-REMAINING 9 ENTRIES SKIPPED
-
-
----- y_lower  =G=  
-
-y_lower..  y =G= 150 ; (LHS = 0, INFES = 150 ****)
-     
-
----- y_upper  =L=  
-
-y_upper..  y =L= 200 ; (LHS = 0)
-     
-
----- sum_greater_100  =G=  
-
-sum_greater_100..  xu(x1,u1) + xu(x1,u2) + xu(x1,u3) + xu(x1,u4) + xu(x2,u1) + xu(x2,u2) + xu(x2,u3) + xu(x2,u4) + xu(x3,u1) + xu(x3,u2) + xu(x3,u3) + xu(x3,u4) =G= 100 ; (LHS = 0, INFES = 100 ****)
-     
-**** Exec Error at line 28: Could not extract number from element: u1
-**** Exec Error at line 28: Could not extract number from element: u2
-**** Exec Error at line 28: Could not extract number from element: u3
-**** Exec Error at line 28: Could not extract number from element: u4
-
----- sum_smaller_106  =L=  
-
-sum_smaller_106..  xu(x1,u1) + xu(x1,u2) + xu(x1,u3) + xu(x1,u4) + xu(x2,u1) + xu(x2,u2) + xu(x2,u3) + xu(x2,u4) + xu(x3,u1) + xu(x3,u2) + xu(x3,u3) + xu(x3,u4) =L= 106 ; (LHS = 0)
-     
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/09/24 16:58:33 Page 3
-G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Column Listing      SOLVE beispiel Using MINLP From line 32
-
-
----- xu  Variablen xi für jede Kombination aus X und U
-
-xu(x1,u1)
-                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
-       (0)      obj
-        1       xu_positive(x1,u1)
-        1       sum_greater_100
-        1       sum_smaller_106
-
-xu(x1,u2)
-                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
-       (0)      obj
-        1       xu_positive(x1,u2)
-        1       sum_greater_100
-        1       sum_smaller_106
-
-xu(x1,u3)
-                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
-       (0)      obj
-        1       xu_positive(x1,u3)
-        1       sum_greater_100
-        1       sum_smaller_106
-
-REMAINING 9 ENTRIES SKIPPED
-
----- y  Variable y
-
-y
-                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
-       (0)      obj
-        1       y_lower
-        1       y_upper
-
-
----- z  Zielfunktion
-
-z
-                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
-        1       obj
-
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/09/24 16:58:33 Page 4
-G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Model Statistics    SOLVE beispiel Using MINLP From line 32
-
-
-MODEL STATISTICS
-
-BLOCKS OF EQUATIONS           6     SINGLE EQUATIONS           17
-BLOCKS OF VARIABLES           3     SINGLE VARIABLES           14
-NON ZERO ELEMENTS            52     NON LINEAR N-Z              0
-CODE LENGTH                  18     CONSTANT POOL              16
-
-
-GENERATION TIME      =        0.000 SECONDS      4 MB  47.4.0 838fd78c WEX-WEI
-
-**** SOLVE from line 32 ABORTED, EXECERROR = 4
-
-
-EXECUTION TIME       =        0.000 SECONDS      4 MB  47.4.0 838fd78c WEX-WEI
 
 
 USER: Course License                                 S240418|0002AO-GEN

@@ -7,11 +7,11 @@ Die nachfolgenden Sets definieren Teilmengen der Gesamtmenge der Ärzte.
 - PHP(P):   head (p16 bis p20).
 $offtext
 Sets
-    P      /p1*p20/
-    PAP(P) /p1*p5/
-    PSP(P) /p6*p10/
-    PCP(P) /p11*p15/
-    PHP(P) /p16*p20/;
+    P             /p1*p20/
+    PAP(P)        /p1*p5/
+    PSP(P)        /p6*p10/
+    PCP(P)        /p11*p15/
+    PHP(P)        /p16*p20/;
     
 
 $ontext
@@ -129,34 +129,64 @@ Parameters
     delta_7     /1/
     omega_1     /1/
     omega_2     /1/
-    contract(P) / p1 45, p2 50, p3 55, p4 60, p5 42, p6 47, p7 48, p8 49, p9 51, p10 52, p11 44, p12 40, p13 46, p14 50, p15 56, p16 38, p17 37, p18 35, p19 29, p20 25 /;
-
+    contract(P) / p1 45, p2 50, p3 55, p4 60, p5 42, p6 47, p7 48, p8 49, p9 51, p10 52, p11 44, p12 40, p13 46, p14 50, p15 56, p16 38, p17 37, p18 35, p19 29, p20 25 /
+    q_ps(p,s)
+    c_st(s,t)
+    cSP_st(s,t)
+    cCP_st(s,t)
+    FMin;
+    
+ q_ps(p,s) = 1;
+ c_st(s,t) = 3;
+ cSP_st(s,t) = 2;
+ cCP_st(s,t) = 1;
+ FMin = 2;
 
 Variables
-    vQuali_ps(p,s)
     v_st(s,t)
-    vreq1_pst(p,s,t)
-    vreq0_pst(p,s,t)
-    vOff_pt(p,t)
     vBD_p(p)
     vBD_p(p)
     vWEyn_p(p)
     vWEmin_p(p)
-    vSP_st(s,t)
-    vCP_st(s,t)
-    vWErow_pw(p,w)
     ot_p(p)
     bdMax
     bdMin
-    vStretch_p(p)
     vAdy_pw(p,w)
-    vIOPL_pt(p,t)
-    vIO_pt(p,t)
     vIOMax_pw(p,w)
-    x_pst(p,s,t)
     ot_p(p)
+    ut_p(p)
     obj;
+    
+Binary Variables
+    x_pst(p,s,t)
+    z_pw(p,w)
+    vQuali_ps(p,s)
+    vSP_st(s,t)
+    vCP_st(s,t)
+    vreq1_pst(p,s,t)
+    vreq0_pst(p,s,t)
+    vStretch_p(p)
+    vOff_pt(p,t)
+    vWErow_pw(p,w)
+    vIOPL_pt(p,t)
+    vIO_pt(p,t);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*Zielformel
 Equations 
     mip;
     
@@ -177,6 +207,80 @@ mip .. obj =e=    alpha_1 * sum((p, s), vQuali_ps(p, s))
                 + delta_7 * (sum((p, t), vIO_pt(p, t)) + sum((p, w), vIOMax_pw(p, w)))
                 + omega_1 * sum((p, s2, t), x_pst(p, s2, t))
                 + omega_2 * sum(p$(contract(p) >= 40), ot_p(p));
+                
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*Subject to                 
+Equations 
+    const_a_2
+    const_a_3
+    const_a_4
+    const_a_5
+    const_a_6
+    const_a_7;
+    
+*Dok Constraint A.2
+const_a_2(p,t) .. sum(s, x_pst(p,s,t)) =e= 1;
+
+*Dok Constraint A.3
+const_a_3(p,s,t) .. x_pst(p,s,t) =l= (q_ps(p,s) + vQuali_ps(p,s));
+
+*Dok Constraint A.4
+const_a_4(s,t) .. sum(p, x_pst(p,s,t)) =e= c_st(s,t) - v_st(s,t);
+
+*Dok Constraint A.5
+const_a_5(s,t) .. sum(p$(not PAP(p)), x_pst(p,s,t)) =g= cSP_st(s,t) - vSP_st(s,t);
+
+*Dok Constraint A.6
+const_a_6(s,t) .. sum(p$(PCP(p) or PHP(p)), x_pst(p,s,t)) =g= cCP_st(s,t) - vCP_st(s,t);
+
+*Dok Constraint A.7
+const_a_7(t) .. sum((p,s)$(not PAP(p)), x_pst(p,s,t)) =g= FMin;
+
+
+
+
+
+
+
+
+
+
+
+
+*Solve
 Model optModel /all/;
 Solve optModel using mip minimizing obj;
+
+
+*Output in File
+file outputFile / 'output_s.txt' /;
+outputFile.pw = 50;
+
+put outputFile;
+
+loop((p,s,t),
+    if(x_pst.l(p,s,t) = 1,
+        put p.tl:0, ' ', s.tl:0, ' ', t.tl:0 /;
+    );
+);
+
+putclose outputFile;
