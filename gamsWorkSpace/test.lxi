@@ -1,28 +1,13 @@
 B 3 C o m p i l a t i o n
-B 47 Equation Listing    SOLVE beispiel Using MINLP From line 34
-D 50 obj
-D 55 xi_positive
+B 45 Equation Listing    SOLVE beispiel Using MINLP From line 32
+D 48 obj
+D 53 xu_positive
 D 64 y_lower
 D 69 y_upper
 D 74 sum_greater_100
-D 79 sum_smaller_106
-B 85 Column Listing      SOLVE beispiel Using MINLP From line 34
-E 88 xi
-E 112 y
-E 121 z
-B 129 Range Statistics    SOLVE beispiel Using MINLP From line 34
-B 140 Model Statistics    SOLVE beispiel Using MINLP From line 34
-B 154 Solution Report     SOLVE beispiel Using MINLP From line 34
-F 214 obj
-F 218 xi_positive
-F 228 y_lower
-F 229 y_upper
-F 230 sum_greater_100
-F 231 sum_smaller_106
-G 233 xi
-G 243 y
-G 244 z
-B 256 E x e c u t i o n
-I 256 xi
-I 263 y
-I 264 z
+D 83 sum_smaller_106
+B 89 Column Listing      SOLVE beispiel Using MINLP From line 32
+E 92 xu
+E 117 y
+E 126 z
+B 134 Model Statistics    SOLVE beispiel Using MINLP From line 32

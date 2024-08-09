@@ -1,65 +1,65 @@
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/09/24 12:39:31 Page 1
+GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/09/24 16:58:33 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 C o m p i l a t i o n
 
 
    1  Sets
-   2      X /x1, x2, x3/;
-   3   
-   4  Variables
-   5      xi(X)      'Variablen xi für jedes Element in X'
-   6      y          'Variable y'
-   7      z          'Zielfunktion';
-   8   
-   9  Binary Variables
-  10      use(X);
-  11   
-  12  Equation
-  13      obj         'Zielfunktion'
-  14      xi_positive
-  15      y_lower
-  16      y_upper
-  17      sum_greater_100
-  18      sum_smaller_106;
+   2      X /x1, x2, x3/
+   3      U /u1, u2, u3, u4/;
+   4   
+   5  Variables
+   6      xu(x,u)      'Variablen xi für jede Kombination aus X und U'
+   7      y          'Variable y'
+   8      z          'Zielfunktion';
+   9   
+  10  Equation
+  11      obj         'Zielfunktion'
+  12      xu_positive
+  13      y_lower
+  14      y_upper
+  15      sum_greater_100
+  16      sum_smaller_106;
+  17   
+  18  obj .. z =e= 5 * y * sum((X,U), xu(X,U));
   19   
-  20  obj .. z =e= 5 * y * sum(X, xi(X));
+  20  xu_positive(X,U) .. xu(X,U) =g= 6;
   21   
-  22  xi_positive(X) .. xi(X) =g= 6;
+  22  y_lower .. y =g= 150;
   23   
-  24  y_lower .. y =g= 150;
+  24  y_upper .. y =l= 200;
   25   
-  26  y_upper .. y =l= 200;
+  26  sum_greater_100 .. sum((X,U), xu(X,U)) =g= 100;
   27   
-  28  sum_greater_100 .. sum(X, xi(X)) =g= 100;
+  28  sum_smaller_106 .. sum((X,U)$(not U.val=4), xu(X,U)) =l= 106;
   29   
-  30  sum_smaller_106 .. sum(X, xi(X)) =l= 106;
+  30  Model beispiel /all/;
   31   
-  32  Model beispiel /all/;
+  32  Solve beispiel using minlp minimizing z;
   33   
-  34  Solve beispiel using minlp minimizing z;
-  35   
-  36  Display xi.l, y.l, z.l;
+  34  Display xu.l, y.l, z.l;
 
 
 COMPILATION TIME     =        0.000 SECONDS      3 MB  47.4.0 838fd78c WEX-WEI
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/09/24 12:39:31 Page 2
+GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/09/24 16:58:33 Page 2
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Equation Listing    SOLVE beispiel Using MINLP From line 34
+Equation Listing    SOLVE beispiel Using MINLP From line 32
 
 
 ---- obj  =E=  Zielfunktion
 
-obj..  (0)*xi(x1) + (0)*xi(x2) + (0)*xi(x3) + (0)*y + z =E= 0 ; (LHS = 0)
+obj..  (0)*xu(x1,u1) + (0)*xu(x1,u2) + (0)*xu(x1,u3) + (0)*xu(x1,u4) + (0)*xu(x2,u1) + (0)*xu(x2,u2) + (0)*xu(x2,u3) + (0)*xu(x2,u4) + (0)*xu(x3,u1) + (0)*xu(x3,u2) + (0)*xu(x3,u3) + (0)*xu(x3,u4) + (0)*y + z =E= 0 ; (LHS = 0)
      
 
----- xi_positive  =G=  
+---- xu_positive  =G=  
 
-xi_positive(x1)..  xi(x1) =G= 6 ; (LHS = 0, INFES = 6 ****)
+xu_positive(x1,u1)..  xu(x1,u1) =G= 6 ; (LHS = 0, INFES = 6 ****)
      
-xi_positive(x2)..  xi(x2) =G= 6 ; (LHS = 0, INFES = 6 ****)
+xu_positive(x1,u2)..  xu(x1,u2) =G= 6 ; (LHS = 0, INFES = 6 ****)
      
-xi_positive(x3)..  xi(x3) =G= 6 ; (LHS = 0, INFES = 6 ****)
+xu_positive(x1,u3)..  xu(x1,u3) =G= 6 ; (LHS = 0, INFES = 6 ****)
      
+REMAINING 9 ENTRIES SKIPPED
+
 
 ---- y_lower  =G=  
 
@@ -73,41 +73,46 @@ y_upper..  y =L= 200 ; (LHS = 0)
 
 ---- sum_greater_100  =G=  
 
-sum_greater_100..  xi(x1) + xi(x2) + xi(x3) =G= 100 ; (LHS = 0, INFES = 100 ****)
+sum_greater_100..  xu(x1,u1) + xu(x1,u2) + xu(x1,u3) + xu(x1,u4) + xu(x2,u1) + xu(x2,u2) + xu(x2,u3) + xu(x2,u4) + xu(x3,u1) + xu(x3,u2) + xu(x3,u3) + xu(x3,u4) =G= 100 ; (LHS = 0, INFES = 100 ****)
      
+**** Exec Error at line 28: Could not extract number from element: u1
+**** Exec Error at line 28: Could not extract number from element: u2
+**** Exec Error at line 28: Could not extract number from element: u3
+**** Exec Error at line 28: Could not extract number from element: u4
 
 ---- sum_smaller_106  =L=  
 
-sum_smaller_106..  xi(x1) + xi(x2) + xi(x3) =L= 106 ; (LHS = 0)
+sum_smaller_106..  xu(x1,u1) + xu(x1,u2) + xu(x1,u3) + xu(x1,u4) + xu(x2,u1) + xu(x2,u2) + xu(x2,u3) + xu(x2,u4) + xu(x3,u1) + xu(x3,u2) + xu(x3,u3) + xu(x3,u4) =L= 106 ; (LHS = 0)
      
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/09/24 12:39:31 Page 3
+GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/09/24 16:58:33 Page 3
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Column Listing      SOLVE beispiel Using MINLP From line 34
+Column Listing      SOLVE beispiel Using MINLP From line 32
 
 
----- xi  Variablen xi für jedes Element in X
+---- xu  Variablen xi für jede Kombination aus X und U
 
-xi(x1)
+xu(x1,u1)
                 (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
        (0)      obj
-        1       xi_positive(x1)
+        1       xu_positive(x1,u1)
         1       sum_greater_100
         1       sum_smaller_106
 
-xi(x2)
+xu(x1,u2)
                 (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
        (0)      obj
-        1       xi_positive(x2)
+        1       xu_positive(x1,u2)
         1       sum_greater_100
         1       sum_smaller_106
 
-xi(x3)
+xu(x1,u3)
                 (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
        (0)      obj
-        1       xi_positive(x3)
+        1       xu_positive(x1,u3)
         1       sum_greater_100
         1       sum_smaller_106
 
+REMAINING 9 ENTRIES SKIPPED
 
 ---- y  Variable y
 
@@ -124,148 +129,25 @@ z
                 (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
         1       obj
 
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/09/24 12:39:31 Page 4
+GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/09/24 16:58:33 Page 4
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Range Statistics    SOLVE beispiel Using MINLP From line 34
-
-
-RANGE STATISTICS (ABSOLUTE NON-ZERO FINITE VALUES)
-
-RHS       [min, max] : [ 6.000E+00, 2.000E+02] - Zero values observed as well
-Bound     [min, max] : [        NA,        NA]
-Matrix    [min, max] : [ 1.000E+00, 1.000E+00] - Zero values observed as well
-
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/09/24 12:39:31 Page 5
-G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Model Statistics    SOLVE beispiel Using MINLP From line 34
+Model Statistics    SOLVE beispiel Using MINLP From line 32
 
 
 MODEL STATISTICS
 
-BLOCKS OF EQUATIONS           6     SINGLE EQUATIONS            8
-BLOCKS OF VARIABLES           3     SINGLE VARIABLES            5
-NON ZERO ELEMENTS            16     NON LINEAR N-Z              4
-CODE LENGTH                   9     CONSTANT POOL              16
+BLOCKS OF EQUATIONS           6     SINGLE EQUATIONS           17
+BLOCKS OF VARIABLES           3     SINGLE VARIABLES           14
+NON ZERO ELEMENTS            52     NON LINEAR N-Z              0
+CODE LENGTH                  18     CONSTANT POOL              16
 
 
-GENERATION TIME      =        0.015 SECONDS      4 MB  47.4.0 838fd78c WEX-WEI
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/09/24 12:39:31 Page 6
-G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Solution Report     SOLVE beispiel Using MINLP From line 34
+GENERATION TIME      =        0.000 SECONDS      4 MB  47.4.0 838fd78c WEX-WEI
+
+**** SOLVE from line 32 ABORTED, EXECERROR = 4
 
 
-               S O L V E      S U M M A R Y
-
-     MODEL   beispiel            OBJECTIVE  z
-     TYPE    MINLP               DIRECTION  MINIMIZE
-     SOLVER  DICOPT              FROM LINE  34
-
-**** SOLVER STATUS     1 Normal Completion
-**** MODEL STATUS      2 Locally Optimal
-**** OBJECTIVE VALUE            75000.0000
-
- RESOURCE USAGE, LIMIT          0.016 10000000000.000
- ITERATION COUNT, LIMIT         1    2147483647
- EVALUATION ERRORS              0             0
--------------------------------------------------------------------------------
-Dicopt 2         47.4.0 838fd78c Jul 30, 2024          WEI x86 64bit/MS Window
--------------------------------------------------------------------------------
-*** This solver runs with a community license.
---- *** This solver runs with a community license.
- 
- 
-    C O N O P T   version 4.35
-    Copyright (C) GAMS Software GmbH
-                  GAMS Development Corporation
- 
-    Will use up to 12 threads.
- 
- 
-    The user model has 8 constraints and 5 variables
-    with 16 Jacobian elements, 4 of which are nonlinear.
-    The Hessian of the Lagrangian has 0 elements on the diagonal,
-    3 elements below the diagonal, and 4 nonlinear variables.
- 
-    The pre-triangular part of the model has 6 constraints and 1 variables.
-    The post-triangular part of the model has 1 constraints and variables.
- 
-    Preprocessed model has 1 constraints and 3 variables
-    with 3 Jacobian elements, 0 of which are nonlinear.
- 
- ** Optimal solution. There are no superbasic variables.
- 
- 
- CONOPT time Total                            0.001 seconds
-   of which: Function evaluations             0.000 =  0.0%
-             1st Derivative evaluations       0.000 =  0.0%
-             2nd Derivative evaluations       0.000 =  0.0%
-             Interval derivative evals        0.001 =100.0%
- 
---- DICOPT: No discrete variables found
---- DICOPT: Returning NLP solution
-
-      The model does not contain any discrete variables.
-      The NLP solution is returned to GAMS.
-      Advice: use an NLP solver for this model.
-
-
-                           LOWER          LEVEL          UPPER         MARGINAL
-
----- EQU obj                 .              .              .             1.0000      
-
-  obj  Zielfunktion
-
----- EQU xi_positive  
-
-          LOWER          LEVEL          UPPER         MARGINAL
-
-x1         6.0000         6.0000        +INF            EPS         
-x2         6.0000        88.0000        +INF             .          
-x3         6.0000         6.0000        +INF            EPS         
-
-                           LOWER          LEVEL          UPPER         MARGINAL
-
----- EQU y_lower          150.0000       150.0000        +INF          500.0000      
----- EQU y_upper           -INF          150.0000       200.0000          .          
----- EQU sum_great~       100.0000       100.0000        +INF          750.0000      
----- EQU sum_small~        -INF          100.0000       106.0000          .          
-
----- VAR xi  Variablen xi für jedes Element in X
-
-          LOWER          LEVEL          UPPER         MARGINAL
-
-x1        -INF            6.0000        +INF             .          
-x2        -INF           88.0000        +INF             .          
-x3        -INF            6.0000        +INF             .          
-
-                           LOWER          LEVEL          UPPER         MARGINAL
-
----- VAR y                 -INF          150.0000        +INF             .          
----- VAR z                 -INF        75000.0000        +INF             .          
-
-  y  Variable y
-  z  Zielfunktion
-
-
-**** REPORT SUMMARY :        0     NONOPT
-                             0 INFEASIBLE
-                             0  UNBOUNDED
-                             0     ERRORS
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/09/24 12:39:31 Page 7
-G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-E x e c u t i o n
-
-
-----     36 VARIABLE xi.L  Variablen xi für jedes Element in X
-
-x1  6.000,    x2 88.000,    x3  6.000
-
-
-----     36 VARIABLE y.L                   =      150.000  Variable y
-            VARIABLE z.L                   =    75000.000  Zielfunktion
-
-
-EXECUTION TIME       =        0.062 SECONDS      4 MB  47.4.0 838fd78c WEX-WEI
+EXECUTION TIME       =        0.000 SECONDS      4 MB  47.4.0 838fd78c WEX-WEI
 
 
 USER: Course License                                 S240418|0002AO-GEN
@@ -277,3 +159,5 @@ USER: Course License                                 S240418|0002AO-GEN
 
 Input      C:\projects\itStud9Lp2024\gamsWorkSpace\test.gms
 Output     C:\projects\itStud9Lp2024\gamsWorkSpace\test.lst
+
+**** USER ERROR(S) ENCOUNTERED
