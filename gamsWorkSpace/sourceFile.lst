@@ -1,4 +1,4 @@
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/10/24 21:31:58 Page 1
+GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/10/24 21:46:49 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 C o m p i l a t i o n
 
@@ -36,8 +36,9 @@ C o m p i l a t i o n
   35      SFZA(S)             / S1, BD1, BD3, A73, V93, A91 /
   36      SRD(S)              / A73, IOP, IOPL /
   37      S_AO_TBA(S)         / AO, TBA /
-  38      S_BD1_BD3(S)        / BD1, BD3 /;
-  39   
+  38      S_BD1_BD3(S)        / BD1, BD3 /
+  39      S_A73_S1(S)         / A73, S1 /;;
+  40   
       Die nachfolgenden Sets definieren die Tage für den Deinstplan in diesem Fall Oktober 2024.
       - T        Gesamte Menge der Tage.
       - TVM:     7 Tage des vorherigen Monats.
@@ -48,148 +49,147 @@ C o m p i l a t i o n
       - THD:     Gesetzliche Feiertage.
       - TWD:     Enthält alle Tage, die nicht in T_RD sind
       - TRD:     Tage, die entweder gesetzliche Feiertage oder Wochenenden sind
-  52  Sets
-  53      T               /t924*t930, t1001*t1031, t1101*t1105/
-  54      TVM(T)          /t924*t930/
-  55      TAM(T)          /t1001*t1031/
-  56      TFM(T)          /t1101*t1105/
-  57      J               /Mon, Tue, Wed, Thu, Fri, Sat, Sun/
-  58      TWkdy_J(T, J)
-  59      THD(T)          /t1003, t1031/
-  60      TRD(T)
-  61      TWD(T);
-  62   
-  63  * Zuweisung der Wochentage zu den Tagen im Set T
-  64  TWkdy_J('t924', 'Tue') = yes;
-  65  TWkdy_J('t925', 'Wed') = yes;
-  66  TWkdy_J('t926', 'Thu') = yes;
-  67  TWkdy_J('t927', 'Fri') = yes;
-  68  TWkdy_J('t928', 'Sat') = yes;
-  69  TWkdy_J('t929', 'Sun') = yes;
-  70   
-  71  TWkdy_J('t930', 'Mon') = yes;
-  72  TWkdy_J('t1001', 'Tue') = yes;
-  73  TWkdy_J('t1002', 'Wed') = yes;
-  74  TWkdy_J('t1003', 'Thu') = yes;
-  75  TWkdy_J('t1004', 'Fri') = yes;
-  76  TWkdy_J('t1005', 'Sat') = yes;
-  77  TWkdy_J('t1006', 'Sun') = yes;
-  78   
-  79  TWkdy_J('t1007', 'Mon') = yes;
-  80  TWkdy_J('t1008', 'Tue') = yes;
-  81  TWkdy_J('t1009', 'Wed') = yes;
-  82  TWkdy_J('t1010', 'Thu') = yes;
-  83  TWkdy_J('t1011', 'Fri') = yes;
-  84  TWkdy_J('t1012', 'Sat') = yes;
-  85  TWkdy_J('t1013', 'Sun') = yes;
-  86   
-  87  TWkdy_J('t1014', 'Mon') = yes;
-  88  TWkdy_J('t1015', 'Tue') = yes;
-  89  TWkdy_J('t1016', 'Wed') = yes;
-  90  TWkdy_J('t1017', 'Thu') = yes;
-  91  TWkdy_J('t1018', 'Fri') = yes;
-  92  TWkdy_J('t1019', 'Sat') = yes;
-  93  TWkdy_J('t1020', 'Sun') = yes;
-  94   
-  95  TWkdy_J('t1021', 'Mon') = yes;
-  96  TWkdy_J('t1022', 'Tue') = yes;
-  97  TWkdy_J('t1023', 'Wed') = yes;
-  98  TWkdy_J('t1024', 'Thu') = yes;
-  99  TWkdy_J('t1025', 'Fri') = yes;
- 100  TWkdy_J('t1026', 'Sat') = yes;
- 101  TWkdy_J('t1027', 'Sun') = yes;
- 102   
- 103  TWkdy_J('t1028', 'Mon') = yes;
- 104  TWkdy_J('t1029', 'Tue') = yes;
- 105  TWkdy_J('t1030', 'Wed') = yes;
- 106  TWkdy_J('t1031', 'Thu') = yes;
- 107  TWkdy_J('t1101', 'Fri') = yes;
- 108  TWkdy_J('t1102', 'Sat') = yes;
- 109  TWkdy_J('t1103', 'Sun') = yes;
- 110   
- 111  TWkdy_J('t1104', 'Mon') = yes;
- 112  TWkdy_J('t1105', 'Tue') = yes;
- 113   
- 114  TRD(t) = THD(t) or TWkdy_J(t, 'Sat') or TWkdy_J(t, 'Sun');
- 115  TWD(t) = not TRD(t);
- 116   
- 117  Sets
- 118      W /w0*w6/
- 119      wFull_w(W) /w1,w2,w3,w4,w5/;
- 120   
- 121  Sets
- 122      I(p,s,t) //
- 123      R(p,s,t) //;
- 124   
- 125  Parameters
- 126      alpha_1     /1/
- 127      alpha_2     /1/
- 128      beta_1      /1/
- 129      beta_2      /1/
- 130      beta_3      /1/
- 131      beta_4      /1/
- 132      gamma_1     /1/
- 133      gamma_2     /1/
- 134      delta_1     /1/
- 135      delta_2     /1/
- 136      delta_3     /1/
- 137      delta_4     /1/
- 138      delta_5     /1/
- 139      delta_6     /1/
- 140      delta_7     /1/
- 141      omega_1     /1/
- 142      omega_2     /1/
- 143      contract(P) / p1 45, p2 50, p3 55, p4 60, p5 42, p6 47, p7 48, p8 49, p9 51, p10 52, p11 44, p12 40, p13 46, p14 50, p15 56, p16 38, p17 37, p18 35, p19 29, p20 25 /
- 144      q_ps(p,s)
- 145      c_st(s,t)
- 146      cSP_st(s,t)
- 147      cCP_st(s,t)
- 148      FMin
- 149      r_pst(p,s,t)
- 150      MMax
- 151      nBD(p)
- 152      BDMaxParam(p);
- 153   
- 154   q_ps(p,s) = 1;
- 155   c_st(s,t) = 3;
- 156   cSP_st(s,t) = 2;
- 157   cCP_st(s,t) = 2;
- 158   FMin = 2;
- 159   r_pst(p,s,t) = 0;
- 160   MMax = 6;
- 161   nBD(p) = 1;
- 162   BDMaxParam(p) = 50;
- 163   
- 164  Variables
- 165      v_st(s,t)
- 166      vBD_p(p)
+  53  Sets
+  54      T               /t924*t930, t1001*t1031, t1101*t1105/
+  55      TVM(T)          /t924*t930/
+  56      TAM(T)          /t1001*t1031/
+  57      TFM(T)          /t1101*t1105/
+  58      J               /Mon, Tue, Wed, Thu, Fri, Sat, Sun/
+  59      TWkdy_J(T, J)
+  60      THD(T)          /t1003, t1031/
+  61      TRD(T)
+  62      TWD(T);
+  63   
+  64  * Zuweisung der Wochentage zu den Tagen im Set T
+  65  TWkdy_J('t924', 'Tue') = yes;
+  66  TWkdy_J('t925', 'Wed') = yes;
+  67  TWkdy_J('t926', 'Thu') = yes;
+  68  TWkdy_J('t927', 'Fri') = yes;
+  69  TWkdy_J('t928', 'Sat') = yes;
+  70  TWkdy_J('t929', 'Sun') = yes;
+  71   
+  72  TWkdy_J('t930', 'Mon') = yes;
+  73  TWkdy_J('t1001', 'Tue') = yes;
+  74  TWkdy_J('t1002', 'Wed') = yes;
+  75  TWkdy_J('t1003', 'Thu') = yes;
+  76  TWkdy_J('t1004', 'Fri') = yes;
+  77  TWkdy_J('t1005', 'Sat') = yes;
+  78  TWkdy_J('t1006', 'Sun') = yes;
+  79   
+  80  TWkdy_J('t1007', 'Mon') = yes;
+  81  TWkdy_J('t1008', 'Tue') = yes;
+  82  TWkdy_J('t1009', 'Wed') = yes;
+  83  TWkdy_J('t1010', 'Thu') = yes;
+  84  TWkdy_J('t1011', 'Fri') = yes;
+  85  TWkdy_J('t1012', 'Sat') = yes;
+  86  TWkdy_J('t1013', 'Sun') = yes;
+  87   
+  88  TWkdy_J('t1014', 'Mon') = yes;
+  89  TWkdy_J('t1015', 'Tue') = yes;
+  90  TWkdy_J('t1016', 'Wed') = yes;
+  91  TWkdy_J('t1017', 'Thu') = yes;
+  92  TWkdy_J('t1018', 'Fri') = yes;
+  93  TWkdy_J('t1019', 'Sat') = yes;
+  94  TWkdy_J('t1020', 'Sun') = yes;
+  95   
+  96  TWkdy_J('t1021', 'Mon') = yes;
+  97  TWkdy_J('t1022', 'Tue') = yes;
+  98  TWkdy_J('t1023', 'Wed') = yes;
+  99  TWkdy_J('t1024', 'Thu') = yes;
+ 100  TWkdy_J('t1025', 'Fri') = yes;
+ 101  TWkdy_J('t1026', 'Sat') = yes;
+ 102  TWkdy_J('t1027', 'Sun') = yes;
+ 103   
+ 104  TWkdy_J('t1028', 'Mon') = yes;
+ 105  TWkdy_J('t1029', 'Tue') = yes;
+ 106  TWkdy_J('t1030', 'Wed') = yes;
+ 107  TWkdy_J('t1031', 'Thu') = yes;
+ 108  TWkdy_J('t1101', 'Fri') = yes;
+ 109  TWkdy_J('t1102', 'Sat') = yes;
+ 110  TWkdy_J('t1103', 'Sun') = yes;
+ 111   
+ 112  TWkdy_J('t1104', 'Mon') = yes;
+ 113  TWkdy_J('t1105', 'Tue') = yes;
+ 114   
+ 115  TRD(t) = THD(t) or TWkdy_J(t, 'Sat') or TWkdy_J(t, 'Sun');
+ 116  TWD(t) = not TRD(t);
+ 117   
+ 118  Sets
+ 119      W /w0*w6/
+ 120      wFull_w(W) /w1,w2,w3,w4,w5/;
+ 121   
+ 122  Sets
+ 123      I(p,s,t) //
+ 124      R(p,s,t) //;
+ 125   
+ 126  Parameters
+ 127      alpha_1     /1/
+ 128      alpha_2     /1/
+ 129      beta_1      /1/
+ 130      beta_2      /1/
+ 131      beta_3      /1/
+ 132      beta_4      /1/
+ 133      gamma_1     /1/
+ 134      gamma_2     /1/
+ 135      delta_1     /1/
+ 136      delta_2     /1/
+ 137      delta_3     /1/
+ 138      delta_4     /1/
+ 139      delta_5     /1/
+ 140      delta_6     /1/
+ 141      delta_7     /1/
+ 142      omega_1     /1/
+ 143      omega_2     /1/
+ 144      contract(P) / p1 45, p2 50, p3 55, p4 60, p5 42, p6 47, p7 48, p8 49, p9 51, p10 52, p11 44, p12 40, p13 46, p14 50, p15 56, p16 38, p17 37, p18 35, p19 29, p20 25 /
+ 145      q_ps(p,s)
+ 146      c_st(s,t)
+ 147      cSP_st(s,t)
+ 148      cCP_st(s,t)
+ 149      FMin
+ 150      r_pst(p,s,t)
+ 151      MMax
+ 152      nBD(p)
+ 153      BDMaxParam(p);
+ 154   
+ 155   q_ps(p,s) = 1;
+ 156   c_st(s,t) = 3;
+ 157   cSP_st(s,t) = 2;
+ 158   cCP_st(s,t) = 2;
+ 159   FMin = 2;
+ 160   r_pst(p,s,t) = 0;
+ 161   MMax = 6;
+ 162   nBD(p) = 1;
+ 163   BDMaxParam(p) = 50;
+ 164   
+ 165  Variables
+ 166      v_st(s,t)
  167      vBD_p(p)
- 168      vWEyn_p(p)
- 169      vWEmin_p(p)
- 170      ot_p(p)
- 171      bdMax
- 172      bdMin
- 173      vAdy_pw(p,w)
- 174      vIOMax_pw(p,w)
- 175      ot_p(p)
- 176      ut_p(p)
- 177      vBD(p)
- 178      obj;
- 179   
- 180  Binary Variables
- 181      x_pst(p,s,t)
- 182      z_pw(p,w)
- 183      vQuali_ps(p,s)
- 184      vSP_st(s,t)
- 185      vCP_st(s,t)
- 186      vreq1_pst(p,s,t)
- 187      vreq0_pst(p,s,t)
- 188      vStretch_p(p)
- 189      vOff_pt(p,t)
- 190      vWErow_pw(p,w)
- 191      vIOPL_pt(p,t)
- 192      vIO_pt(p,t);
- 193   
+ 168      vBD_p(p)
+ 169      vWEyn_p(p)
+ 170      vWEmin_p(p)
+ 171      ot_p(p)
+ 172      bdMax
+ 173      bdMin
+ 174      vAdy_pw(p,w)
+ 175      vIOMax_pw(p,w)
+ 176      ot_p(p)
+ 177      ut_p(p)
+ 178      vBD(p)
+ 179      obj;
+ 180   
+ 181  Binary Variables
+ 182      x_pst(p,s,t)
+ 183      z_pw(p,w)
+ 184      vQuali_ps(p,s)
+ 185      vSP_st(s,t)
+ 186      vCP_st(s,t)
+ 187      vreq1_pst(p,s,t)
+ 188      vreq0_pst(p,s,t)
+ 189      vStretch_p(p)
+ 190      vOff_pt(p,t)
+ 191      vWErow_pw(p,w)
+ 192      vIOPL_pt(p,t)
+ 193      vIO_pt(p,t);
  194   
  195   
  196   
@@ -206,27 +206,27 @@ C o m p i l a t i o n
  207   
  208   
  209   
- 210  Equations
- 211      mip;
- 212   
- 213  mip .. obj =e=    alpha_1 * sum((p, s), vQuali_ps(p, s))
- 214                  + alpha_2 * sum((s, t)$(not S_AO_TBA(s)), v_st(s, t))
- 215                  + beta_1 *  sum((s, t)$(S_AO_TBA(s)), v_st(s, t))
- 216                  + beta_2 *  sum((p, s, t), (vreq1_pst(p, s, t) + vreq0_pst(p, s, t)))
- 217                  + beta_3 *  sum((p, t), vOff_pt(p, t))
- 218                  + beta_4 *  sum(p, vBD_p(p))
- 219                  + gamma_1 * sum(p, (vWEyn_p(p) + vWEmin_p(p)))
- 220                  + gamma_2 * sum((s, t), (vSP_st(s, t) + vCP_st(s, t)))
- 221                  + delta_1 * sum((p, w), vWErow_pw(p, w))
- 222                  + delta_2 * sum(p$(contract(p) < 40), ot_p(p))
- 223                  + delta_3 * (bdMax - bdMin)
- 224                  + delta_4 * sum(p, vStretch_p(p))
- 225                  + delta_5 * sum((p, w), vAdy_pw(p, w))
- 226                  + delta_6 * sum((p, t), vIOPL_pt(p, t))
- 227                  + delta_7 * (sum((p, t), vIO_pt(p, t)) + sum((p, w), vIOMax_pw(p, w)))
- 228                  + omega_1 * sum((p, s, t)$(S2(s)), x_pst(p, s, t))
- 229                  + omega_2 * sum(p$(contract(p) >= 40), ot_p(p));
- 230   
+ 210   
+ 211  Equations
+ 212      mip;
+ 213   
+ 214  mip .. obj =e=    alpha_1 * sum((p, s), vQuali_ps(p, s))
+ 215                  + alpha_2 * sum((s, t)$(not S_AO_TBA(s)), v_st(s, t))
+ 216                  + beta_1 *  sum((s, t)$(S_AO_TBA(s)), v_st(s, t))
+ 217                  + beta_2 *  sum((p, s, t), (vreq1_pst(p, s, t) + vreq0_pst(p, s, t)))
+ 218                  + beta_3 *  sum((p, t), vOff_pt(p, t))
+ 219                  + beta_4 *  sum(p, vBD_p(p))
+ 220                  + gamma_1 * sum(p, (vWEyn_p(p) + vWEmin_p(p)))
+ 221                  + gamma_2 * sum((s, t), (vSP_st(s, t) + vCP_st(s, t)))
+ 222                  + delta_1 * sum((p, w), vWErow_pw(p, w))
+ 223                  + delta_2 * sum(p$(contract(p) < 40), ot_p(p))
+ 224                  + delta_3 * (bdMax - bdMin)
+ 225                  + delta_4 * sum(p, vStretch_p(p))
+ 226                  + delta_5 * sum((p, w), vAdy_pw(p, w))
+ 227                  + delta_6 * sum((p, t), vIOPL_pt(p, t))
+ 228                  + delta_7 * (sum((p, t), vIO_pt(p, t)) + sum((p, w), vIOMax_pw(p, w)))
+ 229                  + omega_1 * sum((p, s, t)$(S2(s)), x_pst(p, s, t))
+ 230                  + omega_2 * sum(p$(contract(p) >= 40), ot_p(p));
  231   
  232   
  233   
@@ -247,71 +247,71 @@ C o m p i l a t i o n
  248   
  249   
  250   
- 251  *Subject to
- 252  Equations
- 253      const_a_2
- 254      const_a_3
- 255      const_a_4
- 256      const_a_5
- 257      const_a_6
- 258      const_a_7
- 259      const_a_8
- 260      const_a_9
- 261      const_a_10
- 262      const_a_11
- 263      const_a_12
- 264      const_a_13
- 265      const_a_14;
- 266   
- 267  *Dok Constraint A.2
- 268  const_a_2(p,t) .. sum(s, x_pst(p,s,t)) =e= 1;
- 269   
- 270  *Dok Constraint A.3
- 271  const_a_3(p,s,t)$(not TVM(t)) .. x_pst(p,s,t) =l= (q_ps(p,s) + vQuali_ps(p,s));
- 272   
- 273  *Dok Constraint A.4
- 274  const_a_4(p,s,t)$(S1(s) and not TVM(t)) .. x_pst(p,s,t) =l= q_ps(p,s) + vQuali_ps(p,s);
- 275   
- 276  *Dok Constraint A.5
- 277  const_a_5(s,t)$(not TVM(t)) .. sum(p$(not PAP(p)), x_pst(p,s,t)) =g= cSP_st(s,t) - vSP_st(s,t);
- 278   
- 279  *Dok Constraint A.6
- 280  const_a_6(s,t)$(not TVM(t)) .. sum(p$(PCP(p) or PHP(p)), x_pst(p,s,t)) =g= cCP_st(s,t) - vCP_st(s,t);
- 281   
- 282  *Dok Constraint A.7
- 283  const_a_7(t)$(TWD(t) and not TVM(t)) .. sum((p,s)$(not PAP(p)), x_pst(p,s,t)) =g= FMin;
- 284   
- 285  *Dok Constraint A.8
- 286  const_a_8(t)$(TRD(t) and not TVM(t)) .. sum((p)$(not PAP(p)),((1/2) * sum((s)$(SRD(s)), x_pst(p,s,t)) + sum((s)$(S_BD1_BD3(s)), x_pst(p,s,t)))) =g= FMin;
- 287   
- 288  *Dok Constraint A.9
- 289  const_a_9(p,s,t)$(I(p,s,t)) .. x_pst(p,s,t) =e= 1;
- 290   
- 291  *Dok Constraint A.10
- 292  const_a_10(p,s,t)$(R(p,s,t)) .. x_pst(p,s,t) =e= r_pst(p,s,t) - vreq1_pst(p,s,t) + vreq0_pst(p,s,t);
- 293   
- 294  *Dok Constraint A.11
- 295  Set
- 296      T_minus_MMax(t,t);
- 297   
- 298  Alias(t, tt);
- 299  T_minus_MMax(t,t) = no;
- 300  loop(t,
- 301      loop(tt$(ord(tt) <= ord(t) and ord(tt) > ord(t) - MMax),
- 302          T_minus_MMax(t,tt) = yes;
- 303      );
- 304  );
- 305  const_a_11(p,t)$(not TVM(t)) .. sum((s,tt)$(T_minus_MMax(t,tt) and S1(s)), x_pst(p,s,tt)) =l= MMax + vStretch_p(p);
- 306   
- 307  *Dok Constraint A.12
- 308  const_a_12(p) .. sum((s,t)$(SBD(s) and TAM(t)), x_pst(p,s,t)) =g= bdMin * nBD(p);
- 309   
- 310  *Dok Constraint A.13
- 311  const_a_13(p) .. sum((s,t)$(SBD(s) and TAM(t)), x_pst(p,s,t)) =l= bdMax;
- 312   
- 313  *Dok Constraint A.14
- 314  const_a_14(p) .. sum((s,t)$(SBD(s) and TAM(t)), x_pst(p,s,t)) =l= BDMaxParam(p) * nBD(p) + vBD(p);
- 315   
+ 251   
+ 252  *Subject to
+ 253  Equations
+ 254      const_a_2
+ 255      const_a_3
+ 256      const_a_4
+ 257      const_a_5
+ 258      const_a_6
+ 259      const_a_7
+ 260      const_a_8
+ 261      const_a_9
+ 262      const_a_10
+ 263      const_a_11
+ 264      const_a_12
+ 265      const_a_13
+ 266      const_a_14;
+ 267   
+ 268  *Dok Constraint A.2
+ 269  const_a_2(p,t) .. sum(s, x_pst(p,s,t)) =e= 1;
+ 270   
+ 271  *Dok Constraint A.3
+ 272  const_a_3(p,s,t)$(not TVM(t)) .. x_pst(p,s,t) =l= (q_ps(p,s) + vQuali_ps(p,s));
+ 273   
+ 274  *Dok Constraint A.4
+ 275  const_a_4(s,t)$(S1(s) and not TVM(t)) .. sum(p, x_pst(p,s,t)) =e= c_st(s,t) - v_st(s,t);
+ 276   
+ 277  *Dok Constraint A.5
+ 278  const_a_5(s,t)$(not TVM(t)) .. sum(p$(not PAP(p)), x_pst(p,s,t)) =g= cSP_st(s,t) - vSP_st(s,t);
+ 279   
+ 280  *Dok Constraint A.6
+ 281  const_a_6(s,t)$(not TVM(t)) .. sum(p$(PCP(p) or PHP(p)), x_pst(p,s,t)) =g= cCP_st(s,t) - vCP_st(s,t);
+ 282   
+ 283  *Dok Constraint A.7
+ 284  const_a_7(t)$(TWD(t) and not TVM(t)) .. sum((p,s)$(S_A73_S1(s) and not PAP(p)), x_pst(p,s,t)) =g= FMin;
+ 285   
+ 286  *Dok Constraint A.8
+ 287  const_a_8(t)$(TRD(t) and not TVM(t)) .. sum((p)$(not PAP(p)),((1/2) * sum((s)$(SRD(s)), x_pst(p,s,t)) + sum((s)$(S_BD1_BD3(s)), x_pst(p,s,t)))) =g= FMin;
+ 288   
+ 289  *Dok Constraint A.9
+ 290  const_a_9(p,s,t)$(I(p,s,t)) .. x_pst(p,s,t) =e= 1;
+ 291   
+ 292  *Dok Constraint A.10
+ 293  const_a_10(p,s,t)$(R(p,s,t)) .. x_pst(p,s,t) =e= r_pst(p,s,t) - vreq1_pst(p,s,t) + vreq0_pst(p,s,t);
+ 294   
+ 295  *Dok Constraint A.11
+ 296  Set
+ 297      T_minus_MMax(t,t);
+ 298   
+ 299  Alias(t, tt);
+ 300  T_minus_MMax(t,t) = no;
+ 301  loop(t,
+ 302      loop(tt$(ord(tt) <= ord(t) and ord(tt) > ord(t) - MMax),
+ 303          T_minus_MMax(t,tt) = yes;
+ 304      );
+ 305  );
+ 306  const_a_11(p,t)$(not TVM(t)) .. sum((s,tt)$(T_minus_MMax(t,tt) and S1(s)), x_pst(p,s,tt)) =l= MMax + vStretch_p(p);
+ 307   
+ 308  *Dok Constraint A.12
+ 309  const_a_12(p) .. sum((s,t)$(SBD(s) and TAM(t)), x_pst(p,s,t)) =g= bdMin * nBD(p);
+ 310   
+ 311  *Dok Constraint A.13
+ 312  const_a_13(p) .. sum((s,t)$(SBD(s) and TAM(t)), x_pst(p,s,t)) =l= bdMax;
+ 313   
+ 314  *Dok Constraint A.14
+ 315  const_a_14(p) .. sum((s,t)$(SBD(s) and TAM(t)), x_pst(p,s,t)) =l= BDMaxParam(p) * nBD(p) + vBD(p);
  316   
  317   
  318   
@@ -330,10 +330,10 @@ C o m p i l a t i o n
  331   
  332   
  333   
- 334  *Solve
- 335  Model optModel /all/;
- 336  Solve optModel using mip minimizing obj;
- 337   
+ 334   
+ 335  *Solve
+ 336  Model optModel /all/;
+ 337  Solve optModel using mip minimizing obj;
  338   
  339   
  340   
@@ -356,56 +356,57 @@ C o m p i l a t i o n
  357   
  358   
  359   
- 360  *Output in File
- 361  file outputFileSimple / 'output_s.txt' /;
- 362   
- 363  put outputFileSimple;
- 364   
- 365  loop((p,s,t),
- 366      if(x_pst.l(p,s,t) = 1,
- 367          put p.tl:0, ' ', s.tl:0, ' ', t.tl:0 /;
- 368      );
- 369  );
- 370   
- 371  putclose outputFileSimple;
- 372   
+ 360   
+ 361  *Output in File
+ 362  file outputFileSimple / 'output_s.txt' /;
+ 363   
+ 364  put outputFileSimple;
+ 365   
+ 366  loop((p,s,t),
+ 367      if(x_pst.l(p,s,t) = 1,
+ 368          put p.tl:0, ' ', s.tl:0, ' ', t.tl:0 /;
+ 369      );
+ 370  );
+ 371   
+ 372  putclose outputFileSimple;
  373   
  374   
- 375  file outputFileTable / 'output_t.txt' /;
- 376   
- 377  put outputFileTable;
- 378   
- 379  * Print table header with t values
- 380  put 'p' @10;
- 381  loop(t,
- 382      put t.tl:10;
- 383  );
- 384  put /;
- 385   
- 386  * Generate table rows
- 387  loop(p,
- 388      put p.tl:10 @10;
- 389      loop(t,
- 390          if(sum(s, x_pst.l(p,s,t)) > 0,
- 391              loop(s,
- 392                  if(x_pst.l(p,s,t) = 1,
- 393                      put s.tl:10;
- 394                  );
- 395              );
- 396          else
- 397              put "":10;
- 398          );
- 399      );
- 400      put /;
- 401  );
- 402   
- 403  putclose outputFileTable;
+ 375   
+ 376  file outputFileTable / 'output_t.txt' /;
+ 377   
+ 378  put outputFileTable;
+ 379   
+ 380  * Print table header with t values
+ 381  put 'p' @10;
+ 382  loop(t,
+ 383      put t.tl:10;
+ 384  );
+ 385  put /;
+ 386   
+ 387  * Generate table rows
+ 388  loop(p,
+ 389      put p.tl:10 @10;
+ 390      loop(t,
+ 391          if(sum(s, x_pst.l(p,s,t)) > 0,
+ 392              loop(s,
+ 393                  if(x_pst.l(p,s,t) = 1,
+ 394                      put s.tl:10;
+ 395                  );
+ 396              );
+ 397          else
+ 398              put "":10;
+ 399          );
+ 400      );
+ 401      put /;
+ 402  );
+ 403   
+ 404  putclose outputFileTable;
 
 
 COMPILATION TIME     =        0.000 SECONDS      3 MB  47.4.0 838fd78c WEX-WEI
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/10/24 21:31:58 Page 2
+GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/10/24 21:46:49 Page 2
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Equation Listing    SOLVE optModel Using MIP From line 336
+Equation Listing    SOLVE optModel Using MIP From line 337
 
 
 ---- mip  =E=  
@@ -523,15 +524,15 @@ const_a_3(p1,OP,t1003)..  x_pst(p1,OP,t1003) - vQuali_ps(p1,OP) =L= 1 ; (LHS = 0
 REMAINING 19437 ENTRIES SKIPPED
 
 
----- const_a_4  =L=  
+---- const_a_4  =E=  
 
-const_a_4(p1,OP,t1001)..  x_pst(p1,OP,t1001) - vQuali_ps(p1,OP) =L= 1 ; (LHS = 0)
+const_a_4(OP,t1001)..  v_st(OP,t1001) + x_pst(p1,OP,t1001) + x_pst(p2,OP,t1001) + x_pst(p3,OP,t1001) + x_pst(p4,OP,t1001) + x_pst(p5,OP,t1001) + x_pst(p6,OP,t1001) + x_pst(p7,OP,t1001) + x_pst(p8,OP,t1001) + x_pst(p9,OP,t1001) + x_pst(p10,OP,t1001) + x_pst(p11,OP,t1001) + x_pst(p12,OP,t1001) + x_pst(p13,OP,t1001) + x_pst(p14,OP,t1001) + x_pst(p15,OP,t1001) + x_pst(p16,OP,t1001) + x_pst(p17,OP,t1001) + x_pst(p18,OP,t1001) + x_pst(p19,OP,t1001) + x_pst(p20,OP,t1001) =E= 3 ; (LHS = 0, INFES = 3 ****)
      
-const_a_4(p1,OP,t1002)..  x_pst(p1,OP,t1002) - vQuali_ps(p1,OP) =L= 1 ; (LHS = 0)
+const_a_4(OP,t1002)..  v_st(OP,t1002) + x_pst(p1,OP,t1002) + x_pst(p2,OP,t1002) + x_pst(p3,OP,t1002) + x_pst(p4,OP,t1002) + x_pst(p5,OP,t1002) + x_pst(p6,OP,t1002) + x_pst(p7,OP,t1002) + x_pst(p8,OP,t1002) + x_pst(p9,OP,t1002) + x_pst(p10,OP,t1002) + x_pst(p11,OP,t1002) + x_pst(p12,OP,t1002) + x_pst(p13,OP,t1002) + x_pst(p14,OP,t1002) + x_pst(p15,OP,t1002) + x_pst(p16,OP,t1002) + x_pst(p17,OP,t1002) + x_pst(p18,OP,t1002) + x_pst(p19,OP,t1002) + x_pst(p20,OP,t1002) =E= 3 ; (LHS = 0, INFES = 3 ****)
      
-const_a_4(p1,OP,t1003)..  x_pst(p1,OP,t1003) - vQuali_ps(p1,OP) =L= 1 ; (LHS = 0)
+const_a_4(OP,t1003)..  v_st(OP,t1003) + x_pst(p1,OP,t1003) + x_pst(p2,OP,t1003) + x_pst(p3,OP,t1003) + x_pst(p4,OP,t1003) + x_pst(p5,OP,t1003) + x_pst(p6,OP,t1003) + x_pst(p7,OP,t1003) + x_pst(p8,OP,t1003) + x_pst(p9,OP,t1003) + x_pst(p10,OP,t1003) + x_pst(p11,OP,t1003) + x_pst(p12,OP,t1003) + x_pst(p13,OP,t1003) + x_pst(p14,OP,t1003) + x_pst(p15,OP,t1003) + x_pst(p16,OP,t1003) + x_pst(p17,OP,t1003) + x_pst(p18,OP,t1003) + x_pst(p19,OP,t1003) + x_pst(p20,OP,t1003) =E= 3 ; (LHS = 0, INFES = 3 ****)
      
-REMAINING 13677 ENTRIES SKIPPED
+REMAINING 681 ENTRIES SKIPPED
 
 
 ---- const_a_5  =G=  
@@ -558,11 +559,11 @@ REMAINING 969 ENTRIES SKIPPED
 
 ---- const_a_7  =G=  
 
-const_a_7(t1001)..  x_pst(p6,OP,t1001) + x_pst(p6,IO,t1001) + x_pst(p6,AO,t1001) + x_pst(p6,PM,t1001) + x_pst(p6,ZD,t1001) + x_pst(p6,Z4,t1001) + x_pst(p6,Z4F,t1001) + x_pst(p6,S1,t1001) + x_pst(p6,BD1,t1001) + x_pst(p6,BD3,t1001) + x_pst(p6,RB3,t1001) + x_pst(p6,RB4,t1001) + x_pst(p6,IOP,t1001) + x_pst(p6,A73,t1001) + x_pst(p6,V93,t1001) + x_pst(p6,A93,t1001) + x_pst(p6,A91,t1001) + x_pst(p6,IOPL,t1001) + x_pst(p6,TBA,t1001) + x_pst(p6,XBD,t1001) + x_pst(p6,FW,t1001) + x_pst(p6,UR,t1001) + x_pst(p6,KR,t1001) + x_pst(p6,A,t1001) + x_pst(p6,UR0,t1001) + x_pst(p6,HO,t1001) + x_pst(p6,Off,t1001) + x_pst(p7,OP,t1001) + x_pst(p7,IO,t1001) + x_pst(p7,AO,t1001) + x_pst(p7,PM,t1001) + x_pst(p7,ZD,t1001) + x_pst(p7,Z4,t1001) + x_pst(p7,Z4F,t1001) + x_pst(p7,S1,t1001) + x_pst(p7,BD1,t1001) + x_pst(p7,BD3,t1001) + x_pst(p7,RB3,t1001) + x_pst(p7,RB4,t1001) + x_pst(p7,IOP,t1001) + x_pst(p7,A73,t1001) + x_pst(p7,V93,t1001) + x_pst(p7,A93,t1001) + x_pst(p7,A91,t1001) + x_pst(p7,IOPL,t1001) + x_pst(p7,TBA,t1001) + x_pst(p7,XBD,t1001) + x_pst(p7,FW,t1001) + x_pst(p7,UR,t1001) + x_pst(p7,KR,t1001) + x_pst(p7,A,t1001) + x_pst(p7,UR0,t1001) + x_pst(p7,HO,t1001) + x_pst(p7,Off,t1001) + x_pst(p8,OP,t1001) + x_pst(p8,IO,t1001) + x_pst(p8,AO,t1001) + x_pst(p8,PM,t1001) + x_pst(p8,ZD,t1001) + x_pst(p8,Z4,t1001) + x_pst(p8,Z4F,t1001) + x_pst(p8,S1,t1001) + x_pst(p8,BD1,t1001) + x_pst(p8,BD3,t1001) + x_pst(p8,RB3,t1001) + x_pst(p8,RB4,t1001) + x_pst(p8,IOP,t1001) + x_pst(p8,A73,t1001) + x_pst(p8,V93,t1001) + x_pst(p8,A93,t1001) + x_pst(p8,A91,t1001) + x_pst(p8,IOPL,t1001) + x_pst(p8,TBA,t1001) + x_pst(p8,XBD,t1001) + x_pst(p8,FW,t1001) + x_pst(p8,UR,t1001) + x_pst(p8,KR,t1001) + x_pst(p8,A,t1001) + x_pst(p8,UR0,t1001) + x_pst(p8,HO,t1001) + x_pst(p8,Off,t1001) + x_pst(p9,OP,t1001) + x_pst(p9,IO,t1001) + x_pst(p9,AO,t1001) + x_pst(p9,PM,t1001) + x_pst(p9,ZD,t1001) + x_pst(p9,Z4,t1001) + x_pst(p9,Z4F,t1001) + x_pst(p9,S1,t1001) + x_pst(p9,BD1,t1001) + x_pst(p9,BD3,t1001) + x_pst(p9,RB3,t1001) + x_pst(p9,RB4,t1001) + x_pst(p9,IOP,t1001) + x_pst(p9,A73,t1001) + x_pst(p9,V93,t1001) + x_pst(p9,A93,t1001) + x_pst(p9,A91,t1001) + x_pst(p9,IOPL,t1001) + x_pst(p9,TBA,t1001) + x_pst(p9,XBD,t1001) + x_pst(p9,FW,t1001) + x_pst(p9,UR,t1001) + x_pst(p9,KR,t1001) + x_pst(p9,A,t1001) + x_pst(p9,UR0,t1001) + x_pst(p9,HO,t1001) + x_pst(p9,Off,t1001) + x_pst(p10,OP,t1001) + x_pst(p10,IO,t1001) + x_pst(p10,AO,t1001) + x_pst(p10,PM,t1001) + x_pst(p10,ZD,t1001) + x_pst(p10,Z4,t1001) + x_pst(p10,Z4F,t1001) + x_pst(p10,S1,t1001) + x_pst(p10,BD1,t1001) + x_pst(p10,BD3,t1001) + x_pst(p10,RB3,t1001) + x_pst(p10,RB4,t1001) + x_pst(p10,IOP,t1001) + x_pst(p10,A73,t1001) + x_pst(p10,V93,t1001) + x_pst(p10,A93,t1001) + x_pst(p10,A91,t1001) + x_pst(p10,IOPL,t1001) + x_pst(p10,TBA,t1001) + x_pst(p10,XBD,t1001) + x_pst(p10,FW,t1001) + x_pst(p10,UR,t1001) + x_pst(p10,KR,t1001) + x_pst(p10,A,t1001) + x_pst(p10,UR0,t1001) + x_pst(p10,HO,t1001) + x_pst(p10,Off,t1001) + x_pst(p11,OP,t1001) + x_pst(p11,IO,t1001) + x_pst(p11,AO,t1001) + x_pst(p11,PM,t1001) + x_pst(p11,ZD,t1001) + x_pst(p11,Z4,t1001) + x_pst(p11,Z4F,t1001) + x_pst(p11,S1,t1001) + x_pst(p11,BD1,t1001) + x_pst(p11,BD3,t1001) + x_pst(p11,RB3,t1001) + x_pst(p11,RB4,t1001) + x_pst(p11,IOP,t1001) + x_pst(p11,A73,t1001) + x_pst(p11,V93,t1001) + x_pst(p11,A93,t1001) + x_pst(p11,A91,t1001) + x_pst(p11,IOPL,t1001) + x_pst(p11,TBA,t1001) + x_pst(p11,XBD,t1001) + x_pst(p11,FW,t1001) + x_pst(p11,UR,t1001) + x_pst(p11,KR,t1001) + x_pst(p11,A,t1001) + x_pst(p11,UR0,t1001) + x_pst(p11,HO,t1001) + x_pst(p11,Off,t1001) + x_pst(p12,OP,t1001) + x_pst(p12,IO,t1001) + x_pst(p12,AO,t1001) + x_pst(p12,PM,t1001) + x_pst(p12,ZD,t1001) + x_pst(p12,Z4,t1001) + x_pst(p12,Z4F,t1001) + x_pst(p12,S1,t1001) + x_pst(p12,BD1,t1001) + x_pst(p12,BD3,t1001) + x_pst(p12,RB3,t1001) + x_pst(p12,RB4,t1001) + x_pst(p12,IOP,t1001) + x_pst(p12,A73,t1001) + x_pst(p12,V93,t1001) + x_pst(p12,A93,t1001) + x_pst(p12,A91,t1001) + x_pst(p12,IOPL,t1001) + x_pst(p12,TBA,t1001) + x_pst(p12,XBD,t1001) + x_pst(p12,FW,t1001) + x_pst(p12,UR,t1001) + x_pst(p12,KR,t1001) + x_pst(p12,A,t1001) + x_pst(p12,UR0,t1001) + x_pst(p12,HO,t1001) + x_pst(p12,Off,t1001) + x_pst(p13,OP,t1001) + x_pst(p13,IO,t1001) + x_pst(p13,AO,t1001) + x_pst(p13,PM,t1001) + x_pst(p13,ZD,t1001) + x_pst(p13,Z4,t1001) + x_pst(p13,Z4F,t1001) + x_pst(p13,S1,t1001) + x_pst(p13,BD1,t1001) + x_pst(p13,BD3,t1001) + x_pst(p13,RB3,t1001) + x_pst(p13,RB4,t1001) + x_pst(p13,IOP,t1001) + x_pst(p13,A73,t1001) + x_pst(p13,V93,t1001) + x_pst(p13,A93,t1001) + x_pst(p13,A91,t1001) + x_pst(p13,IOPL,t1001) + x_pst(p13,TBA,t1001) + x_pst(p13,XBD,t1001) + x_pst(p13,FW,t1001) + x_pst(p13,UR,t1001) + x_pst(p13,KR,t1001) + x_pst(p13,A,t1001) + x_pst(p13,UR0,t1001) + x_pst(p13,HO,t1001) + x_pst(p13,Off,t1001) + x_pst(p14,OP,t1001) + x_pst(p14,IO,t1001) + x_pst(p14,AO,t1001) + x_pst(p14,PM,t1001) + x_pst(p14,ZD,t1001) + x_pst(p14,Z4,t1001) + x_pst(p14,Z4F,t1001) + x_pst(p14,S1,t1001) + x_pst(p14,BD1,t1001) + x_pst(p14,BD3,t1001) + x_pst(p14,RB3,t1001) + x_pst(p14,RB4,t1001) + x_pst(p14,IOP,t1001) + x_pst(p14,A73,t1001) + x_pst(p14,V93,t1001) + x_pst(p14,A93,t1001) + x_pst(p14,A91,t1001) + x_pst(p14,IOPL,t1001) + x_pst(p14,TBA,t1001) + x_pst(p14,XBD,t1001) + x_pst(p14,FW,t1001) + x_pst(p14,UR,t1001) + x_pst(p14,KR,t1001) + x_pst(p14,A,t1001) + x_pst(p14,UR0,t1001) + x_pst(p14,HO,t1001) + x_pst(p14,Off,t1001) + x_pst(p15,OP,t1001) + x_pst(p15,IO,t1001) + x_pst(p15,AO,t1001) + x_pst(p15,PM,t1001) + x_pst(p15,ZD,t1001) + x_pst(p15,Z4,t1001) + x_pst(p15,Z4F,t1001) + x_pst(p15,S1,t1001) + x_pst(p15,BD1,t1001) + x_pst(p15,BD3,t1001) + x_pst(p15,RB3,t1001) + x_pst(p15,RB4,t1001) + x_pst(p15,IOP,t1001) + x_pst(p15,A73,t1001) + x_pst(p15,V93,t1001) + x_pst(p15,A93,t1001) + x_pst(p15,A91,t1001) + x_pst(p15,IOPL,t1001) + x_pst(p15,TBA,t1001) + x_pst(p15,XBD,t1001) + x_pst(p15,FW,t1001) + x_pst(p15,UR,t1001) + x_pst(p15,KR,t1001) + x_pst(p15,A,t1001) + x_pst(p15,UR0,t1001) + x_pst(p15,HO,t1001) + x_pst(p15,Off,t1001) + x_pst(p16,OP,t1001) + x_pst(p16,IO,t1001) + x_pst(p16,AO,t1001) + x_pst(p16,PM,t1001) + x_pst(p16,ZD,t1001) + x_pst(p16,Z4,t1001) + x_pst(p16,Z4F,t1001) + x_pst(p16,S1,t1001) + x_pst(p16,BD1,t1001) + x_pst(p16,BD3,t1001) + x_pst(p16,RB3,t1001) + x_pst(p16,RB4,t1001) + x_pst(p16,IOP,t1001) + x_pst(p16,A73,t1001) + x_pst(p16,V93,t1001) + x_pst(p16,A93,t1001) + x_pst(p16,A91,t1001) + x_pst(p16,IOPL,t1001) + x_pst(p16,TBA,t1001) + x_pst(p16,XBD,t1001) + x_pst(p16,FW,t1001) + x_pst(p16,UR,t1001) + x_pst(p16,KR,t1001) + x_pst(p16,A,t1001) + x_pst(p16,UR0,t1001) + x_pst(p16,HO,t1001) + x_pst(p16,Off,t1001) + x_pst(p17,OP,t1001) + x_pst(p17,IO,t1001) + x_pst(p17,AO,t1001) + x_pst(p17,PM,t1001) + x_pst(p17,ZD,t1001) + x_pst(p17,Z4,t1001) + x_pst(p17,Z4F,t1001) + x_pst(p17,S1,t1001) + x_pst(p17,BD1,t1001) + x_pst(p17,BD3,t1001) + x_pst(p17,RB3,t1001) + x_pst(p17,RB4,t1001) + x_pst(p17,IOP,t1001) + x_pst(p17,A73,t1001) + x_pst(p17,V93,t1001) + x_pst(p17,A93,t1001) + x_pst(p17,A91,t1001) + x_pst(p17,IOPL,t1001) + x_pst(p17,TBA,t1001) + x_pst(p17,XBD,t1001) + x_pst(p17,FW,t1001) + x_pst(p17,UR,t1001) + x_pst(p17,KR,t1001) + x_pst(p17,A,t1001) + x_pst(p17,UR0,t1001) + x_pst(p17,HO,t1001) + x_pst(p17,Off,t1001) + x_pst(p18,OP,t1001) + x_pst(p18,IO,t1001) + x_pst(p18,AO,t1001) + x_pst(p18,PM,t1001) + x_pst(p18,ZD,t1001) + x_pst(p18,Z4,t1001) + x_pst(p18,Z4F,t1001) + x_pst(p18,S1,t1001) + x_pst(p18,BD1,t1001) + x_pst(p18,BD3,t1001) + x_pst(p18,RB3,t1001) + x_pst(p18,RB4,t1001) + x_pst(p18,IOP,t1001) + x_pst(p18,A73,t1001) + x_pst(p18,V93,t1001) + x_pst(p18,A93,t1001) + x_pst(p18,A91,t1001) + x_pst(p18,IOPL,t1001) + x_pst(p18,TBA,t1001) + x_pst(p18,XBD,t1001) + x_pst(p18,FW,t1001) + x_pst(p18,UR,t1001) + x_pst(p18,KR,t1001) + x_pst(p18,A,t1001) + x_pst(p18,UR0,t1001) + x_pst(p18,HO,t1001) + x_pst(p18,Off,t1001) + x_pst(p19,OP,t1001) + x_pst(p19,IO,t1001) + x_pst(p19,AO,t1001) + x_pst(p19,PM,t1001) + x_pst(p19,ZD,t1001) + x_pst(p19,Z4,t1001) + x_pst(p19,Z4F,t1001) + x_pst(p19,S1,t1001) + x_pst(p19,BD1,t1001) + x_pst(p19,BD3,t1001) + x_pst(p19,RB3,t1001) + x_pst(p19,RB4,t1001) + x_pst(p19,IOP,t1001) + x_pst(p19,A73,t1001) + x_pst(p19,V93,t1001) + x_pst(p19,A93,t1001) + x_pst(p19,A91,t1001) + x_pst(p19,IOPL,t1001) + x_pst(p19,TBA,t1001) + x_pst(p19,XBD,t1001) + x_pst(p19,FW,t1001) + x_pst(p19,UR,t1001) + x_pst(p19,KR,t1001) + x_pst(p19,A,t1001) + x_pst(p19,UR0,t1001) + x_pst(p19,HO,t1001) + x_pst(p19,Off,t1001) + x_pst(p20,OP,t1001) + x_pst(p20,IO,t1001) + x_pst(p20,AO,t1001) + x_pst(p20,PM,t1001) + x_pst(p20,ZD,t1001) + x_pst(p20,Z4,t1001) + x_pst(p20,Z4F,t1001) + x_pst(p20,S1,t1001) + x_pst(p20,BD1,t1001) + x_pst(p20,BD3,t1001) + x_pst(p20,RB3,t1001) + x_pst(p20,RB4,t1001) + x_pst(p20,IOP,t1001) + x_pst(p20,A73,t1001) + x_pst(p20,V93,t1001) + x_pst(p20,A93,t1001) + x_pst(p20,A91,t1001) + x_pst(p20,IOPL,t1001) + x_pst(p20,TBA,t1001) + x_pst(p20,XBD,t1001) + x_pst(p20,FW,t1001) + x_pst(p20,UR,t1001) + x_pst(p20,KR,t1001) + x_pst(p20,A,t1001) + x_pst(p20,UR0,t1001) + x_pst(p20,HO,t1001) + x_pst(p20,Off,t1001) =G= 2 ; (LHS = 0, INFES = 2 ****)
+const_a_7(t1001)..  x_pst(p6,S1,t1001) + x_pst(p6,A73,t1001) + x_pst(p7,S1,t1001) + x_pst(p7,A73,t1001) + x_pst(p8,S1,t1001) + x_pst(p8,A73,t1001) + x_pst(p9,S1,t1001) + x_pst(p9,A73,t1001) + x_pst(p10,S1,t1001) + x_pst(p10,A73,t1001) + x_pst(p11,S1,t1001) + x_pst(p11,A73,t1001) + x_pst(p12,S1,t1001) + x_pst(p12,A73,t1001) + x_pst(p13,S1,t1001) + x_pst(p13,A73,t1001) + x_pst(p14,S1,t1001) + x_pst(p14,A73,t1001) + x_pst(p15,S1,t1001) + x_pst(p15,A73,t1001) + x_pst(p16,S1,t1001) + x_pst(p16,A73,t1001) + x_pst(p17,S1,t1001) + x_pst(p17,A73,t1001) + x_pst(p18,S1,t1001) + x_pst(p18,A73,t1001) + x_pst(p19,S1,t1001) + x_pst(p19,A73,t1001) + x_pst(p20,S1,t1001) + x_pst(p20,A73,t1001) =G= 2 ; (LHS = 0, INFES = 2 ****)
      
-const_a_7(t1002)..  x_pst(p6,OP,t1002) + x_pst(p6,IO,t1002) + x_pst(p6,AO,t1002) + x_pst(p6,PM,t1002) + x_pst(p6,ZD,t1002) + x_pst(p6,Z4,t1002) + x_pst(p6,Z4F,t1002) + x_pst(p6,S1,t1002) + x_pst(p6,BD1,t1002) + x_pst(p6,BD3,t1002) + x_pst(p6,RB3,t1002) + x_pst(p6,RB4,t1002) + x_pst(p6,IOP,t1002) + x_pst(p6,A73,t1002) + x_pst(p6,V93,t1002) + x_pst(p6,A93,t1002) + x_pst(p6,A91,t1002) + x_pst(p6,IOPL,t1002) + x_pst(p6,TBA,t1002) + x_pst(p6,XBD,t1002) + x_pst(p6,FW,t1002) + x_pst(p6,UR,t1002) + x_pst(p6,KR,t1002) + x_pst(p6,A,t1002) + x_pst(p6,UR0,t1002) + x_pst(p6,HO,t1002) + x_pst(p6,Off,t1002) + x_pst(p7,OP,t1002) + x_pst(p7,IO,t1002) + x_pst(p7,AO,t1002) + x_pst(p7,PM,t1002) + x_pst(p7,ZD,t1002) + x_pst(p7,Z4,t1002) + x_pst(p7,Z4F,t1002) + x_pst(p7,S1,t1002) + x_pst(p7,BD1,t1002) + x_pst(p7,BD3,t1002) + x_pst(p7,RB3,t1002) + x_pst(p7,RB4,t1002) + x_pst(p7,IOP,t1002) + x_pst(p7,A73,t1002) + x_pst(p7,V93,t1002) + x_pst(p7,A93,t1002) + x_pst(p7,A91,t1002) + x_pst(p7,IOPL,t1002) + x_pst(p7,TBA,t1002) + x_pst(p7,XBD,t1002) + x_pst(p7,FW,t1002) + x_pst(p7,UR,t1002) + x_pst(p7,KR,t1002) + x_pst(p7,A,t1002) + x_pst(p7,UR0,t1002) + x_pst(p7,HO,t1002) + x_pst(p7,Off,t1002) + x_pst(p8,OP,t1002) + x_pst(p8,IO,t1002) + x_pst(p8,AO,t1002) + x_pst(p8,PM,t1002) + x_pst(p8,ZD,t1002) + x_pst(p8,Z4,t1002) + x_pst(p8,Z4F,t1002) + x_pst(p8,S1,t1002) + x_pst(p8,BD1,t1002) + x_pst(p8,BD3,t1002) + x_pst(p8,RB3,t1002) + x_pst(p8,RB4,t1002) + x_pst(p8,IOP,t1002) + x_pst(p8,A73,t1002) + x_pst(p8,V93,t1002) + x_pst(p8,A93,t1002) + x_pst(p8,A91,t1002) + x_pst(p8,IOPL,t1002) + x_pst(p8,TBA,t1002) + x_pst(p8,XBD,t1002) + x_pst(p8,FW,t1002) + x_pst(p8,UR,t1002) + x_pst(p8,KR,t1002) + x_pst(p8,A,t1002) + x_pst(p8,UR0,t1002) + x_pst(p8,HO,t1002) + x_pst(p8,Off,t1002) + x_pst(p9,OP,t1002) + x_pst(p9,IO,t1002) + x_pst(p9,AO,t1002) + x_pst(p9,PM,t1002) + x_pst(p9,ZD,t1002) + x_pst(p9,Z4,t1002) + x_pst(p9,Z4F,t1002) + x_pst(p9,S1,t1002) + x_pst(p9,BD1,t1002) + x_pst(p9,BD3,t1002) + x_pst(p9,RB3,t1002) + x_pst(p9,RB4,t1002) + x_pst(p9,IOP,t1002) + x_pst(p9,A73,t1002) + x_pst(p9,V93,t1002) + x_pst(p9,A93,t1002) + x_pst(p9,A91,t1002) + x_pst(p9,IOPL,t1002) + x_pst(p9,TBA,t1002) + x_pst(p9,XBD,t1002) + x_pst(p9,FW,t1002) + x_pst(p9,UR,t1002) + x_pst(p9,KR,t1002) + x_pst(p9,A,t1002) + x_pst(p9,UR0,t1002) + x_pst(p9,HO,t1002) + x_pst(p9,Off,t1002) + x_pst(p10,OP,t1002) + x_pst(p10,IO,t1002) + x_pst(p10,AO,t1002) + x_pst(p10,PM,t1002) + x_pst(p10,ZD,t1002) + x_pst(p10,Z4,t1002) + x_pst(p10,Z4F,t1002) + x_pst(p10,S1,t1002) + x_pst(p10,BD1,t1002) + x_pst(p10,BD3,t1002) + x_pst(p10,RB3,t1002) + x_pst(p10,RB4,t1002) + x_pst(p10,IOP,t1002) + x_pst(p10,A73,t1002) + x_pst(p10,V93,t1002) + x_pst(p10,A93,t1002) + x_pst(p10,A91,t1002) + x_pst(p10,IOPL,t1002) + x_pst(p10,TBA,t1002) + x_pst(p10,XBD,t1002) + x_pst(p10,FW,t1002) + x_pst(p10,UR,t1002) + x_pst(p10,KR,t1002) + x_pst(p10,A,t1002) + x_pst(p10,UR0,t1002) + x_pst(p10,HO,t1002) + x_pst(p10,Off,t1002) + x_pst(p11,OP,t1002) + x_pst(p11,IO,t1002) + x_pst(p11,AO,t1002) + x_pst(p11,PM,t1002) + x_pst(p11,ZD,t1002) + x_pst(p11,Z4,t1002) + x_pst(p11,Z4F,t1002) + x_pst(p11,S1,t1002) + x_pst(p11,BD1,t1002) + x_pst(p11,BD3,t1002) + x_pst(p11,RB3,t1002) + x_pst(p11,RB4,t1002) + x_pst(p11,IOP,t1002) + x_pst(p11,A73,t1002) + x_pst(p11,V93,t1002) + x_pst(p11,A93,t1002) + x_pst(p11,A91,t1002) + x_pst(p11,IOPL,t1002) + x_pst(p11,TBA,t1002) + x_pst(p11,XBD,t1002) + x_pst(p11,FW,t1002) + x_pst(p11,UR,t1002) + x_pst(p11,KR,t1002) + x_pst(p11,A,t1002) + x_pst(p11,UR0,t1002) + x_pst(p11,HO,t1002) + x_pst(p11,Off,t1002) + x_pst(p12,OP,t1002) + x_pst(p12,IO,t1002) + x_pst(p12,AO,t1002) + x_pst(p12,PM,t1002) + x_pst(p12,ZD,t1002) + x_pst(p12,Z4,t1002) + x_pst(p12,Z4F,t1002) + x_pst(p12,S1,t1002) + x_pst(p12,BD1,t1002) + x_pst(p12,BD3,t1002) + x_pst(p12,RB3,t1002) + x_pst(p12,RB4,t1002) + x_pst(p12,IOP,t1002) + x_pst(p12,A73,t1002) + x_pst(p12,V93,t1002) + x_pst(p12,A93,t1002) + x_pst(p12,A91,t1002) + x_pst(p12,IOPL,t1002) + x_pst(p12,TBA,t1002) + x_pst(p12,XBD,t1002) + x_pst(p12,FW,t1002) + x_pst(p12,UR,t1002) + x_pst(p12,KR,t1002) + x_pst(p12,A,t1002) + x_pst(p12,UR0,t1002) + x_pst(p12,HO,t1002) + x_pst(p12,Off,t1002) + x_pst(p13,OP,t1002) + x_pst(p13,IO,t1002) + x_pst(p13,AO,t1002) + x_pst(p13,PM,t1002) + x_pst(p13,ZD,t1002) + x_pst(p13,Z4,t1002) + x_pst(p13,Z4F,t1002) + x_pst(p13,S1,t1002) + x_pst(p13,BD1,t1002) + x_pst(p13,BD3,t1002) + x_pst(p13,RB3,t1002) + x_pst(p13,RB4,t1002) + x_pst(p13,IOP,t1002) + x_pst(p13,A73,t1002) + x_pst(p13,V93,t1002) + x_pst(p13,A93,t1002) + x_pst(p13,A91,t1002) + x_pst(p13,IOPL,t1002) + x_pst(p13,TBA,t1002) + x_pst(p13,XBD,t1002) + x_pst(p13,FW,t1002) + x_pst(p13,UR,t1002) + x_pst(p13,KR,t1002) + x_pst(p13,A,t1002) + x_pst(p13,UR0,t1002) + x_pst(p13,HO,t1002) + x_pst(p13,Off,t1002) + x_pst(p14,OP,t1002) + x_pst(p14,IO,t1002) + x_pst(p14,AO,t1002) + x_pst(p14,PM,t1002) + x_pst(p14,ZD,t1002) + x_pst(p14,Z4,t1002) + x_pst(p14,Z4F,t1002) + x_pst(p14,S1,t1002) + x_pst(p14,BD1,t1002) + x_pst(p14,BD3,t1002) + x_pst(p14,RB3,t1002) + x_pst(p14,RB4,t1002) + x_pst(p14,IOP,t1002) + x_pst(p14,A73,t1002) + x_pst(p14,V93,t1002) + x_pst(p14,A93,t1002) + x_pst(p14,A91,t1002) + x_pst(p14,IOPL,t1002) + x_pst(p14,TBA,t1002) + x_pst(p14,XBD,t1002) + x_pst(p14,FW,t1002) + x_pst(p14,UR,t1002) + x_pst(p14,KR,t1002) + x_pst(p14,A,t1002) + x_pst(p14,UR0,t1002) + x_pst(p14,HO,t1002) + x_pst(p14,Off,t1002) + x_pst(p15,OP,t1002) + x_pst(p15,IO,t1002) + x_pst(p15,AO,t1002) + x_pst(p15,PM,t1002) + x_pst(p15,ZD,t1002) + x_pst(p15,Z4,t1002) + x_pst(p15,Z4F,t1002) + x_pst(p15,S1,t1002) + x_pst(p15,BD1,t1002) + x_pst(p15,BD3,t1002) + x_pst(p15,RB3,t1002) + x_pst(p15,RB4,t1002) + x_pst(p15,IOP,t1002) + x_pst(p15,A73,t1002) + x_pst(p15,V93,t1002) + x_pst(p15,A93,t1002) + x_pst(p15,A91,t1002) + x_pst(p15,IOPL,t1002) + x_pst(p15,TBA,t1002) + x_pst(p15,XBD,t1002) + x_pst(p15,FW,t1002) + x_pst(p15,UR,t1002) + x_pst(p15,KR,t1002) + x_pst(p15,A,t1002) + x_pst(p15,UR0,t1002) + x_pst(p15,HO,t1002) + x_pst(p15,Off,t1002) + x_pst(p16,OP,t1002) + x_pst(p16,IO,t1002) + x_pst(p16,AO,t1002) + x_pst(p16,PM,t1002) + x_pst(p16,ZD,t1002) + x_pst(p16,Z4,t1002) + x_pst(p16,Z4F,t1002) + x_pst(p16,S1,t1002) + x_pst(p16,BD1,t1002) + x_pst(p16,BD3,t1002) + x_pst(p16,RB3,t1002) + x_pst(p16,RB4,t1002) + x_pst(p16,IOP,t1002) + x_pst(p16,A73,t1002) + x_pst(p16,V93,t1002) + x_pst(p16,A93,t1002) + x_pst(p16,A91,t1002) + x_pst(p16,IOPL,t1002) + x_pst(p16,TBA,t1002) + x_pst(p16,XBD,t1002) + x_pst(p16,FW,t1002) + x_pst(p16,UR,t1002) + x_pst(p16,KR,t1002) + x_pst(p16,A,t1002) + x_pst(p16,UR0,t1002) + x_pst(p16,HO,t1002) + x_pst(p16,Off,t1002) + x_pst(p17,OP,t1002) + x_pst(p17,IO,t1002) + x_pst(p17,AO,t1002) + x_pst(p17,PM,t1002) + x_pst(p17,ZD,t1002) + x_pst(p17,Z4,t1002) + x_pst(p17,Z4F,t1002) + x_pst(p17,S1,t1002) + x_pst(p17,BD1,t1002) + x_pst(p17,BD3,t1002) + x_pst(p17,RB3,t1002) + x_pst(p17,RB4,t1002) + x_pst(p17,IOP,t1002) + x_pst(p17,A73,t1002) + x_pst(p17,V93,t1002) + x_pst(p17,A93,t1002) + x_pst(p17,A91,t1002) + x_pst(p17,IOPL,t1002) + x_pst(p17,TBA,t1002) + x_pst(p17,XBD,t1002) + x_pst(p17,FW,t1002) + x_pst(p17,UR,t1002) + x_pst(p17,KR,t1002) + x_pst(p17,A,t1002) + x_pst(p17,UR0,t1002) + x_pst(p17,HO,t1002) + x_pst(p17,Off,t1002) + x_pst(p18,OP,t1002) + x_pst(p18,IO,t1002) + x_pst(p18,AO,t1002) + x_pst(p18,PM,t1002) + x_pst(p18,ZD,t1002) + x_pst(p18,Z4,t1002) + x_pst(p18,Z4F,t1002) + x_pst(p18,S1,t1002) + x_pst(p18,BD1,t1002) + x_pst(p18,BD3,t1002) + x_pst(p18,RB3,t1002) + x_pst(p18,RB4,t1002) + x_pst(p18,IOP,t1002) + x_pst(p18,A73,t1002) + x_pst(p18,V93,t1002) + x_pst(p18,A93,t1002) + x_pst(p18,A91,t1002) + x_pst(p18,IOPL,t1002) + x_pst(p18,TBA,t1002) + x_pst(p18,XBD,t1002) + x_pst(p18,FW,t1002) + x_pst(p18,UR,t1002) + x_pst(p18,KR,t1002) + x_pst(p18,A,t1002) + x_pst(p18,UR0,t1002) + x_pst(p18,HO,t1002) + x_pst(p18,Off,t1002) + x_pst(p19,OP,t1002) + x_pst(p19,IO,t1002) + x_pst(p19,AO,t1002) + x_pst(p19,PM,t1002) + x_pst(p19,ZD,t1002) + x_pst(p19,Z4,t1002) + x_pst(p19,Z4F,t1002) + x_pst(p19,S1,t1002) + x_pst(p19,BD1,t1002) + x_pst(p19,BD3,t1002) + x_pst(p19,RB3,t1002) + x_pst(p19,RB4,t1002) + x_pst(p19,IOP,t1002) + x_pst(p19,A73,t1002) + x_pst(p19,V93,t1002) + x_pst(p19,A93,t1002) + x_pst(p19,A91,t1002) + x_pst(p19,IOPL,t1002) + x_pst(p19,TBA,t1002) + x_pst(p19,XBD,t1002) + x_pst(p19,FW,t1002) + x_pst(p19,UR,t1002) + x_pst(p19,KR,t1002) + x_pst(p19,A,t1002) + x_pst(p19,UR0,t1002) + x_pst(p19,HO,t1002) + x_pst(p19,Off,t1002) + x_pst(p20,OP,t1002) + x_pst(p20,IO,t1002) + x_pst(p20,AO,t1002) + x_pst(p20,PM,t1002) + x_pst(p20,ZD,t1002) + x_pst(p20,Z4,t1002) + x_pst(p20,Z4F,t1002) + x_pst(p20,S1,t1002) + x_pst(p20,BD1,t1002) + x_pst(p20,BD3,t1002) + x_pst(p20,RB3,t1002) + x_pst(p20,RB4,t1002) + x_pst(p20,IOP,t1002) + x_pst(p20,A73,t1002) + x_pst(p20,V93,t1002) + x_pst(p20,A93,t1002) + x_pst(p20,A91,t1002) + x_pst(p20,IOPL,t1002) + x_pst(p20,TBA,t1002) + x_pst(p20,XBD,t1002) + x_pst(p20,FW,t1002) + x_pst(p20,UR,t1002) + x_pst(p20,KR,t1002) + x_pst(p20,A,t1002) + x_pst(p20,UR0,t1002) + x_pst(p20,HO,t1002) + x_pst(p20,Off,t1002) =G= 2 ; (LHS = 0, INFES = 2 ****)
+const_a_7(t1002)..  x_pst(p6,S1,t1002) + x_pst(p6,A73,t1002) + x_pst(p7,S1,t1002) + x_pst(p7,A73,t1002) + x_pst(p8,S1,t1002) + x_pst(p8,A73,t1002) + x_pst(p9,S1,t1002) + x_pst(p9,A73,t1002) + x_pst(p10,S1,t1002) + x_pst(p10,A73,t1002) + x_pst(p11,S1,t1002) + x_pst(p11,A73,t1002) + x_pst(p12,S1,t1002) + x_pst(p12,A73,t1002) + x_pst(p13,S1,t1002) + x_pst(p13,A73,t1002) + x_pst(p14,S1,t1002) + x_pst(p14,A73,t1002) + x_pst(p15,S1,t1002) + x_pst(p15,A73,t1002) + x_pst(p16,S1,t1002) + x_pst(p16,A73,t1002) + x_pst(p17,S1,t1002) + x_pst(p17,A73,t1002) + x_pst(p18,S1,t1002) + x_pst(p18,A73,t1002) + x_pst(p19,S1,t1002) + x_pst(p19,A73,t1002) + x_pst(p20,S1,t1002) + x_pst(p20,A73,t1002) =G= 2 ; (LHS = 0, INFES = 2 ****)
      
-const_a_7(t1004)..  x_pst(p6,OP,t1004) + x_pst(p6,IO,t1004) + x_pst(p6,AO,t1004) + x_pst(p6,PM,t1004) + x_pst(p6,ZD,t1004) + x_pst(p6,Z4,t1004) + x_pst(p6,Z4F,t1004) + x_pst(p6,S1,t1004) + x_pst(p6,BD1,t1004) + x_pst(p6,BD3,t1004) + x_pst(p6,RB3,t1004) + x_pst(p6,RB4,t1004) + x_pst(p6,IOP,t1004) + x_pst(p6,A73,t1004) + x_pst(p6,V93,t1004) + x_pst(p6,A93,t1004) + x_pst(p6,A91,t1004) + x_pst(p6,IOPL,t1004) + x_pst(p6,TBA,t1004) + x_pst(p6,XBD,t1004) + x_pst(p6,FW,t1004) + x_pst(p6,UR,t1004) + x_pst(p6,KR,t1004) + x_pst(p6,A,t1004) + x_pst(p6,UR0,t1004) + x_pst(p6,HO,t1004) + x_pst(p6,Off,t1004) + x_pst(p7,OP,t1004) + x_pst(p7,IO,t1004) + x_pst(p7,AO,t1004) + x_pst(p7,PM,t1004) + x_pst(p7,ZD,t1004) + x_pst(p7,Z4,t1004) + x_pst(p7,Z4F,t1004) + x_pst(p7,S1,t1004) + x_pst(p7,BD1,t1004) + x_pst(p7,BD3,t1004) + x_pst(p7,RB3,t1004) + x_pst(p7,RB4,t1004) + x_pst(p7,IOP,t1004) + x_pst(p7,A73,t1004) + x_pst(p7,V93,t1004) + x_pst(p7,A93,t1004) + x_pst(p7,A91,t1004) + x_pst(p7,IOPL,t1004) + x_pst(p7,TBA,t1004) + x_pst(p7,XBD,t1004) + x_pst(p7,FW,t1004) + x_pst(p7,UR,t1004) + x_pst(p7,KR,t1004) + x_pst(p7,A,t1004) + x_pst(p7,UR0,t1004) + x_pst(p7,HO,t1004) + x_pst(p7,Off,t1004) + x_pst(p8,OP,t1004) + x_pst(p8,IO,t1004) + x_pst(p8,AO,t1004) + x_pst(p8,PM,t1004) + x_pst(p8,ZD,t1004) + x_pst(p8,Z4,t1004) + x_pst(p8,Z4F,t1004) + x_pst(p8,S1,t1004) + x_pst(p8,BD1,t1004) + x_pst(p8,BD3,t1004) + x_pst(p8,RB3,t1004) + x_pst(p8,RB4,t1004) + x_pst(p8,IOP,t1004) + x_pst(p8,A73,t1004) + x_pst(p8,V93,t1004) + x_pst(p8,A93,t1004) + x_pst(p8,A91,t1004) + x_pst(p8,IOPL,t1004) + x_pst(p8,TBA,t1004) + x_pst(p8,XBD,t1004) + x_pst(p8,FW,t1004) + x_pst(p8,UR,t1004) + x_pst(p8,KR,t1004) + x_pst(p8,A,t1004) + x_pst(p8,UR0,t1004) + x_pst(p8,HO,t1004) + x_pst(p8,Off,t1004) + x_pst(p9,OP,t1004) + x_pst(p9,IO,t1004) + x_pst(p9,AO,t1004) + x_pst(p9,PM,t1004) + x_pst(p9,ZD,t1004) + x_pst(p9,Z4,t1004) + x_pst(p9,Z4F,t1004) + x_pst(p9,S1,t1004) + x_pst(p9,BD1,t1004) + x_pst(p9,BD3,t1004) + x_pst(p9,RB3,t1004) + x_pst(p9,RB4,t1004) + x_pst(p9,IOP,t1004) + x_pst(p9,A73,t1004) + x_pst(p9,V93,t1004) + x_pst(p9,A93,t1004) + x_pst(p9,A91,t1004) + x_pst(p9,IOPL,t1004) + x_pst(p9,TBA,t1004) + x_pst(p9,XBD,t1004) + x_pst(p9,FW,t1004) + x_pst(p9,UR,t1004) + x_pst(p9,KR,t1004) + x_pst(p9,A,t1004) + x_pst(p9,UR0,t1004) + x_pst(p9,HO,t1004) + x_pst(p9,Off,t1004) + x_pst(p10,OP,t1004) + x_pst(p10,IO,t1004) + x_pst(p10,AO,t1004) + x_pst(p10,PM,t1004) + x_pst(p10,ZD,t1004) + x_pst(p10,Z4,t1004) + x_pst(p10,Z4F,t1004) + x_pst(p10,S1,t1004) + x_pst(p10,BD1,t1004) + x_pst(p10,BD3,t1004) + x_pst(p10,RB3,t1004) + x_pst(p10,RB4,t1004) + x_pst(p10,IOP,t1004) + x_pst(p10,A73,t1004) + x_pst(p10,V93,t1004) + x_pst(p10,A93,t1004) + x_pst(p10,A91,t1004) + x_pst(p10,IOPL,t1004) + x_pst(p10,TBA,t1004) + x_pst(p10,XBD,t1004) + x_pst(p10,FW,t1004) + x_pst(p10,UR,t1004) + x_pst(p10,KR,t1004) + x_pst(p10,A,t1004) + x_pst(p10,UR0,t1004) + x_pst(p10,HO,t1004) + x_pst(p10,Off,t1004) + x_pst(p11,OP,t1004) + x_pst(p11,IO,t1004) + x_pst(p11,AO,t1004) + x_pst(p11,PM,t1004) + x_pst(p11,ZD,t1004) + x_pst(p11,Z4,t1004) + x_pst(p11,Z4F,t1004) + x_pst(p11,S1,t1004) + x_pst(p11,BD1,t1004) + x_pst(p11,BD3,t1004) + x_pst(p11,RB3,t1004) + x_pst(p11,RB4,t1004) + x_pst(p11,IOP,t1004) + x_pst(p11,A73,t1004) + x_pst(p11,V93,t1004) + x_pst(p11,A93,t1004) + x_pst(p11,A91,t1004) + x_pst(p11,IOPL,t1004) + x_pst(p11,TBA,t1004) + x_pst(p11,XBD,t1004) + x_pst(p11,FW,t1004) + x_pst(p11,UR,t1004) + x_pst(p11,KR,t1004) + x_pst(p11,A,t1004) + x_pst(p11,UR0,t1004) + x_pst(p11,HO,t1004) + x_pst(p11,Off,t1004) + x_pst(p12,OP,t1004) + x_pst(p12,IO,t1004) + x_pst(p12,AO,t1004) + x_pst(p12,PM,t1004) + x_pst(p12,ZD,t1004) + x_pst(p12,Z4,t1004) + x_pst(p12,Z4F,t1004) + x_pst(p12,S1,t1004) + x_pst(p12,BD1,t1004) + x_pst(p12,BD3,t1004) + x_pst(p12,RB3,t1004) + x_pst(p12,RB4,t1004) + x_pst(p12,IOP,t1004) + x_pst(p12,A73,t1004) + x_pst(p12,V93,t1004) + x_pst(p12,A93,t1004) + x_pst(p12,A91,t1004) + x_pst(p12,IOPL,t1004) + x_pst(p12,TBA,t1004) + x_pst(p12,XBD,t1004) + x_pst(p12,FW,t1004) + x_pst(p12,UR,t1004) + x_pst(p12,KR,t1004) + x_pst(p12,A,t1004) + x_pst(p12,UR0,t1004) + x_pst(p12,HO,t1004) + x_pst(p12,Off,t1004) + x_pst(p13,OP,t1004) + x_pst(p13,IO,t1004) + x_pst(p13,AO,t1004) + x_pst(p13,PM,t1004) + x_pst(p13,ZD,t1004) + x_pst(p13,Z4,t1004) + x_pst(p13,Z4F,t1004) + x_pst(p13,S1,t1004) + x_pst(p13,BD1,t1004) + x_pst(p13,BD3,t1004) + x_pst(p13,RB3,t1004) + x_pst(p13,RB4,t1004) + x_pst(p13,IOP,t1004) + x_pst(p13,A73,t1004) + x_pst(p13,V93,t1004) + x_pst(p13,A93,t1004) + x_pst(p13,A91,t1004) + x_pst(p13,IOPL,t1004) + x_pst(p13,TBA,t1004) + x_pst(p13,XBD,t1004) + x_pst(p13,FW,t1004) + x_pst(p13,UR,t1004) + x_pst(p13,KR,t1004) + x_pst(p13,A,t1004) + x_pst(p13,UR0,t1004) + x_pst(p13,HO,t1004) + x_pst(p13,Off,t1004) + x_pst(p14,OP,t1004) + x_pst(p14,IO,t1004) + x_pst(p14,AO,t1004) + x_pst(p14,PM,t1004) + x_pst(p14,ZD,t1004) + x_pst(p14,Z4,t1004) + x_pst(p14,Z4F,t1004) + x_pst(p14,S1,t1004) + x_pst(p14,BD1,t1004) + x_pst(p14,BD3,t1004) + x_pst(p14,RB3,t1004) + x_pst(p14,RB4,t1004) + x_pst(p14,IOP,t1004) + x_pst(p14,A73,t1004) + x_pst(p14,V93,t1004) + x_pst(p14,A93,t1004) + x_pst(p14,A91,t1004) + x_pst(p14,IOPL,t1004) + x_pst(p14,TBA,t1004) + x_pst(p14,XBD,t1004) + x_pst(p14,FW,t1004) + x_pst(p14,UR,t1004) + x_pst(p14,KR,t1004) + x_pst(p14,A,t1004) + x_pst(p14,UR0,t1004) + x_pst(p14,HO,t1004) + x_pst(p14,Off,t1004) + x_pst(p15,OP,t1004) + x_pst(p15,IO,t1004) + x_pst(p15,AO,t1004) + x_pst(p15,PM,t1004) + x_pst(p15,ZD,t1004) + x_pst(p15,Z4,t1004) + x_pst(p15,Z4F,t1004) + x_pst(p15,S1,t1004) + x_pst(p15,BD1,t1004) + x_pst(p15,BD3,t1004) + x_pst(p15,RB3,t1004) + x_pst(p15,RB4,t1004) + x_pst(p15,IOP,t1004) + x_pst(p15,A73,t1004) + x_pst(p15,V93,t1004) + x_pst(p15,A93,t1004) + x_pst(p15,A91,t1004) + x_pst(p15,IOPL,t1004) + x_pst(p15,TBA,t1004) + x_pst(p15,XBD,t1004) + x_pst(p15,FW,t1004) + x_pst(p15,UR,t1004) + x_pst(p15,KR,t1004) + x_pst(p15,A,t1004) + x_pst(p15,UR0,t1004) + x_pst(p15,HO,t1004) + x_pst(p15,Off,t1004) + x_pst(p16,OP,t1004) + x_pst(p16,IO,t1004) + x_pst(p16,AO,t1004) + x_pst(p16,PM,t1004) + x_pst(p16,ZD,t1004) + x_pst(p16,Z4,t1004) + x_pst(p16,Z4F,t1004) + x_pst(p16,S1,t1004) + x_pst(p16,BD1,t1004) + x_pst(p16,BD3,t1004) + x_pst(p16,RB3,t1004) + x_pst(p16,RB4,t1004) + x_pst(p16,IOP,t1004) + x_pst(p16,A73,t1004) + x_pst(p16,V93,t1004) + x_pst(p16,A93,t1004) + x_pst(p16,A91,t1004) + x_pst(p16,IOPL,t1004) + x_pst(p16,TBA,t1004) + x_pst(p16,XBD,t1004) + x_pst(p16,FW,t1004) + x_pst(p16,UR,t1004) + x_pst(p16,KR,t1004) + x_pst(p16,A,t1004) + x_pst(p16,UR0,t1004) + x_pst(p16,HO,t1004) + x_pst(p16,Off,t1004) + x_pst(p17,OP,t1004) + x_pst(p17,IO,t1004) + x_pst(p17,AO,t1004) + x_pst(p17,PM,t1004) + x_pst(p17,ZD,t1004) + x_pst(p17,Z4,t1004) + x_pst(p17,Z4F,t1004) + x_pst(p17,S1,t1004) + x_pst(p17,BD1,t1004) + x_pst(p17,BD3,t1004) + x_pst(p17,RB3,t1004) + x_pst(p17,RB4,t1004) + x_pst(p17,IOP,t1004) + x_pst(p17,A73,t1004) + x_pst(p17,V93,t1004) + x_pst(p17,A93,t1004) + x_pst(p17,A91,t1004) + x_pst(p17,IOPL,t1004) + x_pst(p17,TBA,t1004) + x_pst(p17,XBD,t1004) + x_pst(p17,FW,t1004) + x_pst(p17,UR,t1004) + x_pst(p17,KR,t1004) + x_pst(p17,A,t1004) + x_pst(p17,UR0,t1004) + x_pst(p17,HO,t1004) + x_pst(p17,Off,t1004) + x_pst(p18,OP,t1004) + x_pst(p18,IO,t1004) + x_pst(p18,AO,t1004) + x_pst(p18,PM,t1004) + x_pst(p18,ZD,t1004) + x_pst(p18,Z4,t1004) + x_pst(p18,Z4F,t1004) + x_pst(p18,S1,t1004) + x_pst(p18,BD1,t1004) + x_pst(p18,BD3,t1004) + x_pst(p18,RB3,t1004) + x_pst(p18,RB4,t1004) + x_pst(p18,IOP,t1004) + x_pst(p18,A73,t1004) + x_pst(p18,V93,t1004) + x_pst(p18,A93,t1004) + x_pst(p18,A91,t1004) + x_pst(p18,IOPL,t1004) + x_pst(p18,TBA,t1004) + x_pst(p18,XBD,t1004) + x_pst(p18,FW,t1004) + x_pst(p18,UR,t1004) + x_pst(p18,KR,t1004) + x_pst(p18,A,t1004) + x_pst(p18,UR0,t1004) + x_pst(p18,HO,t1004) + x_pst(p18,Off,t1004) + x_pst(p19,OP,t1004) + x_pst(p19,IO,t1004) + x_pst(p19,AO,t1004) + x_pst(p19,PM,t1004) + x_pst(p19,ZD,t1004) + x_pst(p19,Z4,t1004) + x_pst(p19,Z4F,t1004) + x_pst(p19,S1,t1004) + x_pst(p19,BD1,t1004) + x_pst(p19,BD3,t1004) + x_pst(p19,RB3,t1004) + x_pst(p19,RB4,t1004) + x_pst(p19,IOP,t1004) + x_pst(p19,A73,t1004) + x_pst(p19,V93,t1004) + x_pst(p19,A93,t1004) + x_pst(p19,A91,t1004) + x_pst(p19,IOPL,t1004) + x_pst(p19,TBA,t1004) + x_pst(p19,XBD,t1004) + x_pst(p19,FW,t1004) + x_pst(p19,UR,t1004) + x_pst(p19,KR,t1004) + x_pst(p19,A,t1004) + x_pst(p19,UR0,t1004) + x_pst(p19,HO,t1004) + x_pst(p19,Off,t1004) + x_pst(p20,OP,t1004) + x_pst(p20,IO,t1004) + x_pst(p20,AO,t1004) + x_pst(p20,PM,t1004) + x_pst(p20,ZD,t1004) + x_pst(p20,Z4,t1004) + x_pst(p20,Z4F,t1004) + x_pst(p20,S1,t1004) + x_pst(p20,BD1,t1004) + x_pst(p20,BD3,t1004) + x_pst(p20,RB3,t1004) + x_pst(p20,RB4,t1004) + x_pst(p20,IOP,t1004) + x_pst(p20,A73,t1004) + x_pst(p20,V93,t1004) + x_pst(p20,A93,t1004) + x_pst(p20,A91,t1004) + x_pst(p20,IOPL,t1004) + x_pst(p20,TBA,t1004) + x_pst(p20,XBD,t1004) + x_pst(p20,FW,t1004) + x_pst(p20,UR,t1004) + x_pst(p20,KR,t1004) + x_pst(p20,A,t1004) + x_pst(p20,UR0,t1004) + x_pst(p20,HO,t1004) + x_pst(p20,Off,t1004) =G= 2 ; (LHS = 0, INFES = 2 ****)
+const_a_7(t1004)..  x_pst(p6,S1,t1004) + x_pst(p6,A73,t1004) + x_pst(p7,S1,t1004) + x_pst(p7,A73,t1004) + x_pst(p8,S1,t1004) + x_pst(p8,A73,t1004) + x_pst(p9,S1,t1004) + x_pst(p9,A73,t1004) + x_pst(p10,S1,t1004) + x_pst(p10,A73,t1004) + x_pst(p11,S1,t1004) + x_pst(p11,A73,t1004) + x_pst(p12,S1,t1004) + x_pst(p12,A73,t1004) + x_pst(p13,S1,t1004) + x_pst(p13,A73,t1004) + x_pst(p14,S1,t1004) + x_pst(p14,A73,t1004) + x_pst(p15,S1,t1004) + x_pst(p15,A73,t1004) + x_pst(p16,S1,t1004) + x_pst(p16,A73,t1004) + x_pst(p17,S1,t1004) + x_pst(p17,A73,t1004) + x_pst(p18,S1,t1004) + x_pst(p18,A73,t1004) + x_pst(p19,S1,t1004) + x_pst(p19,A73,t1004) + x_pst(p20,S1,t1004) + x_pst(p20,A73,t1004) =G= 2 ; (LHS = 0, INFES = 2 ****)
      
 REMAINING 21 ENTRIES SKIPPED
 
@@ -631,9 +632,9 @@ const_a_14(p3)..  - vBD(p3) + x_pst(p3,S1,t1001) + x_pst(p3,S1,t1002) + x_pst(p3
      
 REMAINING 17 ENTRIES SKIPPED
 
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/10/24 21:31:58 Page 3
+GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/10/24 21:46:49 Page 3
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Column Listing      SOLVE optModel Using MIP From line 336
+Column Listing      SOLVE optModel Using MIP From line 337
 
 
 ---- v_st  
@@ -883,42 +884,6 @@ vQuali_ps(p1,OP)
        -1       const_a_3(p1,OP,t1103)
        -1       const_a_3(p1,OP,t1104)
        -1       const_a_3(p1,OP,t1105)
-       -1       const_a_4(p1,OP,t1001)
-       -1       const_a_4(p1,OP,t1002)
-       -1       const_a_4(p1,OP,t1003)
-       -1       const_a_4(p1,OP,t1004)
-       -1       const_a_4(p1,OP,t1005)
-       -1       const_a_4(p1,OP,t1006)
-       -1       const_a_4(p1,OP,t1007)
-       -1       const_a_4(p1,OP,t1008)
-       -1       const_a_4(p1,OP,t1009)
-       -1       const_a_4(p1,OP,t1010)
-       -1       const_a_4(p1,OP,t1011)
-       -1       const_a_4(p1,OP,t1012)
-       -1       const_a_4(p1,OP,t1013)
-       -1       const_a_4(p1,OP,t1014)
-       -1       const_a_4(p1,OP,t1015)
-       -1       const_a_4(p1,OP,t1016)
-       -1       const_a_4(p1,OP,t1017)
-       -1       const_a_4(p1,OP,t1018)
-       -1       const_a_4(p1,OP,t1019)
-       -1       const_a_4(p1,OP,t1020)
-       -1       const_a_4(p1,OP,t1021)
-       -1       const_a_4(p1,OP,t1022)
-       -1       const_a_4(p1,OP,t1023)
-       -1       const_a_4(p1,OP,t1024)
-       -1       const_a_4(p1,OP,t1025)
-       -1       const_a_4(p1,OP,t1026)
-       -1       const_a_4(p1,OP,t1027)
-       -1       const_a_4(p1,OP,t1028)
-       -1       const_a_4(p1,OP,t1029)
-       -1       const_a_4(p1,OP,t1030)
-       -1       const_a_4(p1,OP,t1031)
-       -1       const_a_4(p1,OP,t1101)
-       -1       const_a_4(p1,OP,t1102)
-       -1       const_a_4(p1,OP,t1103)
-       -1       const_a_4(p1,OP,t1104)
-       -1       const_a_4(p1,OP,t1105)
 
 vQuali_ps(p1,IO)
                 (.LO, .L, .UP, .M = 0, 0, 1, 0)
@@ -959,42 +924,6 @@ vQuali_ps(p1,IO)
        -1       const_a_3(p1,IO,t1103)
        -1       const_a_3(p1,IO,t1104)
        -1       const_a_3(p1,IO,t1105)
-       -1       const_a_4(p1,IO,t1001)
-       -1       const_a_4(p1,IO,t1002)
-       -1       const_a_4(p1,IO,t1003)
-       -1       const_a_4(p1,IO,t1004)
-       -1       const_a_4(p1,IO,t1005)
-       -1       const_a_4(p1,IO,t1006)
-       -1       const_a_4(p1,IO,t1007)
-       -1       const_a_4(p1,IO,t1008)
-       -1       const_a_4(p1,IO,t1009)
-       -1       const_a_4(p1,IO,t1010)
-       -1       const_a_4(p1,IO,t1011)
-       -1       const_a_4(p1,IO,t1012)
-       -1       const_a_4(p1,IO,t1013)
-       -1       const_a_4(p1,IO,t1014)
-       -1       const_a_4(p1,IO,t1015)
-       -1       const_a_4(p1,IO,t1016)
-       -1       const_a_4(p1,IO,t1017)
-       -1       const_a_4(p1,IO,t1018)
-       -1       const_a_4(p1,IO,t1019)
-       -1       const_a_4(p1,IO,t1020)
-       -1       const_a_4(p1,IO,t1021)
-       -1       const_a_4(p1,IO,t1022)
-       -1       const_a_4(p1,IO,t1023)
-       -1       const_a_4(p1,IO,t1024)
-       -1       const_a_4(p1,IO,t1025)
-       -1       const_a_4(p1,IO,t1026)
-       -1       const_a_4(p1,IO,t1027)
-       -1       const_a_4(p1,IO,t1028)
-       -1       const_a_4(p1,IO,t1029)
-       -1       const_a_4(p1,IO,t1030)
-       -1       const_a_4(p1,IO,t1031)
-       -1       const_a_4(p1,IO,t1101)
-       -1       const_a_4(p1,IO,t1102)
-       -1       const_a_4(p1,IO,t1103)
-       -1       const_a_4(p1,IO,t1104)
-       -1       const_a_4(p1,IO,t1105)
 
 vQuali_ps(p1,AO)
                 (.LO, .L, .UP, .M = 0, 0, 1, 0)
@@ -1035,42 +964,6 @@ vQuali_ps(p1,AO)
        -1       const_a_3(p1,AO,t1103)
        -1       const_a_3(p1,AO,t1104)
        -1       const_a_3(p1,AO,t1105)
-       -1       const_a_4(p1,AO,t1001)
-       -1       const_a_4(p1,AO,t1002)
-       -1       const_a_4(p1,AO,t1003)
-       -1       const_a_4(p1,AO,t1004)
-       -1       const_a_4(p1,AO,t1005)
-       -1       const_a_4(p1,AO,t1006)
-       -1       const_a_4(p1,AO,t1007)
-       -1       const_a_4(p1,AO,t1008)
-       -1       const_a_4(p1,AO,t1009)
-       -1       const_a_4(p1,AO,t1010)
-       -1       const_a_4(p1,AO,t1011)
-       -1       const_a_4(p1,AO,t1012)
-       -1       const_a_4(p1,AO,t1013)
-       -1       const_a_4(p1,AO,t1014)
-       -1       const_a_4(p1,AO,t1015)
-       -1       const_a_4(p1,AO,t1016)
-       -1       const_a_4(p1,AO,t1017)
-       -1       const_a_4(p1,AO,t1018)
-       -1       const_a_4(p1,AO,t1019)
-       -1       const_a_4(p1,AO,t1020)
-       -1       const_a_4(p1,AO,t1021)
-       -1       const_a_4(p1,AO,t1022)
-       -1       const_a_4(p1,AO,t1023)
-       -1       const_a_4(p1,AO,t1024)
-       -1       const_a_4(p1,AO,t1025)
-       -1       const_a_4(p1,AO,t1026)
-       -1       const_a_4(p1,AO,t1027)
-       -1       const_a_4(p1,AO,t1028)
-       -1       const_a_4(p1,AO,t1029)
-       -1       const_a_4(p1,AO,t1030)
-       -1       const_a_4(p1,AO,t1031)
-       -1       const_a_4(p1,AO,t1101)
-       -1       const_a_4(p1,AO,t1102)
-       -1       const_a_4(p1,AO,t1103)
-       -1       const_a_4(p1,AO,t1104)
-       -1       const_a_4(p1,AO,t1105)
 
 REMAINING 537 ENTRIES SKIPPED
 
@@ -1325,9 +1218,9 @@ vIO_pt(p1,t926)
        -1       mip
 
 REMAINING 857 ENTRIES SKIPPED
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/10/24 21:31:58 Page 4
+GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/10/24 21:46:49 Page 4
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Range Statistics    SOLVE optModel Using MIP From line 336
+Range Statistics    SOLVE optModel Using MIP From line 337
 
 
 RANGE STATISTICS (ABSOLUTE NON-ZERO FINITE VALUES)
@@ -1336,53 +1229,53 @@ RHS       [min, max] : [ 1.000E+00, 5.000E+01] - Zero values observed as well
 Bound     [min, max] : [ 1.000E+00, 1.000E+00] - Zero values observed as well
 Matrix    [min, max] : [ 5.000E-01, 1.000E+00]
 
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/10/24 21:31:58 Page 5
+GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/10/24 21:46:49 Page 5
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Model Statistics    SOLVE optModel Using MIP From line 336
+Model Statistics    SOLVE optModel Using MIP From line 337
 
 
 MODEL STATISTICS
 
-BLOCKS OF EQUATIONS          14     SINGLE EQUATIONS       36,741
+BLOCKS OF EQUATIONS          14     SINGLE EQUATIONS       23,745
 BLOCKS OF VARIABLES          22     SINGLE VARIABLES       76,806
-NON ZERO ELEMENTS       279,930     DISCRETE VARIABLES     75,262
+NON ZERO ELEMENTS       257,934     DISCRETE VARIABLES     75,262
 
 
-GENERATION TIME      =        0.672 SECONDS     26 MB  47.4.0 838fd78c WEX-WEI
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/10/24 21:31:58 Page 6
+GENERATION TIME      =        0.703 SECONDS     25 MB  47.4.0 838fd78c WEX-WEI
+GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/10/24 21:46:49 Page 6
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Solution Report     SOLVE optModel Using MIP From line 336
+Solution Report     SOLVE optModel Using MIP From line 337
 
 
                S O L V E      S U M M A R Y
 
      MODEL   optModel            OBJECTIVE  obj
      TYPE    MIP                 DIRECTION  MINIMIZE
-     SOLVER  CPLEX               FROM LINE  336
+     SOLVER  CPLEX               FROM LINE  337
 
 **** SOLVER STATUS     1 Normal Completion
 **** MODEL STATUS      10 Integer Infeasible
 **** OBJECTIVE VALUE               NA
 
- RESOURCE USAGE, LIMIT          0.016 10000000000.000
+ RESOURCE USAGE, LIMIT          0.015 10000000000.000
  ITERATION COUNT, LIMIT         0    2147483647
 --- GAMS/CPLEX Link licensed for continuous and discrete problems.
 --- GMO setup time: 0.00s
---- Space for names approximately 3.32 Mb
+--- Space for names approximately 2.92 Mb
 --- Use option 'names no' to turn use of names off
---- GMO memory 26.15 Mb (peak 26.73 Mb)
+--- GMO memory 23.71 Mb (peak 24.30 Mb)
 --- Dictionary memory 0.00 Mb
---- Cplex 22.1.1.0 link memory 1.89 Mb (peak 9.30 Mb)
+--- Cplex 22.1.1.0 link memory 1.74 Mb (peak 8.49 Mb)
 --- Starting Cplex
 
 
 --- MIP status (119): integer infeasible or unbounded.
---- Cplex Time: 0.02sec (det. 16.87 ticks)
+--- Cplex Time: 0.02sec (det. 14.92 ticks)
 
 --- Problem is integer infeasible
 
 No solution returned
-GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/10/24 21:31:58 Page 7
+GAMS 47.4.0  838fd78c Jul 30, 2024          WEX-WEI x86 64bit/MS Windows - 08/10/24 21:46:49 Page 7
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 E x e c u t i o n
 
@@ -1392,7 +1285,7 @@ E x e c u t i o n
 outputFileTable C:\projects\itStud9Lp2024\gamsWorkSpace\output_t.txt
 
 
-EXECUTION TIME       =        0.828 SECONDS     27 MB  47.4.0 838fd78c WEX-WEI
+EXECUTION TIME       =        0.937 SECONDS     26 MB  47.4.0 838fd78c WEX-WEI
 
 
 USER: Course License                                 S240418|0002AO-GEN

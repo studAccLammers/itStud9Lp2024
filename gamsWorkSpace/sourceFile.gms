@@ -35,7 +35,8 @@ Sets
     SFZA(S)             / S1, BD1, BD3, A73, V93, A91 /
     SRD(S)              / A73, IOP, IOPL /
     S_AO_TBA(S)         / AO, TBA /
-    S_BD1_BD3(S)        / BD1, BD3 /;
+    S_BD1_BD3(S)        / BD1, BD3 /
+    S_A73_S1(S)         / A73, S1 /;;
 
 $ontext
 Die nachfolgenden Sets definieren die Tage für den Deinstplan in diesem Fall Oktober 2024.
@@ -271,7 +272,7 @@ const_a_2(p,t) .. sum(s, x_pst(p,s,t)) =e= 1;
 const_a_3(p,s,t)$(not TVM(t)) .. x_pst(p,s,t) =l= (q_ps(p,s) + vQuali_ps(p,s));
 
 *Dok Constraint A.4
-const_a_4(p,s,t)$(S1(s) and not TVM(t)) .. x_pst(p,s,t) =l= q_ps(p,s) + vQuali_ps(p,s);
+const_a_4(s,t)$(S1(s) and not TVM(t)) .. sum(p, x_pst(p,s,t)) =e= c_st(s,t) - v_st(s,t);
 
 *Dok Constraint A.5
 const_a_5(s,t)$(not TVM(t)) .. sum(p$(not PAP(p)), x_pst(p,s,t)) =g= cSP_st(s,t) - vSP_st(s,t);
@@ -280,7 +281,7 @@ const_a_5(s,t)$(not TVM(t)) .. sum(p$(not PAP(p)), x_pst(p,s,t)) =g= cSP_st(s,t)
 const_a_6(s,t)$(not TVM(t)) .. sum(p$(PCP(p) or PHP(p)), x_pst(p,s,t)) =g= cCP_st(s,t) - vCP_st(s,t);
 
 *Dok Constraint A.7
-const_a_7(t)$(TWD(t) and not TVM(t)) .. sum((p,s)$(not PAP(p)), x_pst(p,s,t)) =g= FMin;
+const_a_7(t)$(TWD(t) and not TVM(t)) .. sum((p,s)$(S_A73_S1(s) and not PAP(p)), x_pst(p,s,t)) =g= FMin;
 
 *Dok Constraint A.8
 const_a_8(t)$(TRD(t) and not TVM(t)) .. sum((p)$(not PAP(p)),((1/2) * sum((s)$(SRD(s)), x_pst(p,s,t)) + sum((s)$(S_BD1_BD3(s)), x_pst(p,s,t)))) =g= FMin;
