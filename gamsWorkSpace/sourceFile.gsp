@@ -4,6 +4,18 @@
     "nodes": [
         {
             "codecMib": 106,
+            "file": "output_s.txt",
+            "name": "output_s.txt",
+            "type": "txt"
+        },
+        {
+            "codecMib": 106,
+            "file": "output_t.txt",
+            "name": "output_t.txt",
+            "type": "txt"
+        },
+        {
+            "codecMib": 106,
             "file": "sourceFile.gms",
             "name": "sourceFile.gms",
             "type": "gms"

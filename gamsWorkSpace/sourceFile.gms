@@ -302,17 +302,15 @@ const_a_11(p,t)$(not TVM(t)) .. sum((s,tt)$(T_minus_MMax(t,tt) and S1(s)), x_pst
 
 
 
-* Solve
 *Solve
-Model optModel /mip/;
+Model optModel /mip, const_a_2/;
 Solve optModel using mip minimizing obj;
 
 
 *Output in File
-file outputFile / 'output_s.txt' /;
-outputFile.pw = 50;
+file outputFileSimple / 'output_s.txt' /;
 
-put outputFile;
+put outputFileSimple;
 
 loop((p,s,t),
     if(x_pst.l(p,s,t) = 1,
@@ -320,4 +318,36 @@ loop((p,s,t),
     );
 );
 
-putclose outputFile;
+putclose outputFileSimple;
+
+
+
+file outputFileTable / 'output_t.txt' /;
+
+put outputFileTable;
+
+* Print table header with t values
+put 'p' @10;
+loop(t, 
+    put t.tl:10;
+);
+put /;
+
+* Generate table rows
+loop(p, 
+    put p.tl:10 @10;
+    loop(t, 
+        if(sum(s, x_pst.l(p,s,t)) > 0,
+            loop(s,
+                if(x_pst.l(p,s,t) = 1,
+                    put s.tl:10;
+                );
+            );
+        else
+            put "":10;
+        );
+    );
+    put /;
+);
+
+putclose outputFileTable;

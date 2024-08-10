@@ -1,51 +1,53 @@
 B 3 C o m p i l a t i o n
-B 328 Equation Listing    SOLVE optModel Using MIP From line 308
-D 331 mip
-B 425 Column Listing      SOLVE optModel Using MIP From line 308
-E 428 v_st
-E 444 vBD_p
-E 460 vWEyn_p
-E 476 vWEmin_p
-E 492 ot_p
-E 508 bdMax
-E 515 bdMin
-E 522 vAdy_pw
-E 538 vIOMax_pw
-E 554 obj
-E 561 x_pst
-E 577 vQuali_ps
-E 593 vSP_st
-E 609 vCP_st
-E 625 vreq1_pst
-E 641 vreq0_pst
-E 657 vStretch_p
-E 673 vOff_pt
-E 689 vWErow_pw
-E 705 vIOPL_pt
-E 721 vIO_pt
-B 738 Range Statistics    SOLVE optModel Using MIP From line 308
-B 749 Model Statistics    SOLVE optModel Using MIP From line 308
-B 762 Solution Report     SOLVE optModel Using MIP From line 308
-F 813 mip
-G 815 v_st
-G 1981 vBD_p
-G 2006 vWEyn_p
-G 2031 vWEmin_p
-G 2056 ot_p
-G 2083 bdMax
-G 2084 bdMin
-G 2086 vAdy_pw
-G 2231 vIOMax_pw
-G 2378 obj
-G 2380 x_pst
-G 8405 vQuali_ps
-G 8950 vSP_st
-G 10116 vCP_st
-G 11282 vreq1_pst
-G 34507 vreq0_pst
-G 57732 vStretch_p
-G 57757 vOff_pt
-G 58622 vWErow_pw
-G 58767 vIOPL_pt
-G 59632 vIO_pt
-B 60503 E x e c u t i o n
+B 358 Equation Listing    SOLVE optModel Using MIP From line 307
+D 361 mip
+D 454 const_a_2
+B 466 Column Listing      SOLVE optModel Using MIP From line 307
+E 469 v_st
+E 485 vBD_p
+E 501 vWEyn_p
+E 517 vWEmin_p
+E 533 ot_p
+E 549 bdMax
+E 556 bdMin
+E 563 vAdy_pw
+E 579 vIOMax_pw
+E 595 obj
+E 602 x_pst
+E 618 vQuali_ps
+E 634 vSP_st
+E 650 vCP_st
+E 666 vreq1_pst
+E 682 vreq0_pst
+E 698 vStretch_p
+E 714 vOff_pt
+E 730 vWErow_pw
+E 746 vIOPL_pt
+E 762 vIO_pt
+B 779 Range Statistics    SOLVE optModel Using MIP From line 307
+B 790 Model Statistics    SOLVE optModel Using MIP From line 307
+B 803 Solution Report     SOLVE optModel Using MIP From line 307
+F 854 mip
+F 856 const_a_2
+G 1721 v_st
+G 2887 vBD_p
+G 2912 vWEyn_p
+G 2937 vWEmin_p
+G 2962 ot_p
+G 2989 bdMax
+G 2990 bdMin
+G 2992 vAdy_pw
+G 3137 vIOMax_pw
+G 3284 obj
+G 3286 x_pst
+G 26511 vQuali_ps
+G 27056 vSP_st
+G 28222 vCP_st
+G 29388 vreq1_pst
+G 52613 vreq0_pst
+G 75838 vStretch_p
+G 75863 vOff_pt
+G 76728 vWErow_pw
+G 76873 vIOPL_pt
+G 77738 vIO_pt
+B 78609 E x e c u t i o n
