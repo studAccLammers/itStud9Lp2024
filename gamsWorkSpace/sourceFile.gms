@@ -35,7 +35,8 @@ Sets
     SFZA(S)             / S1, BD1, BD3, A73, V93, A91 /
     SRD(S)              / A73, IOP, IOPL /
     S_without_AO_TBA(S) / OP, IO, PM, ZD, Z4, Z4F, S1, BD1, BD3, RB3, RB4, IOP, A73, V93, A93, A91, IOPL, XBD, FW, UR, KR, A, UR0, HO, Off /
-    S_AO_TBA(s)         / AO, TBA /;
+    S_AO_TBA(S)         / AO, TBA /
+    S_strich(S)         / BD1, BD3 /;
 
 $ontext
 Die nachfolgenden Sets definieren die Tage für den Deinstplan in diesem Fall Oktober 2024.
@@ -46,6 +47,8 @@ Die nachfolgenden Sets definieren die Tage für den Deinstplan in diesem Fall Ok
 - J:       Wochentage.
 - TWkdy_J: Zuordnung der Tage zu den Wochentagen.
 - THD:     Gesetzliche Feiertage.
+- TWD:     Enthält alle Tage, die nicht in T_RD sind
+- TRD:     Tage, die entweder gesetzliche Feiertage oder Wochenenden sind
 $offtext
 Sets
     T               /t924*t930, t1001*t1031, t1101*t1105/
@@ -54,7 +57,9 @@ Sets
     TFM(T)          /t1101*t1105/
     J               /Mon, Tue, Wed, Thu, Fri, Sat, Sun/    
     TWkdy_J(T, J)
-    THD(T)          /t1003, t1031/;
+    THD(T)          /t1003, t1031/
+    TRD(T)
+    TWD(T);
 
 * Zuweisung der Wochentage zu den Tagen im Set T
 TWkdy_J('t924', 'Tue') = yes;
@@ -107,9 +112,16 @@ TWkdy_J('t1103', 'Sun') = yes;
 TWkdy_J('t1104', 'Mon') = yes;
 TWkdy_J('t1105', 'Tue') = yes;
 
+TRD(t) = THD(t) or TWkdy_J(t, 'Sat') or TWkdy_J(t, 'Sun');
+TWD(t) = not TRD(t);
+
 Sets
     W /w0*w6/
     wFull_w(W) /w1,w2,w3,w4,w5/;
+    
+Sets
+    I(p,s,t) //
+    R(p,s,t) //;
 
 Parameters
     alpha_1     /1/
@@ -134,13 +146,17 @@ Parameters
     c_st(s,t)
     cSP_st(s,t)
     cCP_st(s,t)
-    FMin;
+    FMin
+    r_pst(p,s,t)
+    MMax;
     
  q_ps(p,s) = 1;
  c_st(s,t) = 3;
  cSP_st(s,t) = 2;
- cCP_st(s,t) = 1;
+ cCP_st(s,t) = 2;
  FMin = 2;
+ r_pst(p,s,t) = 0;
+ MMax = 6;
 
 Variables
     v_st(s,t)
@@ -235,39 +251,60 @@ Equations
     const_a_4
     const_a_5
     const_a_6
-    const_a_7;
+    const_a_7
+    const_a_8
+    const_a_9
+    const_a_10
+    const_a_11;
     
 *Dok Constraint A.2
 const_a_2(p,t) .. sum(s, x_pst(p,s,t)) =e= 1;
 
 *Dok Constraint A.3
-const_a_3(p,s,t) .. x_pst(p,s,t) =l= (q_ps(p,s) + vQuali_ps(p,s));
+const_a_3(p,s,t)$(not TVM(t)) .. x_pst(p,s,t) =l= (q_ps(p,s) + vQuali_ps(p,s));
 
 *Dok Constraint A.4
-const_a_4(s,t) .. sum(p, x_pst(p,s,t)) =e= c_st(s,t) - v_st(s,t);
+const_a_4(p,s,t)$(S1(s) and not TVM(t)) .. x_pst(p,s,t) =l= q_ps(p,s) + vQuali_ps(p,s);
 
 *Dok Constraint A.5
-const_a_5(s,t) .. sum(p$(not PAP(p)), x_pst(p,s,t)) =g= cSP_st(s,t) - vSP_st(s,t);
+const_a_5(s,t)$(not TVM(t)) .. sum(p$(not PAP(p)), x_pst(p,s,t)) =g= cSP_st(s,t) - vSP_st(s,t);
 
 *Dok Constraint A.6
-const_a_6(s,t) .. sum(p$(PCP(p) or PHP(p)), x_pst(p,s,t)) =g= cCP_st(s,t) - vCP_st(s,t);
+const_a_6(s,t)$(not TVM(t)) .. sum(p$(PCP(p) or PHP(p)), x_pst(p,s,t)) =g= cCP_st(s,t) - vCP_st(s,t);
 
 *Dok Constraint A.7
-const_a_7(t) .. sum((p,s)$(not PAP(p)), x_pst(p,s,t)) =g= FMin;
+const_a_7(t)$(TWD(t) and not TVM(t)) .. sum((p,s)$(not PAP(p)), x_pst(p,s,t)) =g= FMin;
+
+*Dok Constraint A.8
+const_a_8(t)$(TRD(t) and not TVM(t)) .. sum((p)$(not PAP(p)),((1/2) * sum((s)$(SRD(s)), x_pst(p,s,t)) + sum((s)$(S_strich(s)), x_pst(p,s,t)))) =g= FMin;
+
+*Dok Constraint A.9
+const_a_9(p,s,t)$(I(p,s,t)) .. x_pst(p,s,t) =e= 1;
+
+*Dok Constraint A.10
+const_a_10(p,s,t)$(R(p,s,t)) .. x_pst(p,s,t) =e= r_pst(p,s,t) - vreq1_pst(p,s,t) + vreq0_pst(p,s,t);
+
+*Dok Constraint A.11
+Set
+    T_minus_MMax(t,t);
+    
+Alias(t, tt);
+T_minus_MMax(t,t) = no;
+loop(t,
+    loop(tt$(ord(tt) <= ord(t) and ord(tt) > ord(t) - MMax),
+        T_minus_MMax(t,tt) = yes;
+    );
+);
+const_a_11(p,t)$(not TVM(t)) .. sum((s,tt)$(T_minus_MMax(t,tt) and S1(s)), x_pst(p,s,tt)) =l= MMax + vStretch_p(p);
 
 
 
 
 
 
-
-
-
-
-
-
+* Solve
 *Solve
-Model optModel /all/;
+Model optModel /mip/;
 Solve optModel using mip minimizing obj;
 
 

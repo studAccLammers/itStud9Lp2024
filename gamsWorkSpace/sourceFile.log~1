@@ -1,5 +1,5 @@
 
---- Job sourceFile.gms Start 08/10/24 00:27:39 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
+--- Job sourceFile.gms Start 08/10/24 19:57:43 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
 --- Applying:
     C:\Program Files (x86)\GAMS\47\gmsprmNT.txt
 --- GAMS Parameters defined
@@ -21,55 +21,93 @@ Licensee: Course License                                 S240418|0002AO-GEN
 Processor information: 1 socket(s), 6 core(s), and 12 thread(s) available
 GAMS 47.4.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
 --- Starting compilation
---- sourceFile.gms(287) 3 Mb
+--- sourceFile.gms(323) 3 Mb
 --- Starting execution: elapsed 0:00:00.007
---- sourceFile.gms(143) 4 Mb
+--- sourceFile.gms(293) 4 Mb
 --- Generating MIP model optModel
---- sourceFile.gms(272) 24 Mb
----   27,607 rows  76,786 columns  202,389 non-zeroes
----   75,262 discrete-columns
+--- sourceFile.gms(308) 10 Mb
+---   1 rows  59,586 columns  59,586 non-zeroes
+---   58,062 discrete-columns
 --- Range statistics (absolute non-zero finite values)
---- RHS       [min, max] : [ 1.000E+00, 3.000E+00] - Zero values observed as well
+--- RHS       [min, max] : [        NA,        NA] - Zero values observed as well
 --- Bound     [min, max] : [ 1.000E+00, 1.000E+00] - Zero values observed as well
 --- Matrix    [min, max] : [ 1.000E+00, 1.000E+00]
---- Executing CPLEX (Solvelink=2): elapsed 0:00:00.624
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.572
 
 IBM ILOG CPLEX   47.4.0 838fd78c Jul 30, 2024          WEI x86 64bit/MS Window
 
 --- GAMS/CPLEX Link licensed for continuous and discrete problems.
 --- GMO setup time: 0.00s
---- Space for names approximately 3.03 Mb
+--- Space for names approximately 1.75 Mb
 --- Use option 'names no' to turn use of names off
---- GMO memory 21.63 Mb (peak 22.22 Mb)
+--- GMO memory 10.05 Mb (peak 10.50 Mb)
 --- Dictionary memory 0.00 Mb
---- Cplex 22.1.1.0 link memory 1.78 Mb (peak 8.01 Mb)
+--- Cplex 22.1.1.0 link memory 1.14 Mb (peak 4.08 Mb)
 --- Starting Cplex
 
 Version identifier: 22.1.1.0 | 2022-11-27 | 9160aff4d
 CPXPARAM_Advance                                 0
+CPXPARAM_Simplex_Display                         2
 CPXPARAM_MIP_Display                             4
 CPXPARAM_MIP_Pool_Capacity                       0
 CPXPARAM_MIP_Tolerances_AbsMIPGap                0
 Generic callback                                 0x50
-Dual infeasible due to empty column 'vBD_p(p1)'.
-Presolve time = 0.00 sec. (9.95 ticks)
+Found incumbent of value 0.000000 after 0.00 sec. (0.91 ticks)
+Dual infeasible due to empty column 'v_st(OP,t924)'.
+Presolve time = 0.02 sec. (4.64 ticks)
 
 Root node processing (before b&c):
-  Real time             =    0.02 sec. (16.07 ticks)
+  Real time             =    0.02 sec. (6.00 ticks)
 Parallel b&c, 12 threads:
   Real time             =    0.00 sec. (0.00 ticks)
   Sync time (average)   =    0.00 sec.
   Wait time (average)   =    0.00 sec.
                           ------------
-Total (root+branch&cut) =    0.02 sec. (16.07 ticks)
+Total (root+branch&cut) =    0.02 sec. (6.00 ticks)
 
---- MIP status (119): integer infeasible or unbounded.
---- Cplex Time: 0.02sec (det. 16.29 ticks)
+--- MIP status (118): integer unbounded.
+--- Cplex Time: 0.02sec (det. 6.18 ticks)
 
+--- Returning a primal only solution to GAMS (marginals all set to NA).
+--- Fixing integer variables and solving final LP...
+
+Version identifier: 22.1.1.0 | 2022-11-27 | 9160aff4d
+CPXPARAM_Advance                                 2
+CPXPARAM_Simplex_Display                         2
+CPXPARAM_MIP_Display                             4
+CPXPARAM_MIP_Pool_Capacity                       0
+CPXPARAM_MIP_Tolerances_AbsMIPGap                0
+Parallel mode: deterministic, using up to 12 threads for concurrent optimization:
+ * Starting dual Simplex on 1 thread...
+ * Starting Barrier on 9 threads...
+ * Starting primal Simplex on 1 thread...
+ * Starting Sifting on 1 thread...
+Dual infeasible due to empty column 'v_st(OP,t924)'.
+Presolve time = 0.00 sec. (3.95 ticks)
+
+--- Fixed MIP status (4): unbounded or infeasible.
+--- Cplex Time: 0.01sec (det. 100.36 ticks)
+
+*** WARNING: Presolve found the problem infeasible or unbounded
+--- Cplex diagnoses the model to be either infeasible or unbounded.
+--- There is no such GAMS Model Status so returning with a status of infeasible.
+*** WARNING: Final solve did not return an optimal solution. Returning MIP solution.
+
+Problem is unbounded
+MIP Solution:            0.000000    (0 iterations, 0 nodes)
+
+Best possible:               -inf
+Absolute gap:                  na
+Relative gap:                  na
 CPLEX Error  1217: No solution exists.
---- Problem is integer infeasible
+--- Could not determine which row or columns may have causedthe problem to be unbounded
+
 --- Reading solution for model optModel
---- Executing after solve: elapsed 0:00:00.766
---- sourceFile.gms(287) 24 Mb
+***
+*** Solver did not provide marginals for model optModel
+***
+--- sourceFile.gms(308) 11 Mb
+--- Executing after solve: elapsed 0:00:00.852
+--- sourceFile.gms(323) 11 Mb
 *** Status: Normal completion
---- Job sourceFile.gms Stop 08/10/24 00:27:39 elapsed 0:00:00.767
+--- Job sourceFile.gms Stop 08/10/24 19:57:43 elapsed 0:00:00.853

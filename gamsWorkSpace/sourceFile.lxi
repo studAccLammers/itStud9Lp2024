@@ -1,35 +1,51 @@
 B 3 C o m p i l a t i o n
-B 291 Equation Listing    SOLVE optModel Using MIP From line 271
-D 294 mip
-D 387 const_a_2
-D 398 const_a_3
-D 409 const_a_4
-D 420 const_a_5
-D 431 const_a_6
-D 442 const_a_7
-B 454 Column Listing      SOLVE optModel Using MIP From line 271
-E 457 v_st
-E 476 vBD_p
-E 492 vWEyn_p
-E 508 vWEmin_p
-E 524 ot_p
-E 540 bdMax
-E 547 bdMin
-E 554 vAdy_pw
-E 570 vIOMax_pw
-E 586 obj
-E 593 x_pst
-E 615 vQuali_ps
-E 760 vSP_st
-E 779 vCP_st
-E 798 vreq1_pst
-E 814 vreq0_pst
-E 830 vStretch_p
-E 846 vOff_pt
-E 862 vWErow_pw
-E 878 vIOPL_pt
-E 894 vIO_pt
-B 911 Range Statistics    SOLVE optModel Using MIP From line 271
-B 922 Model Statistics    SOLVE optModel Using MIP From line 271
-B 935 Solution Report     SOLVE optModel Using MIP From line 271
-B 968 E x e c u t i o n
+B 328 Equation Listing    SOLVE optModel Using MIP From line 308
+D 331 mip
+B 425 Column Listing      SOLVE optModel Using MIP From line 308
+E 428 v_st
+E 444 vBD_p
+E 460 vWEyn_p
+E 476 vWEmin_p
+E 492 ot_p
+E 508 bdMax
+E 515 bdMin
+E 522 vAdy_pw
+E 538 vIOMax_pw
+E 554 obj
+E 561 x_pst
+E 577 vQuali_ps
+E 593 vSP_st
+E 609 vCP_st
+E 625 vreq1_pst
+E 641 vreq0_pst
+E 657 vStretch_p
+E 673 vOff_pt
+E 689 vWErow_pw
+E 705 vIOPL_pt
+E 721 vIO_pt
+B 738 Range Statistics    SOLVE optModel Using MIP From line 308
+B 749 Model Statistics    SOLVE optModel Using MIP From line 308
+B 762 Solution Report     SOLVE optModel Using MIP From line 308
+F 813 mip
+G 815 v_st
+G 1981 vBD_p
+G 2006 vWEyn_p
+G 2031 vWEmin_p
+G 2056 ot_p
+G 2083 bdMax
+G 2084 bdMin
+G 2086 vAdy_pw
+G 2231 vIOMax_pw
+G 2378 obj
+G 2380 x_pst
+G 8405 vQuali_ps
+G 8950 vSP_st
+G 10116 vCP_st
+G 11282 vreq1_pst
+G 34507 vreq0_pst
+G 57732 vStretch_p
+G 57757 vOff_pt
+G 58622 vWErow_pw
+G 58767 vIOPL_pt
+G 59632 vIO_pt
+B 60503 E x e c u t i o n
