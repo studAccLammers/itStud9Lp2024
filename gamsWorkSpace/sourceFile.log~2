@@ -1,5 +1,5 @@
 
---- Job sourceFile.gms Start 08/10/24 20:11:16 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
+--- Job sourceFile.gms Start 08/10/24 21:24:50 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
 --- Applying:
     C:\Program Files (x86)\GAMS\47\gmsprmNT.txt
 --- GAMS Parameters defined
@@ -21,18 +21,18 @@ Licensee: Course License                                 S240418|0002AO-GEN
 Processor information: 1 socket(s), 6 core(s), and 12 thread(s) available
 GAMS 47.4.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
 --- Starting compilation
---- sourceFile.gms(353) 3 Mb
+--- sourceFile.gms(396) 3 Mb
 --- Starting execution: elapsed 0:00:00.007
---- sourceFile.gms(293) 4 Mb
+--- sourceFile.gms(296) 4 Mb
 --- Generating MIP model optModel
---- sourceFile.gms(307) 13 Mb
+--- sourceFile.gms(329) 13 Mb
 ---   861 rows  76,786 columns  82,806 non-zeroes
 ---   75,262 discrete-columns
 --- Range statistics (absolute non-zero finite values)
 --- RHS       [min, max] : [ 1.000E+00, 1.000E+00] - Zero values observed as well
 --- Bound     [min, max] : [ 1.000E+00, 1.000E+00] - Zero values observed as well
 --- Matrix    [min, max] : [ 1.000E+00, 1.000E+00]
---- Executing CPLEX (Solvelink=2): elapsed 0:00:00.601
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.573
 
 IBM ILOG CPLEX   47.4.0 838fd78c Jul 30, 2024          WEI x86 64bit/MS Window
 
@@ -104,9 +104,9 @@ CPLEX Error  1217: No solution exists.
 ***
 *** Solver did not provide marginals for model optModel
 ***
---- Executing after solve: elapsed 0:00:00.952
---- sourceFile.gms(353) 15 Mb
+--- Executing after solve: elapsed 0:00:00.898
+--- sourceFile.gms(396) 15 Mb
 --- Putfile outputFileSimple C:\projects\itStud9Lp2024\gamsWorkSpace\output_s.txt
 --- Putfile outputFileTable C:\projects\itStud9Lp2024\gamsWorkSpace\output_t.txt
 *** Status: Normal completion
---- Job sourceFile.gms Stop 08/10/24 20:11:17 elapsed 0:00:00.964
+--- Job sourceFile.gms Stop 08/10/24 21:24:51 elapsed 0:00:00.911

@@ -34,9 +34,8 @@ Sets
     SBD(S)              / S1, BD1, BD3, A73, V93, A91 /
     SFZA(S)             / S1, BD1, BD3, A73, V93, A91 /
     SRD(S)              / A73, IOP, IOPL /
-    S_without_AO_TBA(S) / OP, IO, PM, ZD, Z4, Z4F, S1, BD1, BD3, RB3, RB4, IOP, A73, V93, A93, A91, IOPL, XBD, FW, UR, KR, A, UR0, HO, Off /
     S_AO_TBA(S)         / AO, TBA /
-    S_strich(S)         / BD1, BD3 /;
+    S_BD1_BD3(S)        / BD1, BD3 /;
 
 $ontext
 Die nachfolgenden Sets definieren die Tage für den Deinstplan in diesem Fall Oktober 2024.
@@ -148,7 +147,9 @@ Parameters
     cCP_st(s,t)
     FMin
     r_pst(p,s,t)
-    MMax;
+    MMax
+    nBD(p)
+    BDMaxParam(p);
     
  q_ps(p,s) = 1;
  c_st(s,t) = 3;
@@ -157,6 +158,8 @@ Parameters
  FMin = 2;
  r_pst(p,s,t) = 0;
  MMax = 6;
+ nBD(p) = 1;
+ BDMaxParam(p) = 50;
 
 Variables
     v_st(s,t)
@@ -171,6 +174,7 @@ Variables
     vIOMax_pw(p,w)
     ot_p(p)
     ut_p(p)
+    vBD(p)
     obj;
     
 Binary Variables
@@ -202,16 +206,16 @@ Binary Variables
 
 
 
-*Zielformel
+
 Equations 
     mip;
     
 mip .. obj =e=    alpha_1 * sum((p, s), vQuali_ps(p, s))
-                + alpha_2 * sum((S_without_AO_TBA, t), v_st(S_without_AO_TBA, t))
-                + beta_1 * sum((S_AO_TBA, t), v_st(S_AO_TBA, t))
-                + beta_2 * sum((p, s, t), (vreq1_pst(p, s, t) + vreq0_pst(p, s, t)))
-                + beta_3 * sum((p, t), vOff_pt(p, t))
-                + beta_4 * sum(p, vBD_p(p))
+                + alpha_2 * sum((s, t)$(not S_AO_TBA(s)), v_st(s, t))
+                + beta_1 *  sum((s, t)$(S_AO_TBA(s)), v_st(s, t))
+                + beta_2 *  sum((p, s, t), (vreq1_pst(p, s, t) + vreq0_pst(p, s, t)))
+                + beta_3 *  sum((p, t), vOff_pt(p, t))
+                + beta_4 *  sum(p, vBD_p(p))
                 + gamma_1 * sum(p, (vWEyn_p(p) + vWEmin_p(p)))
                 + gamma_2 * sum((s, t), (vSP_st(s, t) + vCP_st(s, t)))
                 + delta_1 * sum((p, w), vWErow_pw(p, w))
@@ -221,7 +225,7 @@ mip .. obj =e=    alpha_1 * sum((p, s), vQuali_ps(p, s))
                 + delta_5 * sum((p, w), vAdy_pw(p, w))
                 + delta_6 * sum((p, t), vIOPL_pt(p, t))
                 + delta_7 * (sum((p, t), vIO_pt(p, t)) + sum((p, w), vIOMax_pw(p, w)))
-                + omega_1 * sum((p, s2, t), x_pst(p, s2, t))
+                + omega_1 * sum((p, s, t)$(S2(s)), x_pst(p, s, t))
                 + omega_2 * sum(p$(contract(p) >= 40), ot_p(p));
                 
 
@@ -255,7 +259,10 @@ Equations
     const_a_8
     const_a_9
     const_a_10
-    const_a_11;
+    const_a_11
+    const_a_12
+    const_a_13
+    const_a_14;
     
 *Dok Constraint A.2
 const_a_2(p,t) .. sum(s, x_pst(p,s,t)) =e= 1;
@@ -276,7 +283,7 @@ const_a_6(s,t)$(not TVM(t)) .. sum(p$(PCP(p) or PHP(p)), x_pst(p,s,t)) =g= cCP_s
 const_a_7(t)$(TWD(t) and not TVM(t)) .. sum((p,s)$(not PAP(p)), x_pst(p,s,t)) =g= FMin;
 
 *Dok Constraint A.8
-const_a_8(t)$(TRD(t) and not TVM(t)) .. sum((p)$(not PAP(p)),((1/2) * sum((s)$(SRD(s)), x_pst(p,s,t)) + sum((s)$(S_strich(s)), x_pst(p,s,t)))) =g= FMin;
+const_a_8(t)$(TRD(t) and not TVM(t)) .. sum((p)$(not PAP(p)),((1/2) * sum((s)$(SRD(s)), x_pst(p,s,t)) + sum((s)$(S_BD1_BD3(s)), x_pst(p,s,t)))) =g= FMin;
 
 *Dok Constraint A.9
 const_a_9(p,s,t)$(I(p,s,t)) .. x_pst(p,s,t) =e= 1;
@@ -297,14 +304,57 @@ loop(t,
 );
 const_a_11(p,t)$(not TVM(t)) .. sum((s,tt)$(T_minus_MMax(t,tt) and S1(s)), x_pst(p,s,tt)) =l= MMax + vStretch_p(p);
 
+*Dok Constraint A.12
+const_a_12(p) .. sum((s,t)$(SBD(s) and TAM(t)), x_pst(p,s,t)) =g= bdMin * nBD(p);
+
+*Dok Constraint A.13
+const_a_13(p) .. sum((s,t)$(SBD(s) and TAM(t)), x_pst(p,s,t)) =l= bdMax;
+
+*Dok Constraint A.14
+const_a_14(p) .. sum((s,t)$(SBD(s) and TAM(t)), x_pst(p,s,t)) =l= BDMaxParam(p) * nBD(p) + vBD(p);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 
 *Solve
-Model optModel /mip, const_a_2/;
+Model optModel /all/;
 Solve optModel using mip minimizing obj;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 *Output in File
