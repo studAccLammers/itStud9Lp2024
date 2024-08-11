@@ -1,43 +1,59 @@
 B 3 C o m p i l a t i o n
-B 409 Equation Listing    SOLVE optModel Using MIP From line 337
-D 412 mip
-D 505 const_a_2
-D 516 const_a_3
-D 527 const_a_4
-D 538 const_a_5
-D 549 const_a_6
-D 560 const_a_7
-D 571 const_a_8
-D 582 const_a_9
-D 587 const_a_10
-D 592 const_a_11
-D 603 const_a_12
-D 614 const_a_13
-D 625 const_a_14
-B 637 Column Listing      SOLVE optModel Using MIP From line 337
-E 640 v_st
-E 656 vBD_p
-E 672 vWEyn_p
-E 688 vWEmin_p
-E 704 ot_p
-E 720 bdMax
-E 747 bdMin
-E 774 vAdy_pw
-E 790 vIOMax_pw
-E 806 vBD
-E 822 obj
-E 829 x_pst
-E 846 vQuali_ps
-E 970 vSP_st
-E 986 vCP_st
-E 1002 vreq1_pst
-E 1018 vreq0_pst
-E 1034 vStretch_p
-E 1158 vOff_pt
-E 1174 vWErow_pw
-E 1190 vIOPL_pt
-E 1206 vIO_pt
-B 1223 Range Statistics    SOLVE optModel Using MIP From line 337
-B 1234 Model Statistics    SOLVE optModel Using MIP From line 337
-B 1247 Solution Report     SOLVE optModel Using MIP From line 337
-B 1280 E x e c u t i o n
+B 591 Equation Listing    SOLVE optModel Using MIP From line 527
+D 594 mip
+D 1051 const_a_2
+D 1062 const_a_3
+D 1073 const_a_4
+D 1084 const_a_5
+D 1095 const_a_6
+D 1106 const_a_7
+D 1117 const_a_8
+D 1128 const_a_9
+D 1133 const_a_10
+D 1138 const_a_11
+D 1149 const_a_12
+D 1160 const_a_13
+D 1171 const_a_14
+D 1182 const_a_15
+D 1193 const_a_16
+D 1204 const_a_17
+D 1215 const_a_18
+D 1226 const_a_19
+D 1237 const_a_20
+D 1248 const_a_21
+D 1259 const_a_22
+D 1270 const_a_23
+D 1281 const_a_24
+D 1292 const_a_25
+D 1303 const_a_26
+D 1314 const_a_27
+D 1325 const_a_28
+D 1336 const_a_29
+B 1348 Column Listing      SOLVE optModel Using MIP From line 527
+E 1351 v_st
+E 1367 vBD_p
+E 1383 vWEyn_p
+E 1402 vWEmin_p
+E 1421 ot_p
+E 1437 bdMax
+E 1544 bdMin
+E 1651 vAdy_pw
+E 1669 vIOMax_pw
+E 1685 vBD
+E 1701 obj
+E 1708 x_pst
+E 1727 z_pw
+E 1753 vQuali_ps
+E 1877 vSP_st
+E 1893 vCP_st
+E 1909 vreq1_pst
+E 1925 vreq0_pst
+E 1941 vStretch_p
+E 2065 vOff_pt
+E 2081 vWErow_pw
+E 2097 vIOPL_pt
+E 2113 vIO_pt
+B 2130 Range Statistics    SOLVE optModel Using MIP From line 527
+B 2141 Model Statistics    SOLVE optModel Using MIP From line 527
+B 2154 Solution Report     SOLVE optModel Using MIP From line 527
+B 2187 E x e c u t i o n

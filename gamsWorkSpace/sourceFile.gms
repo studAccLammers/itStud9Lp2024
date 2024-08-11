@@ -7,11 +7,11 @@ Die nachfolgenden Sets definieren Teilmengen der Gesamtmenge der Ärzte.
 - PHP(P):   head (p16 bis p20).
 $offtext
 Sets
-    P             /p1*p20/
-    PAP(P)        /p1*p5/
-    PSP(P)        /p6*p10/
-    PCP(P)        /p11*p15/
-    PHP(P)        /p16*p20/;
+    P             /p1*p100/
+    PAP(P)        /p1*p25/
+    PSP(P)        /p6*p50/
+    PCP(P)        /p11*p75/
+    PHP(P)        /p16*p100/;
     
 
 $ontext
@@ -36,7 +36,17 @@ Sets
     SRD(S)              / A73, IOP, IOPL /
     S_AO_TBA(S)         / AO, TBA /
     S_BD1_BD3(S)        / BD1, BD3 /
-    S_A73_S1(S)         / A73, S1 /;;
+    S_A73_S1(S)         / A73, S1 /
+    S_A(S)              / A /
+    S_XBD(S)            / XBD /
+    S_IOP(S)            / IOP /
+    S_A73(S)            / A73/;
+
+Sets
+    W /w0*w6/
+    w_without_w0(W) /w1*w6/
+    w_w0(W) /w0/
+    wFull(W) /w1*w5/;
 
 $ontext
 Die nachfolgenden Sets definieren die Tage für den Deinstplan in diesem Fall Oktober 2024.
@@ -52,6 +62,7 @@ Die nachfolgenden Sets definieren die Tage für den Deinstplan in diesem Fall Ok
 $offtext
 Sets
     T               /t924*t930, t1001*t1031, t1101*t1105/
+    T_first         /t924/
     TVM(T)          /t924*t930/
     TAM(T)          /t1001*t1031/
     TFM(T)          /t1101*t1105/
@@ -59,7 +70,10 @@ Sets
     TWkdy_J(T, J)
     THD(T)          /t1003, t1031/
     TRD(T)
-    TWD(T);
+    TWD(T)
+    TWeek_W(T, W)
+    TRD_without_first(T)
+    TWD_without_first(T);
 
 * Zuweisung der Wochentage zu den Tagen im Set T
 TWkdy_J('t924', 'Tue') = yes;
@@ -112,12 +126,61 @@ TWkdy_J('t1103', 'Sun') = yes;
 TWkdy_J('t1104', 'Mon') = yes;
 TWkdy_J('t1105', 'Tue') = yes;
 
-TRD(t) = THD(t) or TWkdy_J(t, 'Sat') or TWkdy_J(t, 'Sun');
-TWD(t) = not TRD(t);
+* Zuweisung der Wochentage zu den Wochen im Set W
+TWeek_W('t924', 'w0') = yes;
+TWeek_W('t925', 'w0') = yes;
+TWeek_W('t926', 'w0') = yes;
+TWeek_W('t927', 'w0') = yes;
+TWeek_W('t928', 'w0') = yes;
+TWeek_W('t929', 'w0') = yes;
 
-Sets
-    W /w0*w6/
-    wFull_w(W) /w1,w2,w3,w4,w5/;
+TWeek_W('t930', 'w1') = yes;
+TWeek_W('t1001', 'w1') = yes;
+TWeek_W('t1002', 'w1') = yes;
+TWeek_W('t1003', 'w1') = yes;
+TWeek_W('t1004', 'w1') = yes;
+TWeek_W('t1005', 'w1') = yes;
+TWeek_W('t1006', 'w1') = yes;
+
+TWeek_W('t1007', 'w2') = yes;
+TWeek_W('t1008', 'w2') = yes;
+TWeek_W('t1009', 'w2') = yes;
+TWeek_W('t1010', 'w2') = yes;
+TWeek_W('t1011', 'w2') = yes;
+TWeek_W('t1012', 'w2') = yes;
+TWeek_W('t1013', 'w2') = yes;
+
+TWeek_W('t1014', 'w3') = yes;
+TWeek_W('t1015', 'w3') = yes;
+TWeek_W('t1016', 'w3') = yes;
+TWeek_W('t1017', 'w3') = yes;
+TWeek_W('t1018', 'w3') = yes;
+TWeek_W('t1019', 'w3') = yes;
+TWeek_W('t1020', 'w3') = yes;
+
+TWeek_W('t1021', 'w4') = yes;
+TWeek_W('t1022', 'w4') = yes;
+TWeek_W('t1023', 'w4') = yes;
+TWeek_W('t1024', 'w4') = yes;
+TWeek_W('t1025', 'w4') = yes;
+TWeek_W('t1026', 'w4') = yes;
+TWeek_W('t1027', 'w4') = yes;
+
+TWeek_W('t1028', 'w5') = yes;
+TWeek_W('t1029', 'w5') = yes;
+TWeek_W('t1030', 'w5') = yes;
+TWeek_W('t1031', 'w5') = yes;
+TWeek_W('t1101', 'w5') = yes;
+TWeek_W('t1102', 'w5') = yes;
+TWeek_W('t1103', 'w5') = yes;
+
+TWeek_W('t1104', 'w6') = yes;
+TWeek_W('t1105', 'w6') = yes;
+
+TRD(T) = THD(t) or TWkdy_J(t, 'Sat') or TWkdy_J(t, 'Sun');
+TWD(T) = not TRD(t);
+TRD_without_first(T) = TRD(t) and not T_first(t);
+TWD_without_first(T) = TWD(t) and not T_first(t);
     
 Sets
     I(p,s,t) //
@@ -139,7 +202,7 @@ Parameters
     delta_5     /1/
     delta_6     /1/
     delta_7     /1/
-    omega_1     /1/
+    omega_1     /100000/
     omega_2     /1/
     contract(P) / p1 45, p2 50, p3 55, p4 60, p5 42, p6 47, p7 48, p8 49, p9 51, p10 52, p11 44, p12 40, p13 46, p14 50, p15 56, p16 38, p17 37, p18 35, p19 29, p20 25 /
     q_ps(p,s)
@@ -150,17 +213,29 @@ Parameters
     r_pst(p,s,t)
     MMax
     nBD(p)
-    BDMaxParam(p);
+    BDMaxParam(p)
+    BDDays
+    AMin_pw(p,w)
+    k0_p(p)
+    lEnd
+    nWE_p(p)
+    KMin;
     
  q_ps(p,s) = 1;
- c_st(s,t) = 3;
- cSP_st(s,t) = 2;
- cCP_st(s,t) = 2;
- FMin = 2;
+ c_st(s,t) = 1;
+ cSP_st(s,t) = 1;
+ cCP_st(s,t) = 1;
+ FMin = 1;
  r_pst(p,s,t) = 0;
  MMax = 6;
  nBD(p) = 1;
  BDMaxParam(p) = 50;
+ BDDays = 1;
+ AMin_pw(p,w) = 0;
+ k0_p(p) = 0;
+ lEnd = 6;
+ nWE_p(p) = 1;
+ KMin = 1;
 
 Variables
     v_st(s,t)
@@ -263,7 +338,22 @@ Equations
     const_a_11
     const_a_12
     const_a_13
-    const_a_14;
+    const_a_14
+    const_a_15
+    const_a_16
+    const_a_17
+    const_a_18
+    const_a_19
+    const_a_20
+    const_a_21
+    const_a_22
+    const_a_23
+    const_a_24
+    const_a_25
+    const_a_26
+    const_a_27
+    const_a_28
+    const_a_29;
     
 *Dok Constraint A.2
 const_a_2(p,t) .. sum(s, x_pst(p,s,t)) =e= 1;
@@ -284,7 +374,8 @@ const_a_6(s,t)$(not TVM(t)) .. sum(p$(PCP(p) or PHP(p)), x_pst(p,s,t)) =g= cCP_s
 const_a_7(t)$(TWD(t) and not TVM(t)) .. sum((p,s)$(S_A73_S1(s) and not PAP(p)), x_pst(p,s,t)) =g= FMin;
 
 *Dok Constraint A.8
-const_a_8(t)$(TRD(t) and not TVM(t)) .. sum((p)$(not PAP(p)),((1/2) * sum((s)$(SRD(s)), x_pst(p,s,t)) + sum((s)$(S_BD1_BD3(s)), x_pst(p,s,t)))) =g= FMin;
+Alias(s, ss);
+const_a_8(t)$(TRD(t) and not TVM(t)) .. sum((p)$(not PAP(p)),((1/2) * sum((s)$(SRD(s)), x_pst(p,s,t)) + sum((ss)$(S_BD1_BD3(ss)), x_pst(p,ss,t)))) =g= FMin;
 
 *Dok Constraint A.9
 const_a_9(p,s,t)$(I(p,s,t)) .. x_pst(p,s,t) =e= 1;
@@ -294,16 +385,16 @@ const_a_10(p,s,t)$(R(p,s,t)) .. x_pst(p,s,t) =e= r_pst(p,s,t) - vreq1_pst(p,s,t)
 
 *Dok Constraint A.11
 Set
-    T_minus_MMax(t,t);
+    T_minus_MMax_to_t(t,t);
     
-Alias(t, tt);
-T_minus_MMax(t,t) = no;
+Alias(t, tMinusMMaxToT);
+T_minus_MMax_to_t(t,t) = no;
 loop(t,
-    loop(tt$(ord(tt) <= ord(t) and ord(tt) > ord(t) - MMax),
-        T_minus_MMax(t,tt) = yes;
+    loop(tMinusMMaxToT$(ord(tMinusMMaxToT) <= ord(t) and ord(tMinusMMaxToT) >= ord(t) - MMax),
+        T_minus_MMax_to_t(t,tMinusMMaxToT) = yes;
     );
 );
-const_a_11(p,t)$(not TVM(t)) .. sum((s,tt)$(T_minus_MMax(t,tt) and S1(s)), x_pst(p,s,tt)) =l= MMax + vStretch_p(p);
+const_a_11(p,t)$(not TVM(t)) .. sum((s,tMinusMMaxToT)$(T_minus_MMax_to_t(t,tMinusMMaxToT) and S1(s)), x_pst(p,s,tMinusMMaxToT)) =l= MMax + vStretch_p(p);
 
 *Dok Constraint A.12
 const_a_12(p) .. sum((s,t)$(SBD(s) and TAM(t)), x_pst(p,s,t)) =g= bdMin * nBD(p);
@@ -314,12 +405,111 @@ const_a_13(p) .. sum((s,t)$(SBD(s) and TAM(t)), x_pst(p,s,t)) =l= bdMax;
 *Dok Constraint A.14
 const_a_14(p) .. sum((s,t)$(SBD(s) and TAM(t)), x_pst(p,s,t)) =l= BDMaxParam(p) * nBD(p) + vBD(p);
 
+*Dok Constraint A.15
+Set
+    T_minus_BDDays_to_minus_one(t,t);
+Alias(t, tMinusTau);
+T_minus_BDDays_to_minus_one(t,t) = no;
+loop(t,
+    loop(tMinusTau$(ord(tMinusTau) < ord(t) and ord(tMinusTau) >= ord(t) - BDDays),
+        T_minus_BDDays_to_minus_one(t,tMinusTau) = yes;
+    );
+);
+const_a_15(p,t,tMinusTau)$(T_minus_BDDays_to_minus_one(t,tMinusTau) and not TVM(t)) .. 1 - sum((s)$(SBD(s)), x_pst(p,s,t)) =g= sum((ss)$(SBD(ss)), x_pst(p,ss,tMinusTau));
 
 
+*Dok Constraint A.16
+const_a_16(p,s,w)$(w_without_w0(w) and S_A(s)) .. sum((t)$(TWD(t) and TWeek_W(t,w)), x_pst(p,s,t)) =g= AMin_pw(p,w) - vAdy_pw(p,w);
 
+*Dok Constraint A.17
+Set
+    intersection_TWD_TAM(T);
+    
+intersection_TWD_TAM(t) = TWD(t) and TAM(t);
 
+const_a_17(p,s)$(S_A(s)) .. sum((t)$(TWD(t) and TAM(t)), x_pst(p,s,t)) =g= abs((1-(contract(p)/40)) * card(intersection_TWD_TAM))
 
+*Dok Constraint A.18
+Set
+    T_minus_One(t,t);
+Alias(t, tMinusOne);
+T_minus_One(t,t) = no;
+loop(t,
+    loop(tMinusOne$(ord(tMinusOne) < ord(t) and ord(tMinusOne) = ord(t) - 1),
+        T_minus_One(t,tMinusOne) = yes;
+    );
+);
+const_a_18(p,ss,t,tMinusOne)$(S0(ss) and TRD_without_first(t) and T_minus_One(t,tMinusOne)) .. sum((s)$(SFZA(s)), x_pst(p,s,tMinusOne)) =l= x_pst(p,ss,t);
 
+*Dok Constraint A.19
+const_a_19(p,ss,t,tMinusOne)$(S_XBD(ss) and TWD_without_first(t) and T_minus_One(t,tMinusOne)) .. sum((s)$(SFZA(s)), x_pst(p,s,tMinusOne)) =e= x_pst(p,ss,t);
+
+*Dok Constraint A.20
+const_a_20(p,s,t)$(S_XBD(s) and TRD(t)) .. x_pst(p,s,t) =e= 0;
+
+*Dok Constraint A.21
+Set
+    T_minus_Five_and_Six(t,t);
+Alias(t, tMinusFiveAndSix);
+T_minus_Five_and_Six(t,t) = no;
+loop(t,
+    loop(tMinusFiveAndSix$(ord(tMinusFiveAndSix) < ord(t) and (ord(tMinusFiveAndSix) = ord(t) - 5 or ord(tMinusFiveAndSix) = ord(t) - 6)),
+        T_minus_Five_and_Six(t,tMinusFiveAndSix) = yes;
+    );
+);
+const_a_21(p,s,ss,t,tMinusFiveAndSix)$(S0(s) and S_IOP(ss) and TWkdy_J(t, 'Fri') and not TVM(t) and T_minus_Five_and_Six(t,tMinusFiveAndSix)) .. x_pst(p,s,t) =g= x_pst(p,ss,tMinusFiveAndSix) - vOff_pt(p,t);
+
+*Dok Constraint A.22
+Set
+    T_minus_Five(t,t);
+Alias(t, tMinusFive);
+T_minus_Five(t,t) = no;
+loop(t,
+    loop(tMinusFive$(ord(tMinusFive) < ord(t) and ord(tMinusFive) = ord(t) - 5),
+        T_minus_Five(t,tMinusFive) = yes;
+    );
+);
+
+Set
+    T_minus_Four(t,t);
+Alias(t, tMinusFour);
+T_minus_Four(t,t) = no;
+loop(t,
+    loop(tMinusFour$(ord(tMinusFour) < ord(t) and ord(tMinusFour) = ord(t) - 4),
+        T_minus_Four(t,tMinusFour) = yes;
+    );
+);
+const_a_22(p,s,ss,t,tMinusFive, tMinusFour)$(S0(s) and S_IOP(ss) and TWkdy_J(t, 'Thu') and not TVM(t) and T_minus_Five(t, tMinusFive) and T_minus_Four(t,tMinusFour)) .. x_pst(p,s,t) =g= x_pst(p,ss,tMinusFive) + x_pst(p,ss,tMinusFour) - 1 - vOff_pt(p,t);
+
+*Dok Constraint A.23
+Set
+    T_minus_Two(t,t);
+Alias(t, tMinusTwo);
+T_minus_Two(t,t) = no;
+loop(t,
+    loop(tMinusTwo$(ord(tMinusTwo) < ord(t) and ord(tMinusTwo) = ord(t) - 2),
+        T_minus_Two(t,tMinusTwo) = yes;
+    );
+);
+const_a_23(p,s,ss,t,tMinusTwo)$(S0(s) and S_A73(ss) and (TWkdy_J(t, 'Mon') or TWkdy_J(t, 'Tue')) and not (TVM(t)) and T_minus_Two(t,tMinusTwo)) .. x_pst(p,s,t) =g= x_pst(p,ss,tMinusTwo) - vOff_pt(p,t);
+
+*Dok Constraint A.24
+const_a_24(p,w,t)$(w_without_w0(w) and (TWeek_W(t,w) and (TWkdy_J(t, 'Sat') or TWkdy_J(t, 'Sun')))) .. z_pw(p,w) =g= sum((s)$(S1(s)), x_pst(p,s,t));
+
+*Dok Constraint A.25
+const_a_25(p,w,t)$(w_without_w0(w) and (TWeek_W(t,w) and TWkdy_J(t, 'Fri'))) .. z_pw(p,w) =g= sum((s)$(SFRWE(s)), x_pst(p,s,t));
+
+*Dok Constraint A.26
+const_a_26(p,w)$(w_without_w0(w)) .. z_pw(p,w) =l= sum((s,t)$(S1(s) and (TWeek_W(t,w) and (TWkdy_J(t, 'Sat') or TWkdy_J(t, 'Sun')))), x_pst(p,s,t)) + sum((ss,t)$(SFRWE(ss) and (TWeek_W(t,w) and TWkdy_J(t, 'Fri'))), x_pst(p,ss,t));
+
+*Dok Constraint A.27
+const_a_27(p,w)$(w_w0(w)) .. z_pw(p,w) =e= k0_p(p);
+
+*Dok Constraint A.28
+const_a_28(p) .. sum((w)$(w_without_w0(w)), z_pw(p,w)) =l= lEnd * nWE_p(p) + vWEyn_p(p);
+
+*Dok Constraint A.29
+const_a_29(p) .. sum((w)$(wFull(w)), z_pw(p,w)) =l= card(wFull) - KMin + vWEmin_p(p);
 
 
 
@@ -335,14 +525,6 @@ const_a_14(p) .. sum((s,t)$(SBD(s) and TAM(t)), x_pst(p,s,t)) =l= BDMaxParam(p) 
 *Solve
 Model optModel /all/;
 Solve optModel using mip minimizing obj;
-
-
-
-
-
-
-
-
 
 
 
