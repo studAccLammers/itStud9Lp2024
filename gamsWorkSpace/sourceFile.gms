@@ -207,7 +207,7 @@ Parameters
     delta_5     /1/
     delta_6     /1/
     delta_7     /1/
-    omega_1     /100000/
+    omega_1     /1/
     omega_2     /1/
     contract(P) / p1 45, p2 50, p3 55, p4 60, p5 42, p6 47, p7 48, p8 49, p9 51, p10 52, p11 44, p12 40, p13 46, p14 50, p15 56, p16 38, p17 37, p18 35, p19 29, p20 25 /
     q_ps(p,s)
@@ -729,7 +729,7 @@ Solve optModel using mip minimizing obj;
 
 
 
-
+display x_pst.l;
 
 
 *Output in File
