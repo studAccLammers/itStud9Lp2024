@@ -1,5 +1,5 @@
 
---- Job sourceFile.gms Start 08/11/24 18:27:09 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
+--- Job sourceFile.gms Start 08/11/24 20:47:10 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
 --- Applying:
     C:\Program Files (x86)\GAMS\47\gmsprmNT.txt
 --- GAMS Parameters defined
@@ -21,19 +21,56 @@ Licensee: Course License                                 S240418|0002AO-GEN
 Processor information: 1 socket(s), 6 core(s), and 12 thread(s) available
 GAMS 47.4.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
 --- Starting compilation
---- sourceFile.gms(510) 3 Mb 1 Error
-*** Error 140 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
-    Unknown symbol
---- sourceFile.gms(525) 3 Mb 2 Errors
-*** Error 257 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
-    Solve statement not checked because of previous errors
---- sourceFile.gms(547) 3 Mb 3 Errors
-*** Error 141 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
-    Symbol declared but no values have been assigned. Check for missing
-       data definition, assignment, data loading or implicit assignment
-       via a solve statement. Suppress with $onImplicitAssign.
-       A wild shot: You may have spurious commas in the explanatory
-       text of a declaration. Check symbol reference list.
---- sourceFile.gms(584) 3 Mb 3 Errors
-*** Status: Compilation error(s)
---- Job sourceFile.gms Stop 08/11/24 18:27:09 elapsed 0:00:00.009
+--- sourceFile.gms(631) 3 Mb
+--- Starting execution: elapsed 0:00:00.008
+--- sourceFile.gms(538) 4 Mb
+--- Generating MIP model optModel
+--- sourceFile.gms(572) 126 Mb
+---   124,465 rows  370,886 columns  1,692,394 non-zeroes
+---   370,585 discrete-columns
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 1.000E+00, 1.440E+04] - Zero values observed as well
+--- Bound     [min, max] : [ 1.000E+00, 1.000E+00] - Zero values observed as well
+--- Matrix    [min, max] : [ 5.000E-01, 1.000E+05]
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:03.576
+
+IBM ILOG CPLEX   47.4.0 838fd78c Jul 30, 2024          WEI x86 64bit/MS Window
+
+--- GAMS/CPLEX Link licensed for continuous and discrete problems.
+--- GMO setup time: 0.00s
+--- Space for names approximately 14.72 Mb
+--- Use option 'names no' to turn use of names off
+--- GMO memory 135.13 Mb (peak 137.96 Mb)
+--- Dictionary memory 0.00 Mb
+--- Cplex 22.1.1.0 link memory 8.50 Mb (peak 46.89 Mb)
+--- Starting Cplex
+
+Version identifier: 22.1.1.0 | 2022-11-27 | 9160aff4d
+CPXPARAM_Advance                                 0
+CPXPARAM_MIP_Display                             4
+CPXPARAM_MIP_Pool_Capacity                       0
+CPXPARAM_MIP_Tolerances_AbsMIPGap                0
+Generic callback                                 0x50
+Dual infeasible due to empty column 'vBD_p(p1)'.
+Presolve time = 0.03 sec. (60.55 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.11 sec. (116.19 ticks)
+Parallel b&c, 12 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.11 sec. (116.19 ticks)
+
+--- MIP status (119): integer infeasible or unbounded.
+--- Cplex Time: 0.12sec (det. 117.25 ticks)
+
+CPLEX Error  1217: No solution exists.
+--- Problem is integer infeasible
+--- Reading solution for model optModel
+--- Executing after solve: elapsed 0:00:04.388
+--- sourceFile.gms(631) 127 Mb
+--- Putfile outputFileTable C:\projects\itStud9Lp2024\gamsWorkSpace\output_t.txt
+*** Status: Normal completion
+--- Job sourceFile.gms Stop 08/11/24 20:47:15 elapsed 0:00:04.396

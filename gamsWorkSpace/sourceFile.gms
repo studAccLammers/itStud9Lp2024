@@ -219,7 +219,13 @@ Parameters
     k0_p(p)
     lEnd
     nWE_p(p)
-    KMin;
+    KMin
+    hStdrd_s(s)
+    hTimeAcc_p(p)
+    HTimeAccParam
+    OTMax_p(p)
+    hLegal_s(s)
+    HMax_p(p);
     
  q_ps(p,s) = 1;
  c_st(s,t) = 1;
@@ -236,29 +242,37 @@ Parameters
  lEnd = 6;
  nWE_p(p) = 1;
  KMin = 1;
+ hStdrd_s(s) = 8;
+ hTimeAcc_p(p) = 0;
+ HTimeAccParam = 60 * 4;
+ OTMax_p(p) = 80;
+ hLegal_s(s) = 9;
+ HMax_p(p) = 60;
 
 Variables
-    v_st(s,t)
     vBD_p(p)
     vBD_p(p)
-    vWEyn_p(p)
-    vWEmin_p(p)
     ot_p(p)
-    bdMax
-    bdMin
-    vAdy_pw(p,w)
-    vIOMax_pw(p,w)
     ot_p(p)
     ut_p(p)
-    vBD(p)
     obj;
-    
+
+Integer Variables
+    bdMin
+    bdMax
+    v_st(s,t)
+    vSP_st(s,t)
+    vCP_st(s,t)
+    vBD(p)
+    vAdy_pw(p,w)
+    vWEyn_p(p)
+    vWEmin_p(p)
+    vIOMax_pw(p,w);
+
 Binary Variables
     x_pst(p,s,t)
     z_pw(p,w)
     vQuali_ps(p,s)
-    vSP_st(s,t)
-    vCP_st(s,t)
     vreq1_pst(p,s,t)
     vreq0_pst(p,s,t)
     vStretch_p(p)
@@ -353,7 +367,12 @@ Equations
     const_a_26
     const_a_27
     const_a_28
-    const_a_29;
+    const_a_29
+    const_a_30
+    const_a_31
+    const_a_32
+    const_a_33
+    const_a_34;
     
 *Dok Constraint A.2
 const_a_2(p,t) .. sum(s, x_pst(p,s,t)) =e= 1;
@@ -511,9 +530,33 @@ const_a_28(p) .. sum((w)$(w_without_w0(w)), z_pw(p,w)) =l= lEnd * nWE_p(p) + vWE
 *Dok Constraint A.29
 const_a_29(p) .. sum((w)$(wFull(w)), z_pw(p,w)) =l= card(wFull) - KMin + vWEmin_p(p);
 
+*Dok Constraint A.30
+Set
+    W_minus_One(w,w);
+Alias(w, wMinusOne);
+W_minus_One(w,w) = no;
+loop(w,
+    loop(wMinusOne$(ord(wMinusOne) < ord(w) and ord(wMinusOne) = ord(w) - 1),
+        W_minus_One(w,wMinusOne) = yes;
+    );
+);
+const_a_30(p,w, wMinusOne)$(w_without_w0(w) and W_minus_One(w,wMinusOne)) .. z_pw(p,w) + z_pw(p,wMinusOne) =l= 1 + vWErow_pw(p,w);
+
+*Dok Constraint A.31
+const_a_31(p) .. sum((s,t)$(TAM(t)), hStdrd_s(s) * x_pst(p,s,t)) =e= (contract(p)/5) * card(intersection_TWD_TAM) - ut_p(p) + ot_p(p);
+
+*Dok Constraint A.32
+const_a_32(p) .. hTimeAcc_p(p) - ut_p(p) + ot_p(p) =l= HTimeAccParam * contract(p);
+
+*Dok Constraint A.33
+const_a_33(p) .. ot_p(p) =l= OTMax_p(p);
+
+*Dok Constraint A.34
+const_a_34(p,w)$(w_without_w0(w)) .. sum((s,t)$(TWeek_W(t,w)), hLegal_s(s) * x_pst(p,s,t)) =l= HMax_p(p);
 
 
 
+*Dok Constraint A.43 - integer constraint already defined in variable declaration
 
 
 
