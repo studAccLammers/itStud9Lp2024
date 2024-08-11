@@ -1,5 +1,5 @@
 
---- Job sourceFile.gms Start 08/12/24 00:32:16 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
+--- Job sourceFile.gms Start 08/12/24 00:33:10 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
 --- Applying:
     C:\Program Files (x86)\GAMS\47\gmsprmNT.txt
 --- GAMS Parameters defined
@@ -21,18 +21,18 @@ Licensee: Course License                                 S240418|0002AO-GEN
 Processor information: 1 socket(s), 6 core(s), and 12 thread(s) available
 GAMS 47.4.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
 --- Starting compilation
---- sourceFile.gms(749) 3 Mb
+--- sourceFile.gms(778) 3 Mb
 --- Starting execution: elapsed 0:00:00.009
 --- sourceFile.gms(653) 4 Mb
 --- Generating MIP model optModel
---- sourceFile.gms(690) 137 Mb
+--- sourceFile.gms(707) 137 Mb
 ---   164,450 rows  370,886 columns  1,957,979 non-zeroes
 ---   370,585 discrete-columns
 --- Range statistics (absolute non-zero finite values)
 --- RHS       [min, max] : [ 1.000E+00, 3.296E+04] - Zero values observed as well
 --- Bound     [min, max] : [ 1.000E+00, 1.000E+00] - Zero values observed as well
 --- Matrix    [min, max] : [ 5.000E-01, 1.000E+05]
---- Executing CPLEX (Solvelink=2): elapsed 0:00:03.678
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:03.910
 
 IBM ILOG CPLEX   47.4.0 838fd78c Jul 30, 2024          WEI x86 64bit/MS Window
 
@@ -69,8 +69,8 @@ Total (root+branch&cut) =    0.09 sec. (108.63 ticks)
 CPLEX Error  1217: No solution exists.
 --- Problem is integer infeasible
 --- Reading solution for model optModel
---- Executing after solve: elapsed 0:00:04.556
---- sourceFile.gms(749) 138 Mb
+--- Executing after solve: elapsed 0:00:04.789
+--- sourceFile.gms(778) 138 Mb
 --- Putfile outputFileTable C:\projects\itStud9Lp2024\gamsWorkSpace\output_t.txt
 *** Status: Normal completion
---- Job sourceFile.gms Stop 08/12/24 00:32:21 elapsed 0:00:04.565
+--- Job sourceFile.gms Stop 08/12/24 00:33:15 elapsed 0:00:04.797

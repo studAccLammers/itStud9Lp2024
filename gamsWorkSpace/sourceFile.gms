@@ -1,10 +1,10 @@
 $ontext
 Die nachfolgenden Sets definieren Teilmengen der Gesamtmenge der Ärzte.
-- P:        Gesamte Menge der Ärzte von p1 bis p20.
-- PAP(P):   assistent( p1 bis p5).
-- PSP(P):   senior(p6 bis p10).
-- PCP(P):   chief (p11 bis p15).
-- PHP(P):   head (p16 bis p20).
+- P:        Gesamte Menge der Ärzte von p1 bis p100.
+- PAP(P):   assisten.
+- PSP(P):   senior.
+- PCP(P):   chief.
+- PHP(P):   head.
 $offtext
 Sets
     P             /p1*p100/

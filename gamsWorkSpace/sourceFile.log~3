@@ -1,5 +1,5 @@
 
---- Job sourceFile.gms Start 08/12/24 00:28:16 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
+--- Job sourceFile.gms Start 08/12/24 00:30:59 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
 --- Applying:
     C:\Program Files (x86)\GAMS\47\gmsprmNT.txt
 --- GAMS Parameters defined
@@ -24,16 +24,22 @@ GAMS 47.4.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
 --- sourceFile.gms(678) 3 Mb 1 Error
 *** Error 140 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
     Unknown symbol
---- sourceFile.gms(689) 3 Mb 2 Errors
+--- sourceFile.gms(681) 3 Mb 3 Errors
+*** Error  37 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
+    '=l=' or '=e=' or '=g=' operator expected
+*** Error 409 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- sourceFile.gms(689) 3 Mb 4 Errors
 *** Error 257 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
     Solve statement not checked because of previous errors
---- sourceFile.gms(711) 3 Mb 3 Errors
+--- sourceFile.gms(711) 3 Mb 5 Errors
 *** Error 141 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
     Symbol declared but no values have been assigned. Check for missing
        data definition, assignment, data loading or implicit assignment
        via a solve statement. Suppress with $onImplicitAssign.
        A wild shot: You may have spurious commas in the explanatory
        text of a declaration. Check symbol reference list.
---- sourceFile.gms(748) 3 Mb 3 Errors
+--- sourceFile.gms(748) 3 Mb 5 Errors
 *** Status: Compilation error(s)
---- Job sourceFile.gms Stop 08/12/24 00:28:16 elapsed 0:00:00.010
+--- Job sourceFile.gms Stop 08/12/24 00:30:59 elapsed 0:00:00.010
