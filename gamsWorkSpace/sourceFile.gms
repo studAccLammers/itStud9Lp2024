@@ -1,17 +1,17 @@
 $ontext
 Die nachfolgenden Sets definieren Teilmengen der Gesamtmenge der Ärzte.
-- P:        Gesamte Menge der Ärzte von p1 bis p100.
+- P:        Gesamte Menge der Ärzte von p1 bis p20.
 - PAP(P):   assisten.
 - PSP(P):   senior.
 - PCP(P):   chief.
 - PHP(P):   head.
 $offtext
 Sets
-    P             /p1*p100/
-    PAP(P)        /p1*p25/
-    PSP(P)        /p6*p50/
-    PCP(P)        /p11*p75/
-    PHP(P)        /p16*p100/;
+    P             /p1*p20/
+    PAP(P)        /p1*p5/
+    PSP(P)        /p6*p10/
+    PCP(P)        /p11*p15/
+    PHP(P)        /p16*p20/;
     
 
 $ontext
@@ -209,7 +209,7 @@ Parameters
     delta_7     /1/
     omega_1     /1/
     omega_2     /1/
-    contract(P) / p1 45, p2 50, p3 55, p4 60, p5 42, p6 47, p7 48, p8 49, p9 51, p10 52, p11 44, p12 40, p13 46, p14 50, p15 56, p16 38, p17 37, p18 35, p19 29, p20 25 /
+    contract(P) / p1 45, p2 50, p3 55, p4 60, p5 42, p6 47, p7 48, p8 49, p9 51, p10 52, p11 44, p12 40, p13 46, p14 50, p15 56, p16 38, p17 37, p18 35, p19 29, p20 28 /
     q_ps(p,s)
     c_st(s,t)
     cSP_st(s,t)
@@ -250,7 +250,7 @@ Parameters
  lEnd = 6;
  nWE_p(p) = 1;
  KMin = 1;
- hStdrd_s(s) = 8;
+ hStdrd_s(s) = 6;
  hTimeAcc_p(p) = 0;
  HTimeAccParam = 60 * 4;
  OTMax_p(p) = 80;
@@ -264,8 +264,6 @@ Parameters
 
 
 Variables
-    vBD_p(p)
-    vBD_p(p)
     ot_p(p)
     ot_p(p)
     ut_p(p)
@@ -319,7 +317,7 @@ mip .. obj =e=    alpha_1 * sum((p, s), vQuali_ps(p, s))
                 + beta_1 *  sum((s, t)$(S_AO_TBA(s)), v_st(s, t))
                 + beta_2 *  sum((p, s, t), (vreq1_pst(p, s, t) + vreq0_pst(p, s, t)))
                 + beta_3 *  sum((p, t), vOff_pt(p, t))
-                + beta_4 *  sum(p, vBD_p(p))
+                + beta_4 *  sum(p, vBD(p))
                 + gamma_1 * sum(p, (vWEyn_p(p) + vWEmin_p(p)))
                 + gamma_2 * sum((s, t), (vSP_st(s, t) + vCP_st(s, t)))
                 + delta_1 * sum((p, w), vWErow_pw(p, w))
@@ -386,7 +384,7 @@ Equations
     const_a_31
     const_a_32
     const_a_33
-    const_a_34
+    
     const_a_35
     const_a_36
     const_a_37
@@ -591,7 +589,7 @@ const_a_32(p) .. hTimeAcc_p(p) - ut_p(p) + ot_p(p) =l= HTimeAccParam * contract(
 const_a_33(p) .. ot_p(p) =l= OTMax_p(p);
 
 *Dok Constraint A.34
-const_a_34(p,w)$(w_without_w0(w)) .. sum((s,t)$(TWeek_W(t,w)), hLegal_s(s) * x_pst(p,s,t)) =l= HMax_p(p);
+*const_a_34(p,w)$(w_without_w0(w)) .. sum((s,t)$(TWeek_W(t,w)), hLegal_s(s) * x_pst(p,s,t)) =l= HMax_p(p);
 
 *Dok Constraint A.35
 const_a_35(p) .. (1/L26W_p(p)) * (h26Wacc_p(p) + sum((w,s,t)$(WFull(w) and TWeek_W(t,w)), hLegal_s(s) * x_pst(p,s,t))) =l= h26Wacc_p(p) * contract(p);
