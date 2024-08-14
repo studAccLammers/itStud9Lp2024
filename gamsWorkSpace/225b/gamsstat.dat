@@ -1,0 +1,99 @@
+=1
+=2
+=0IBM ILOG CPLEX   47.4.0 838fd78c Jul 30, 2024          WEI x86 64bit/MS Window
+=1
+--- GAMS/CPLEX Link licensed for continuous and discrete problems.
+=2
+=1
+--- GMO setup time: 0.00s
+=2
+=1
+--- Space for names approximately 3.42 Mb
+=2
+=1
+--- Use option 'names no' to turn use of names off
+=2
+=1
+--- GMO memory 31.28 Mb (peak 31.87 Mb)
+=2
+=1
+--- Dictionary memory 0.00 Mb
+=2
+=1
+--- Cplex 22.1.1.0 link memory 1.90 Mb (peak 10.69 Mb)
+=2
+=1
+--- Starting Cplex
+=2
+=C
+Version identifier: 22.1.1.0 | 2022-11-27 | 9160aff4d
+CPXPARAM_Advance                                 0
+CPXPARAM_MIP_Display                             4
+CPXPARAM_MIP_Pool_Capacity                       0
+CPXPARAM_MIP_Tolerances_AbsMIPGap                0
+CPXPARAM_MIP_Tolerances_MIPGap                   0.01
+Generic callback                                 0x50
+Tried aggregator 2 times.
+MIP Presolve eliminated 26949 rows and 53812 columns.
+MIP Presolve modified 34976 coefficients.
+Aggregator did 414 substitutions.
+Reduced MIP has 10326 rows, 22712 columns, and 198641 nonzeros.
+Reduced MIP has 22590 binaries, 122 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.30 sec. (332.19 ticks)
+Found incumbent of value 7069.660000 after 0.61 sec. (650.44 ticks)
+Probing fixed 533 vars, tightened 0 bounds.
+Probing time = 0.09 sec. (31.35 ticks)
+Tried aggregator 2 times.
+Detecting symmetries...
+MIP Presolve eliminated 2993 rows and 1142 columns.
+Aggregator did 5 substitutions.
+Reduced MIP has 7328 rows, 21565 columns, and 179015 nonzeros.
+Reduced MIP has 21443 binaries, 122 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.25 sec. (270.61 ticks)
+Probing time = 0.08 sec. (21.19 ticks)
+Clique table members: 105295.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 12 threads.
+Parallel mode: deterministic, using up to 2 threads for parallel tasks at root LP.
+Parallel mode: deterministic, using up to 10 threads for concurrent optimization:
+ * Starting dual Simplex on 1 thread...
+ * Starting Barrier on 8 threads...
+ * Starting primal Simplex on 1 thread...
+Tried aggregator 1 time.
+LP Presolve eliminated 15 rows and 30 columns.
+Aggregator did 5 substitutions.
+Reduced LP has 7308 rows, 21530 columns, and 178960 nonzeros.
+Presolve time = 0.02 sec. (22.31 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =           229.610000
+Iteration:   374   Dual objective     =           271.210000
+Perturbation started.
+Iteration:   404   Dual objective     =           271.210000
+Iteration:   737   Dual objective     =           319.464639
+Iteration:  1118   Dual objective     =           328.082882
+Iteration:  1483   Dual objective     =           328.643527
+Iteration:  1855   Dual objective     =           369.843555
+Iteration:  2244   Dual objective     =           391.976928
+Iteration:  2574   Dual objective     =           406.293620
+Iteration:  2919   Dual objective     =           419.926994
+Iteration:  3224   Dual objective     =           431.493692
+Iteration:  3401   Dual objective     =           434.293860
+Iteration:  3563   Dual objective     =           434.294166
+Iteration:  3739   Dual objective     =           443.144432
+Iteration:  3888   Dual objective     =           515.669402
+Iteration:  4096   Dual objective     =           539.610290
+Iteration:  4277   Dual objective     =           544.200402
+Iteration:  4480   Dual objective     =           561.770345
+Iteration:  4648   Dual objective     =           575.450439
+Iteration:  4841   Dual objective     =           608.990485
+Iteration:  5076   Dual objective     =           643.990545
+Iteration:  5330   Dual objective     =           710.750648
+Iteration:  5593   Dual objective     =           750.090684
+Iteration:  5779   Dual objective     =           761.141132
+Iteration:  6014   Dual objective     =           800.935462
+Iteration:  6244   Dual objective     =           823.397980
+Iteration:  6465   Dual objective     =           844.290511
+Iteration:  6762   Dual objective     =      

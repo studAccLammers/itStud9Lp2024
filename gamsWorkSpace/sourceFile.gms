@@ -192,23 +192,23 @@ Sets
     R(p,s,t) //;
 
 Parameters
-    alpha_1     /1/
-    alpha_2     /1/
-    beta_1      /1/
-    beta_2      /1/
-    beta_3      /1/
-    beta_4      /1/
-    gamma_1     /1/
-    gamma_2     /1/
-    delta_1     /1/
-    delta_2     /1/
-    delta_3     /1/
-    delta_4     /1/
-    delta_5     /1/
-    delta_6     /1/
-    delta_7     /1/
-    omega_1     /1/
-    omega_2     /1/
+    alpha_1     /0.75/
+    alpha_2     /0.85/
+    beta_1      /0.7/
+    beta_2      /0.6/
+    beta_3      /0.6/
+    beta_4      /0.7/
+    gamma_1     /0.7/
+    gamma_2     /0.85/
+    delta_1     /0.7/
+    delta_2     /0.6/
+    delta_3     /0.7/
+    delta_4     /0.8/
+    delta_5     /0.5/
+    delta_6     /0.85/
+    delta_7     /0.7/
+    omega_1     /0.4/
+    omega_2     /0.5/
     contract(P) / p1 45, p2 50, p3 55, p4 60, p5 42, p6 47, p7 48, p8 49, p9 51, p10 52, p11 44, p12 40, p13 46, p14 50, p15 56, p16 38, p17 37, p18 35, p19 29, p20 28 /
     q_ps(p,s)
     c_st(s,t)
@@ -264,7 +264,6 @@ Parameters
 
 
 Variables
-    ot_p(p)
     ot_p(p)
     ut_p(p)
     obj;
@@ -703,7 +702,7 @@ const_a_45(p,s,w)$(S_HO(s) and w_w1(w)) .. f0_p(p) =l= sum((t)$(TWeek_W(t,w) and
 
 *Solve
 option mip = CPLEX;
-option optcr = 0.08; 
+option optcr = 0.01; 
 Model optModel /all/;
 Solve optModel using mip minimizing obj;
 

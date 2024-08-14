@@ -1,5 +1,5 @@
 
---- Job sourceFile.gms Start 08/14/24 17:40:27 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
+--- Job sourceFile.gms Start 08/14/24 17:43:26 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
 --- Applying:
     C:\Program Files (x86)\GAMS\47\gmsprmNT.txt
 --- GAMS Parameters defined
@@ -21,18 +21,18 @@ Licensee: Course License                                 S240418|0002AO-GEN
 Processor information: 1 socket(s), 6 core(s), and 12 thread(s) available
 GAMS 47.4.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
 --- Starting compilation
---- sourceFile.gms(779) 3 Mb
+--- sourceFile.gms(778) 3 Mb
 --- Starting execution: elapsed 0:00:00.009
---- sourceFile.gms(706) 4 Mb
+--- sourceFile.gms(705) 4 Mb
 --- Generating MIP model optModel
---- sourceFile.gms(708) 31 Mb
+--- sourceFile.gms(707) 31 Mb
 ---   37,810 rows  76,946 columns  391,499 non-zeroes
 ---   76,905 discrete-columns
 --- Range statistics (absolute non-zero finite values)
 --- RHS       [min, max] : [ 1.000E+00, 3.296E+04] - Zero values observed as well
 --- Bound     [min, max] : [ 1.000E+00, 1.000E+00] - Zero values observed as well
 --- Matrix    [min, max] : [ 4.000E-01, 8.000E+00]
---- Executing CPLEX (Solvelink=2): elapsed 0:00:00.791
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.840
 
 IBM ILOG CPLEX   47.4.0 838fd78c Jul 30, 2024          WEI x86 64bit/MS Window
 
@@ -58,8 +58,8 @@ MIP Presolve modified 34976 coefficients.
 Aggregator did 414 substitutions.
 Reduced MIP has 10326 rows, 22712 columns, and 198641 nonzeros.
 Reduced MIP has 22590 binaries, 122 generals, 0 SOSs, and 0 indicators.
-Presolve time = 0.27 sec. (332.19 ticks)
-Found incumbent of value 7069.660000 after 0.58 sec. (650.44 ticks)
+Presolve time = 0.30 sec. (332.19 ticks)
+Found incumbent of value 7069.660000 after 0.61 sec. (650.44 ticks)
 Probing fixed 533 vars, tightened 0 bounds.
 Probing time = 0.09 sec. (31.35 ticks)
 Tried aggregator 2 times.
@@ -68,8 +68,8 @@ MIP Presolve eliminated 2993 rows and 1142 columns.
 Aggregator did 5 substitutions.
 Reduced MIP has 7328 rows, 21565 columns, and 179015 nonzeros.
 Reduced MIP has 21443 binaries, 122 generals, 0 SOSs, and 0 indicators.
-Presolve time = 0.22 sec. (270.61 ticks)
-Probing time = 0.06 sec. (21.19 ticks)
+Presolve time = 0.25 sec. (270.61 ticks)
+Probing time = 0.08 sec. (21.19 ticks)
 Clique table members: 105295.
 MIP emphasis: balance optimality and feasibility.
 MIP search method: dynamic search.
@@ -83,7 +83,7 @@ Tried aggregator 1 time.
 LP Presolve eliminated 15 rows and 30 columns.
 Aggregator did 5 substitutions.
 Reduced LP has 7308 rows, 21530 columns, and 178960 nonzeros.
-Presolve time = 0.01 sec. (22.31 ticks)
+Presolve time = 0.02 sec. (22.31 ticks)
 Initializing dual steep norms . . .
 
 Iteration log . . .
@@ -155,106 +155,6 @@ Iteration: 13345   Dual objective     =          1294.498415
 Iteration: 13503   Dual objective     =          1297.998411
 Iteration: 13673   Dual objective     =          1300.810921
 Iteration: 13822   Dual objective     =          1301.298435
+Iteration: 13963   Dual objective     =          1314.273365
+Iteration: 14128   Dual objective     =          1319.935876
 Removing perturbation.
-
-Barrier solved model.
-
-Root relaxation solution time = 2.91 sec. (2252.88 ticks)
-
-        Nodes                                         Cuts/
-   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
-
-*     0+    0                         7069.6600      229.6100            96.75%
-Found incumbent of value 7069.660000 after 3.95 sec. (3289.17 ticks)
-      0     0     1350.1700  2686     7069.6600     1350.1700       20   80.90%
-*     0+    0                         1438.4100     1350.1700             6.13%
-Found incumbent of value 1438.410000 after 10.28 sec. (11104.56 ticks)
-      0     0     1351.1608  1574     1438.4100      Cuts: 64     5623    6.07%
-      0     0     1351.8285  1803     1438.4100     Cuts: 111    15414    6.02%
-      0     0     1351.8933  1843     1438.4100     Cuts: 116    21890    6.01%
-*     0+    0                         1385.7100     1351.8933             2.44%
-Found incumbent of value 1385.710000 after 20.09 sec. (23268.75 ticks)
-      0     0  -1.00000e+75     0     1385.7100     1351.8933    21890    2.44%
-      0     0     1353.0142  1811     1385.7100     Cuts: 105    27516    2.36%
-      0     0     1354.2933  1724     1385.7100     Cuts: 102    33816    2.27%
-      0     0     1354.7550  1979     1385.7100      Cuts: 94    40264    2.23%
-      0     0     1355.9983  2153     1385.7100     Cuts: 136    47645    2.14%
-      0     0     1358.0250  1796     1385.7100     Cuts: 108    54983    2.00%
-      0     0     1359.2037  2002     1385.7100      Cuts: 75    60741    1.91%
-      0     0     1359.7542  1956     1385.7100      Cuts: 88    66175    1.87%
-      0     0     1359.9867  1908     1385.7100      Cuts: 59    71818    1.86%
-      0     0     1360.2317  1896     1385.7100      Cuts: 57    77967    1.84%
-      0     0     1360.3767  1766     1385.7100  ZeroHalf: 56    83478    1.83%
-      0     0     1360.3767  1483     1385.7100      Cuts: 67    87420    1.83%
-      0     0     1360.3767  1497     1385.7100      Cuts: 30    93392    1.83%
-      0     0     1360.3767  1639     1385.7100  ZeroHalf: 24    97368    1.83%
-Heuristic still looking.
-*     0+    0                         1385.0100     1360.3767             1.78%
-Found incumbent of value 1385.010000 after 76.72 sec. (92059.59 ticks)
-*     0+    0                         1378.8600     1360.3767             1.34%
-Found incumbent of value 1378.860000 after 78.91 sec. (93174.38 ticks)
-*     0+    0                         1377.1600     1360.3767             1.22%
-Found incumbent of value 1377.160000 after 81.97 sec. (94905.80 ticks)
-      0     0  -1.00000e+75     0     1377.1600     1360.3767    97368    1.22%
-      0     2     1360.3767  1639     1377.1600     1360.3767    97368    1.22%
-Elapsed time = 82.38 sec. (95096.97 ticks, tree = 0.02 MB)
-
-GUB cover cuts applied:  12
-Clique cuts applied:  69
-Implied bound cuts applied:  2
-Zero-half cuts applied:  295
-Gomory fractional cuts applied:  13
-
-Root node processing (before b&c):
-  Real time             =   82.09 sec. (94951.75 ticks)
-Parallel b&c, 12 threads:
-  Real time             =    1.89 sec. (2056.88 ticks)
-  Sync time (average)   =    1.44 sec.
-  Wait time (average)   =    0.00 sec.
-                          ------------
-Total (root+branch&cut) =   83.98 sec. (97008.63 ticks)
-
---- MIP status (113): aborted.
---- Cplex Time: 83.98sec (det. 97008.85 ticks)
-
---- Returning a primal only solution to GAMS (marginals all set to NA).
---- Fixing integer variables and solving final LP...
-
-Version identifier: 22.1.1.0 | 2022-11-27 | 9160aff4d
-CPXPARAM_Advance                                 2
-CPXPARAM_MIP_Display                             4
-CPXPARAM_MIP_Pool_Capacity                       0
-CPXPARAM_MIP_Tolerances_AbsMIPGap                0
-CPXPARAM_MIP_Tolerances_MIPGap                   0.01
-Parallel mode: deterministic, using up to 12 threads for concurrent optimization:
- * Starting dual Simplex on 1 thread...
- * Starting Barrier on 10 threads...
- * Starting primal Simplex on 1 thread...
-Tried aggregator 1 time.
-LP Presolve eliminated 37809 rows and 76946 columns.
-All rows and columns eliminated.
-Presolve time = 0.03 sec. (35.87 ticks)
-
-Dual simplex solved model.
-
-
---- Fixed MIP status (1): optimal.
---- Cplex Time: 0.09sec (det. 65.27 ticks)
-
-
-Problem aborted
-MIP Solution:         1377.160000    (103934 iterations, 1 nodes)
-Final Solve:          1377.160000    (0 iterations)
-
-Best possible:        1360.376667
-Absolute gap:           16.783333
-Relative gap:            0.012187
-
---- Reading solution for model optModel
---- sourceFile.gms(708) 31 Mb  84 secs
---- Executing after solve: elapsed 0:01:25.452
---- sourceFile.gms(779) 33 Mb
---- Putfile outputFileSimple C:\projects\itStud9Lp2024\gamsWorkSpace\output_s.txt
---- Putfile outputFileTable C:\projects\itStud9Lp2024\gamsWorkSpace\output_t.txt
-*** Status: Normal completion
---- Job sourceFile.gms Stop 08/14/24 17:41:53 elapsed 0:01:25.474
