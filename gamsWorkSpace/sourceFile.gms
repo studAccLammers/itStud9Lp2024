@@ -777,30 +777,3 @@ loop(p,
 );
 
 putclose outputFileTable;
-
-file outputFileCsv / 'output_t.csv' /;
-
-put outputFileCsv;
-
-put 'p' @10;
-loop(t, 
-    put t.tl:10;
-);
-put /;
-
-loop(p, 
-    put p.tl:10;
-    loop(t, 
-        put@10;
-        if(sum(s, x_pst.l(p,s,t)) > 0,
-            loop(s,
-                if(x_pst.l(p,s,t) = 1,
-                    put s.tl:10;
-                );
-            );
-        );
-    );
-    put /;
-);
-
-putclose outputFileCsv;
