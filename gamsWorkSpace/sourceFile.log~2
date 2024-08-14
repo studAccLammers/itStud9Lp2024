@@ -1,5 +1,5 @@
 
---- Job sourceFile.gms Start 08/14/24 17:42:22 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
+--- Job sourceFile.gms Start 08/14/24 17:42:36 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
 --- Applying:
     C:\Program Files (x86)\GAMS\47\gmsprmNT.txt
 --- GAMS Parameters defined
@@ -22,7 +22,7 @@ Processor information: 1 socket(s), 6 core(s), and 12 thread(s) available
 GAMS 47.4.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
 --- Starting compilation
 --- sourceFile.gms(779) 3 Mb
---- Starting execution: elapsed 0:00:00.009
+--- Starting execution: elapsed 0:00:00.007
 --- sourceFile.gms(706) 4 Mb
 --- Generating MIP model optModel
 --- sourceFile.gms(708) 31 Mb
@@ -32,7 +32,7 @@ GAMS 47.4.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
 --- RHS       [min, max] : [ 1.000E+00, 3.296E+04] - Zero values observed as well
 --- Bound     [min, max] : [ 1.000E+00, 1.000E+00] - Zero values observed as well
 --- Matrix    [min, max] : [ 4.000E-01, 8.000E+00]
---- Executing CPLEX (Solvelink=2): elapsed 0:00:00.796
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.772
 
 IBM ILOG CPLEX   47.4.0 838fd78c Jul 30, 2024          WEI x86 64bit/MS Window
 
@@ -52,8 +52,8 @@ CPXPARAM_MIP_Pool_Capacity                       0
 CPXPARAM_MIP_Tolerances_AbsMIPGap                0
 CPXPARAM_MIP_Tolerances_MIPGap                   0.01
 Generic callback                                 0x50
-Row 'const_a_31(p16)' infeasible, all entries at implied bounds.
-Presolve time = 0.09 sec. (108.61 ticks)
+Row 'const_a_31(p19)' infeasible, all entries at implied bounds.
+Presolve time = 0.11 sec. (108.61 ticks)
 
 Root node processing (before b&c):
   Real time             =    0.11 sec. (116.92 ticks)
@@ -65,13 +65,13 @@ Parallel b&c, 12 threads:
 Total (root+branch&cut) =    0.11 sec. (116.92 ticks)
 
 --- MIP status (103): integer infeasible.
---- Cplex Time: 0.11sec (det. 117.14 ticks)
+--- Cplex Time: 0.12sec (det. 117.14 ticks)
 
 CPLEX Error  1217: No solution exists.
 --- Problem is integer infeasible
 --- Reading solution for model optModel
---- Executing after solve: elapsed 0:00:01.077
+--- Executing after solve: elapsed 0:00:01.052
 --- sourceFile.gms(779) 31 Mb
 --- Putfile outputFileTable C:\projects\itStud9Lp2024\gamsWorkSpace\output_t.txt
 *** Status: Normal completion
---- Job sourceFile.gms Stop 08/14/24 17:42:23 elapsed 0:00:01.079
+--- Job sourceFile.gms Stop 08/14/24 17:42:37 elapsed 0:00:01.054
