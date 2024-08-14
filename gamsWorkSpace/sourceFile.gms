@@ -254,7 +254,7 @@ Parameters
  hTimeAcc_p(p) = 0;
  HTimeAccParam = 60 * 4;
  OTMax_p(p) = 80;
- hLegal_s(s) = 9;
+ hLegal_s(s) = 8;
  HMax_p(p) = 60;
  f0_p(p) = 0;
  
@@ -384,6 +384,7 @@ Equations
     const_a_31
     const_a_32
     const_a_33
+    const_a_34
     
     const_a_35
     const_a_36
@@ -589,7 +590,7 @@ const_a_32(p) .. hTimeAcc_p(p) - ut_p(p) + ot_p(p) =l= HTimeAccParam * contract(
 const_a_33(p) .. ot_p(p) =l= OTMax_p(p);
 
 *Dok Constraint A.34
-*const_a_34(p,w)$(w_without_w0(w)) .. sum((s,t)$(TWeek_W(t,w)), hLegal_s(s) * x_pst(p,s,t)) =l= HMax_p(p);
+const_a_34(p,w)$(w_without_w0(w)) .. sum((s,t)$(TWeek_W(t,w)), hLegal_s(s) * x_pst(p,s,t)) =l= HMax_p(p);
 
 *Dok Constraint A.35
 const_a_35(p) .. (1/L26W_p(p)) * (h26Wacc_p(p) + sum((w,s,t)$(WFull(w) and TWeek_W(t,w)), hLegal_s(s) * x_pst(p,s,t))) =l= h26Wacc_p(p) * contract(p);
@@ -701,6 +702,8 @@ const_a_45(p,s,w)$(S_HO(s) and w_w1(w)) .. f0_p(p) =l= sum((t)$(TWeek_W(t,w) and
 
 
 *Solve
+option mip = CPLEX;
+option optcr = 0.08; 
 Model optModel /all/;
 Solve optModel using mip minimizing obj;
 
@@ -774,3 +777,30 @@ loop(p,
 );
 
 putclose outputFileTable;
+
+file outputFileCsv / 'output_t.csv' /;
+
+put outputFileCsv;
+
+put 'p' @10;
+loop(t, 
+    put t.tl:10;
+);
+put /;
+
+loop(p, 
+    put p.tl:10;
+    loop(t, 
+        put@10;
+        if(sum(s, x_pst.l(p,s,t)) > 0,
+            loop(s,
+                if(x_pst.l(p,s,t) = 1,
+                    put s.tl:10;
+                );
+            );
+        );
+    );
+    put /;
+);
+
+putclose outputFileCsv;

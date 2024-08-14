@@ -1,11 +1,11 @@
 
---- Job sourceFile.gms Start 08/13/24 15:45:48 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
+--- Job sourceFile.gms Start 08/14/24 13:25:46 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
 --- Applying:
     C:\Program Files (x86)\GAMS\47\gmsprmNT.txt
 --- GAMS Parameters defined
     Input C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
     PageSize 0
-    ScrDir C:\projects\itStud9Lp2024\gamsWorkSpace\225a\
+    ScrDir C:\projects\itStud9Lp2024\gamsWorkSpace\225b\
     SysDir "C:\Program Files (x86)\GAMS\47\"
     LogOption 3
     ErrMsg 1
@@ -21,56 +21,33 @@ Licensee: Course License                                 S240418|0002AO-GEN
 Processor information: 1 socket(s), 6 core(s), and 12 thread(s) available
 GAMS 47.4.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
 --- Starting compilation
---- sourceFile.gms(776) 3 Mb
---- Starting execution: elapsed 0:00:00.009
---- sourceFile.gms(651) 4 Mb
---- Generating MIP model optModel
---- sourceFile.gms(705) 31 Mb
----   37,810 rows  76,946 columns  391,499 non-zeroes
----   76,905 discrete-columns
---- Range statistics (absolute non-zero finite values)
---- RHS       [min, max] : [ 1.000E+00, 3.296E+04] - Zero values observed as well
---- Bound     [min, max] : [ 1.000E+00, 1.000E+00] - Zero values observed as well
---- Matrix    [min, max] : [ 5.000E-01, 9.000E+00]
---- Executing CPLEX (Solvelink=2): elapsed 0:00:00.798
-
-IBM ILOG CPLEX   47.4.0 838fd78c Jul 30, 2024          WEI x86 64bit/MS Window
-
---- GAMS/CPLEX Link licensed for continuous and discrete problems.
---- GMO setup time: 0.00s
---- Space for names approximately 3.42 Mb
---- Use option 'names no' to turn use of names off
---- GMO memory 31.28 Mb (peak 31.87 Mb)
---- Dictionary memory 0.00 Mb
---- Cplex 22.1.1.0 link memory 1.90 Mb (peak 10.69 Mb)
---- Starting Cplex
-
-Version identifier: 22.1.1.0 | 2022-11-27 | 9160aff4d
-CPXPARAM_Advance                                 0
-CPXPARAM_MIP_Display                             4
-CPXPARAM_MIP_Pool_Capacity                       0
-CPXPARAM_MIP_Tolerances_AbsMIPGap                0
-Generic callback                                 0x50
-Infeasibility row 'const_a_34(p1,w1)':  0 <= -1.
-Presolve time = 0.09 sec. (108.66 ticks)
-
-Root node processing (before b&c):
-  Real time             =    0.11 sec. (116.90 ticks)
-Parallel b&c, 12 threads:
-  Real time             =    0.00 sec. (0.00 ticks)
-  Sync time (average)   =    0.00 sec.
-  Wait time (average)   =    0.00 sec.
-                          ------------
-Total (root+branch&cut) =    0.11 sec. (116.90 ticks)
-
---- MIP status (103): integer infeasible.
---- Cplex Time: 0.11sec (det. 117.12 ticks)
-
-CPLEX Error  1217: No solution exists.
---- Problem is integer infeasible
---- Reading solution for model optModel
---- Executing after solve: elapsed 0:00:01.074
---- sourceFile.gms(776) 31 Mb
---- Putfile outputFileTable C:\projects\itStud9Lp2024\gamsWorkSpace\output_t.txt
-*** Status: Normal completion
---- Job sourceFile.gms Stop 08/13/24 15:45:49 elapsed 0:00:01.076
+--- sourceFile.gms(794) 3 Mb 1 Error
+*** Error 349 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
+    Declaration not allowed inside a LOOP or IF statement
+--- sourceFile.gms(795) 3 Mb 2 Errors
+*** Error 119 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
+    Number (primary) expected
+--- sourceFile.gms(798) 3 Mb 7 Errors
+*** Error 142 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
+    No suffix allowed here - suffix ignored
+*** Error 148 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
+    Dimension different - The symbol is referenced with more/less
+       indices as declared
+*** Error   8 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
+    ')' expected
+*** Error 767 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
+    Unexpected symbol will terminate the loop - symbol replaced by )
+*** Error 767 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
+    Unexpected symbol will terminate the loop - symbol replaced by )
+--- sourceFile.gms(800) 3 Mb 8 Errors
+*** Error 408 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
+    Too many ),] or }
+--- sourceFile.gms(802) 3 Mb 9 Errors
+*** Error 408 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
+    Too many ),] or }
+--- sourceFile.gms(804) 3 Mb 10 Errors
+*** Error 408 in C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
+    Too many ),] or }
+--- sourceFile.gms(806) 3 Mb 10 Errors
+*** Status: Compilation error(s)
+--- Job sourceFile.gms Stop 08/14/24 13:25:46 elapsed 0:00:00.013
