@@ -29,3 +29,6 @@ with pd.ExcelWriter(output_file, engine='openpyxl') as writer:
     dataP[['Ärzte','Contract']].to_excel(writer, index=False, sheet_name='Sheet2')
     dataT[['t','Mon','Tue','Wed','Thu','Fri','Sat','Sun']].to_excel(writer, index=False, sheet_name='Sheet3')
     dataT[['t'] + w_columns].to_excel(writer, index=False, sheet_name='Sheet4')
+    dataT[['t', 'TVM', 'TAM', 'TFM']].to_excel(writer, index=False, sheet_name='Sheet5')
+    dataT[['t', 'first']].to_excel(writer, index=False, sheet_name='Sheet6')
+    dataT[['t', 'THD']].to_excel(writer, index=False, sheet_name='Sheet7')

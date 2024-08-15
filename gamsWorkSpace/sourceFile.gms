@@ -61,14 +61,6 @@ Sets
     S_IO(S)             / IO /
     S_HO(S)             / HO /;
 
-Sets
-    W /w0*w6/
-    w_without_w0(W) /w1*w6/
-    w_w0(W) /w0/
-    w_w1(W) /w1/
-    w_w2_to_end_minus_one(W) /w2*w5/
-    wFull(W) /w1*w5/;
-
 $ontext
 Die nachfolgenden Sets definieren die Tage für den Deinstplan in diesem Fall Oktober 2024.
 - T        Gesamte Menge der Tage.
@@ -81,130 +73,107 @@ Die nachfolgenden Sets definieren die Tage für den Deinstplan in diesem Fall Ok
 - TWD:     Enthält alle Tage, die nicht in T_RD sind
 - TRD:     Tage, die entweder gesetzliche Feiertage oder Wochenenden sind
 $offtext
+
+$call gdxxrw inputData.xlsx output=monthCategory.gdx par=tData rng=Sheet3!A1
+
+Parameter
+    tData(*, *)
+
+$gdxin days.gdx
+$load tData
+$gdxin
+
+$call gdxxrw inputData.xlsx output=monthCategory.gdx par=tMonthCatData rng=Sheet5!A1
+
+Parameter
+    tMonthCatData(*, *)
+
+$gdxin monthCategory.gdx
+$load tMonthCatData
+$gdxin
+
+$call gdxxrw inputData.xlsx output=firstT.gdx par=firstTData rng=Sheet6!A1
+
+Parameter
+    firstTData(*, *)
+
+$gdxin firstT.gdx
+$load firstTData
+$gdxin
+
+$call gdxxrw inputData.xlsx output=holidayT.gdx par=holidayTData rng=Sheet7!A1
+
+Parameter
+    holidayTData(*, *)
+
+$gdxin holidayT.gdx
+$load holidayTData
+$gdxin
+
+$offOrder
+
 Sets
-    T               /t924*t930, t1001*t1031, t1101*t1105/ 
-    TVM(T)          /t924*t930/
-    TAM(T)          /t1001*t1031/
-    TFM(T)          /t1101*t1105/
-    J               /Mon, Tue, Wed, Thu, Fri, Sat, Sun/    
-    THD(T)          /t1003, t1031/
+    T               /t0101*t0131, t0201*t0229, t0301*t0331, t0401*t0430, t0501*t0531, t0601*t0630, t0701*t0731, t0801*t0831, t0901*t0930, t1001*t1031, t1101*t1130, t1201*t1231/
+    actualT(T)
+    TVM(T)         
+    TAM(T)          
+    TFM(T)         
+    J               /Mon, Tue, Wed, Thu, Fri, Sat, Sun/
+    tMonthCat       /TVM, TAM, TFM/
+    THD(T)
     T_first(T)   
     TWkdy_J(T, J)
     TRD(T)
     TWD(T)
-    TWeek_W(T, W)
     TRD_without_first(T)
     TWD_without_first(T);
 
+actualT(T) =  yes$(sum(j,tData(T,J)) > 0);
+TVM(T) =  yes$(sum(tMonthCat,tMonthCatData(T,'TVM')) > 0);
+TAM(T) =  yes$(sum(tMonthCat,tMonthCatData(T,'TAM')) > 0);
+TFM(T) =  yes$(sum(tMonthCat,tMonthCatData(T,'TFM')) > 0);
+
 * Zuweisung der Wochentage zu den Tagen im Set T
-TWkdy_J('t924', 'Tue') = yes;
-TWkdy_J('t925', 'Wed') = yes;
-TWkdy_J('t926', 'Thu') = yes;
-TWkdy_J('t927', 'Fri') = yes;
-TWkdy_J('t928', 'Sat') = yes;
-TWkdy_J('t929', 'Sun') = yes;
+TWkdy_J(T, J) = tData(T,J);
 
-TWkdy_J('t930', 'Mon') = yes;
-TWkdy_J('t1001', 'Tue') = yes;
-TWkdy_J('t1002', 'Wed') = yes;
-TWkdy_J('t1003', 'Thu') = yes;
-TWkdy_J('t1004', 'Fri') = yes;
-TWkdy_J('t1005', 'Sat') = yes;
-TWkdy_J('t1006', 'Sun') = yes;
-
-TWkdy_J('t1007', 'Mon') = yes;
-TWkdy_J('t1008', 'Tue') = yes;
-TWkdy_J('t1009', 'Wed') = yes;
-TWkdy_J('t1010', 'Thu') = yes;
-TWkdy_J('t1011', 'Fri') = yes;
-TWkdy_J('t1012', 'Sat') = yes;
-TWkdy_J('t1013', 'Sun') = yes;
-
-TWkdy_J('t1014', 'Mon') = yes;
-TWkdy_J('t1015', 'Tue') = yes;
-TWkdy_J('t1016', 'Wed') = yes;
-TWkdy_J('t1017', 'Thu') = yes;
-TWkdy_J('t1018', 'Fri') = yes;
-TWkdy_J('t1019', 'Sat') = yes;
-TWkdy_J('t1020', 'Sun') = yes;
-
-TWkdy_J('t1021', 'Mon') = yes;
-TWkdy_J('t1022', 'Tue') = yes;
-TWkdy_J('t1023', 'Wed') = yes;
-TWkdy_J('t1024', 'Thu') = yes;
-TWkdy_J('t1025', 'Fri') = yes;
-TWkdy_J('t1026', 'Sat') = yes;
-TWkdy_J('t1027', 'Sun') = yes;
-
-TWkdy_J('t1028', 'Mon') = yes;
-TWkdy_J('t1029', 'Tue') = yes;
-TWkdy_J('t1030', 'Wed') = yes;
-TWkdy_J('t1031', 'Thu') = yes;
-TWkdy_J('t1101', 'Fri') = yes;
-TWkdy_J('t1102', 'Sat') = yes;
-TWkdy_J('t1103', 'Sun') = yes;
-
-TWkdy_J('t1104', 'Mon') = yes;
-TWkdy_J('t1105', 'Tue') = yes;
-
-* Zuweisung der Wochentage zu den Wochen im Set W
-TWeek_W('t924', 'w0') = yes;
-TWeek_W('t925', 'w0') = yes;
-TWeek_W('t926', 'w0') = yes;
-TWeek_W('t927', 'w0') = yes;
-TWeek_W('t928', 'w0') = yes;
-TWeek_W('t929', 'w0') = yes;
-
-TWeek_W('t930', 'w1') = yes;
-TWeek_W('t1001', 'w1') = yes;
-TWeek_W('t1002', 'w1') = yes;
-TWeek_W('t1003', 'w1') = yes;
-TWeek_W('t1004', 'w1') = yes;
-TWeek_W('t1005', 'w1') = yes;
-TWeek_W('t1006', 'w1') = yes;
-
-TWeek_W('t1007', 'w2') = yes;
-TWeek_W('t1008', 'w2') = yes;
-TWeek_W('t1009', 'w2') = yes;
-TWeek_W('t1010', 'w2') = yes;
-TWeek_W('t1011', 'w2') = yes;
-TWeek_W('t1012', 'w2') = yes;
-TWeek_W('t1013', 'w2') = yes;
-
-TWeek_W('t1014', 'w3') = yes;
-TWeek_W('t1015', 'w3') = yes;
-TWeek_W('t1016', 'w3') = yes;
-TWeek_W('t1017', 'w3') = yes;
-TWeek_W('t1018', 'w3') = yes;
-TWeek_W('t1019', 'w3') = yes;
-TWeek_W('t1020', 'w3') = yes;
-
-TWeek_W('t1021', 'w4') = yes;
-TWeek_W('t1022', 'w4') = yes;
-TWeek_W('t1023', 'w4') = yes;
-TWeek_W('t1024', 'w4') = yes;
-TWeek_W('t1025', 'w4') = yes;
-TWeek_W('t1026', 'w4') = yes;
-TWeek_W('t1027', 'w4') = yes;
-
-TWeek_W('t1028', 'w5') = yes;
-TWeek_W('t1029', 'w5') = yes;
-TWeek_W('t1030', 'w5') = yes;
-TWeek_W('t1031', 'w5') = yes;
-TWeek_W('t1101', 'w5') = yes;
-TWeek_W('t1102', 'w5') = yes;
-TWeek_W('t1103', 'w5') = yes;
-
-TWeek_W('t1104', 'w6') = yes;
-TWeek_W('t1105', 'w6') = yes;
-
-T_first(T) = yes$(ord(T) = 1);
+* Setzen Sie T_first mit dem ersten tatsächlichen Element
+T_first(T) = yes$(firstTData(T,'first') > 0);
+THD(T) = yes$(holidayTData(T,'THD') > 0);
 TRD(T) = THD(t) or TWkdy_J(t, 'Sat') or TWkdy_J(t, 'Sun');
-TWD(T) = not TRD(t);
+TWD(T) = actualT(T) and  not TRD(t);
 TRD_without_first(T) = TRD(t) and not T_first(t);
 TWD_without_first(T) = TWD(t) and not T_first(t);
+
+$call gdxxrw inputData.xlsx output=weeks.gdx par=wData rng=Sheet4!A1
+
+Parameter
+    wData(*, *)
+
+$gdxin weeks.gdx
+$load wData
+$gdxin
+
+Sets
+    W /w0*w10/
+    actualW(W)
+    w_without_w0(W)
+    w_w0(W)
+    w_w1(W)
+    w_w2_to_end_minus_one(W)
+    wFull(W)
+    TWeek_W(T, W);
     
-display T_first;
+actualW(W) =  yes$(sum(t,wData(T,W)) > 0);
+
+w_w0(W) = yes$(actualW(W) and ord(W) = 1);    
+w_w1(W) = yes$(actualW(W) and ord(W) = 2);
+w_w2_to_end_minus_one(W) = yes$(actualW(W) and ord(W) >= 3 and ord(W) <= card(actualW) - 1);
+wFull(W) = yes$(actualW(W) and ord(W) > 1 and ord(W) < card(actualW));
+w_without_w0(W) = actualW(W) and not w_w0(W);
+
+
+*Zuweisung der Wochentage zu den Wochen im Set W
+TWeek_W(T,W) = wData(T,W);
 
 Sets
     I(p,s,t) //

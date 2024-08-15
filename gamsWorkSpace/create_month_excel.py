@@ -34,31 +34,40 @@ def get_days_for_excel(month, year):
 
     return coded_days, days_info
 
-def create_excel(month, year):
+def create_excel(month, year, thd_list):
     coded_days, days_info = get_days_for_excel(month, year)
     rows = []
 
-    # Startdatum wird auf den Montag der ersten Woche gesetzt
     start_week_date = days_info[0][0] - timedelta(days=days_info[0][0].weekday())
     current_week = 0
 
     for i, (date, weekday) in enumerate(days_info):
-        # Bestimmen der Wochennummer
         if date >= start_week_date + timedelta(weeks=current_week + 1):
             current_week += 1
         
         row = [coded_days[i]]
+        
+        tvm = 1 if date.month == (month - 1 or (month == 1 and 12)) else None
+        tam = 1 if date.month == month else None
+        tfm = 1 if date.month == (month + 1 or (month == 12 and 1)) else None
+        
+        row.extend([tvm, tam, tfm])
+        
         for day in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']:
             row.append(1 if weekday == day else None)
         
-        # Fügen Sie die Wochennummer hinzu
-        for week in range(current_week + 1):
-            row.append(1 if week == current_week else None)
+        for week in range(8):
+            row.append(1 if week == current_week else None if week <= current_week else "")
+        
+        first = 1 if i == 0 else None
+        row.append(first)
+        
+        thd = 1 if coded_days[i] in thd_list else None
+        row.append(thd)
 
         rows.append(row)
     
-    week_columns = [f'w{week}' for week in range(current_week + 1)]
-    columns = ['t', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] + week_columns
+    columns = ['t', 'TVM', 'TAM', 'TFM', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] + [f'w{week}' for week in range(8)] + ['first', 'THD']
     
     df = pd.DataFrame(rows, columns=columns)
     file_name = 'timeRange.xlsx'
@@ -69,4 +78,8 @@ if __name__ == "__main__":
     month = int(input("Bitte geben Sie den Monat (1-12) ein: "))
     year = int(input("Bitte geben Sie das Jahr ein: "))
     
-    create_excel(month, year)
+    thd_input = input("Bitte geben Sie die THD-Werte ein (Komma getrennt): ")
+    thd_list = thd_input.split(',')
+    thd_list = [value.strip() for value in thd_list]
+
+    create_excel(month, year, thd_list)
