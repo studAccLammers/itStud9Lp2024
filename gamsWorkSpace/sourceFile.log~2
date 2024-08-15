@@ -1,0 +1,185 @@
+
+--- Job sourceFile.gms Start 08/15/24 21:37:08 47.4.0 838fd78c WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\Program Files (x86)\GAMS\47\gmsprmNT.txt
+--- GAMS Parameters defined
+    Input C:\projects\itStud9Lp2024\gamsWorkSpace\sourceFile.gms
+    PageSize 0
+    ScrDir C:\projects\itStud9Lp2024\gamsWorkSpace\225a\
+    SysDir "C:\Program Files (x86)\GAMS\47\"
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+Licensee: Course License                                 S240418|0002AO-GEN
+          Stiftung Universitaet Hildesheim                          DCE3433
+          C:\Program Files (x86)\GAMS\47\gamslice.txt
+          License Admin: Julia Rieck, rieck@bwl.uni-hildesheim.de          
+          Course license for use within the course and related course work
+          The evaluation period of the license will expire on Oct 15, 2024
+Processor information: 1 socket(s), 6 core(s), and 12 thread(s) available
+GAMS 47.4.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
+--- Starting compilation
+--- sourceFile.gms(9) 2 Mb
+--- call gdxxrw inputData.xlsx output=qualification.gdx par=pData rng=Sheet1!A1
+
+GDXXRW           47.4.0 838fd78c Jul 30, 2024          WEI x86 64bit/MS Window
+Input file : C:\projects\itStud9Lp2024\gamsWorkSpace\inputData.xlsx
+Output file: C:\projects\itStud9Lp2024\gamsWorkSpace\qualification.gdx
+Total time = 735 Ms
+--- sourceFile.gms(14) 2 Mb
+--- GDXin=C:\projects\itStud9Lp2024\gamsWorkSpace\qualification.gdx
+--- GDX File ($gdxIn) C:\projects\itStud9Lp2024\gamsWorkSpace\qualification.gdx
+--- sourceFile.gms(256) 3 Mb
+--- call gdxxrw inputData.xlsx output=contract.gdx par=contractInputData rng=Sheet2!A1
+
+GDXXRW           47.4.0 838fd78c Jul 30, 2024          WEI x86 64bit/MS Window
+Input file : C:\projects\itStud9Lp2024\gamsWorkSpace\inputData.xlsx
+Output file: C:\projects\itStud9Lp2024\gamsWorkSpace\contract.gdx
+Total time = 735 Ms
+--- sourceFile.gms(258) 3 Mb
+--- GDXin=C:\projects\itStud9Lp2024\gamsWorkSpace\contract.gdx
+--- GDX File ($gdxIn) C:\projects\itStud9Lp2024\gamsWorkSpace\contract.gdx
+--- sourceFile.gms(804) 3 Mb
+--- Starting execution: elapsed 0:00:01.597
+--- sourceFile.gms(731) 5 Mb
+--- Generating MIP model optModel
+--- sourceFile.gms(733) 32 Mb
+---   37,810 rows  83,806 columns  398,359 non-zeroes
+---   83,765 discrete-columns
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 1.000E+00, 3.296E+04] - Zero values observed as well
+--- Bound     [min, max] : [ 1.000E+00, 1.000E+00] - Zero values observed as well
+--- Matrix    [min, max] : [ 4.000E-01, 8.000E+00]
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:02.449
+
+IBM ILOG CPLEX   47.4.0 838fd78c Jul 30, 2024          WEI x86 64bit/MS Window
+
+--- GAMS/CPLEX Link licensed for continuous and discrete problems.
+--- GMO setup time: 0.00s
+--- Space for names approximately 3.59 Mb
+--- Use option 'names no' to turn use of names off
+--- GMO memory 32.59 Mb (peak 33.23 Mb)
+--- Dictionary memory 0.00 Mb
+--- Cplex 22.1.1.0 link memory 2.03 Mb (peak 11.14 Mb)
+--- Starting Cplex
+
+Version identifier: 22.1.1.0 | 2022-11-27 | 9160aff4d
+CPXPARAM_Advance                                 0
+CPXPARAM_MIP_Display                             4
+CPXPARAM_MIP_Pool_Capacity                       0
+CPXPARAM_MIP_Tolerances_AbsMIPGap                0
+CPXPARAM_MIP_Tolerances_MIPGap                   0.01
+Generic callback                                 0x50
+Tried aggregator 2 times.
+MIP Presolve eliminated 26949 rows and 60672 columns.
+MIP Presolve modified 34976 coefficients.
+Aggregator did 414 substitutions.
+Reduced MIP has 10326 rows, 22712 columns, and 198641 nonzeros.
+Reduced MIP has 22590 binaries, 122 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.28 sec. (335.75 ticks)
+Found incumbent of value 7069.660000 after 0.62 sec. (654.19 ticks)
+Probing fixed 533 vars, tightened 0 bounds.
+Probing time = 0.14 sec. (31.35 ticks)
+Tried aggregator 2 times.
+Detecting symmetries...
+MIP Presolve eliminated 2993 rows and 1142 columns.
+Aggregator did 5 substitutions.
+Reduced MIP has 7328 rows, 21565 columns, and 179015 nonzeros.
+Reduced MIP has 21443 binaries, 122 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.26 sec. (270.61 ticks)
+Probing time = 0.08 sec. (21.19 ticks)
+Clique table members: 105295.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 12 threads.
+Parallel mode: deterministic, using up to 2 threads for parallel tasks at root LP.
+Parallel mode: deterministic, using up to 10 threads for concurrent optimization:
+ * Starting dual Simplex on 1 thread...
+ * Starting Barrier on 8 threads...
+ * Starting primal Simplex on 1 thread...
+Tried aggregator 1 time.
+LP Presolve eliminated 15 rows and 30 columns.
+Aggregator did 5 substitutions.
+Reduced LP has 7308 rows, 21530 columns, and 178960 nonzeros.
+Presolve time = 0.02 sec. (22.31 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =           229.610000
+Iteration:   374   Dual objective     =           271.210000
+Perturbation started.
+Iteration:   404   Dual objective     =           271.210000
+Iteration:   737   Dual objective     =           319.464639
+Iteration:  1118   Dual objective     =           328.082882
+Iteration:  1483   Dual objective     =           328.643527
+Iteration:  1855   Dual objective     =           369.843555
+Iteration:  2244   Dual objective     =           391.976928
+Iteration:  2574   Dual objective     =           406.293620
+Iteration:  2919   Dual objective     =           419.926994
+Iteration:  3224   Dual objective     =           431.493692
+Iteration:  3401   Dual objective     =           434.293860
+Iteration:  3563   Dual objective     =           434.294166
+Removing perturbation.
+Root relaxation solution time = 0.31 sec. (243.11 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0+    0                         7069.6600      229.6100            96.75%
+Found incumbent of value 7069.660000 after 1.50 sec. (1283.36 ticks)
+      0     0  -1.00000e+37     0     7069.6600      229.6100     3674   96.75%
+
+Root node processing (before b&c):
+  Real time             =    1.52 sec. (1284.04 ticks)
+Parallel b&c, 12 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    1.52 sec. (1284.04 ticks)
+
+--- MIP status (113): aborted.
+--- Cplex Time: 1.52sec (det. 1284.28 ticks)
+
+--- Returning a primal only solution to GAMS (marginals all set to NA).
+--- Fixing integer variables and solving final LP...
+
+Version identifier: 22.1.1.0 | 2022-11-27 | 9160aff4d
+CPXPARAM_Advance                                 2
+CPXPARAM_MIP_Display                             4
+CPXPARAM_MIP_Pool_Capacity                       0
+CPXPARAM_MIP_Tolerances_AbsMIPGap                0
+CPXPARAM_MIP_Tolerances_MIPGap                   0.01
+Parallel mode: deterministic, using up to 12 threads for concurrent optimization:
+ * Starting dual Simplex on 1 thread...
+ * Starting Barrier on 10 threads...
+ * Starting primal Simplex on 1 thread...
+Tried aggregator 1 time.
+LP Presolve eliminated 37809 rows and 83806 columns.
+All rows and columns eliminated.
+Presolve time = 0.03 sec. (37.10 ticks)
+
+Dual simplex solved model.
+
+
+--- Fixed MIP status (1): optimal.
+--- Cplex Time: 0.11sec (det. 67.37 ticks)
+
+
+Problem aborted
+MIP Solution:         7069.660000    (3674 iterations, 0 nodes)
+Final Solve:          7069.660000    (0 iterations)
+
+Best possible:         229.610000
+Absolute gap:         6840.050000
+Relative gap:            0.967522
+
+--- Reading solution for model optModel
+--- Executing after solve: elapsed 0:00:04.711
+--- sourceFile.gms(804) 36 Mb
+--- Putfile outputFileSimple C:\projects\itStud9Lp2024\gamsWorkSpace\output_s.txt
+--- Putfile outputFileTable C:\projects\itStud9Lp2024\gamsWorkSpace\output_t.txt
+*** Status: Normal completion
+--- Job sourceFile.gms Stop 08/15/24 21:37:13 elapsed 0:00:04.796

@@ -82,14 +82,14 @@ Die nachfolgenden Sets definieren die Tage für den Deinstplan in diesem Fall Ok
 - TRD:     Tage, die entweder gesetzliche Feiertage oder Wochenenden sind
 $offtext
 Sets
-    T               /t924*t930, t1001*t1031, t1101*t1105/
-    T_first         /t924/
+    T               /t924*t930, t1001*t1031, t1101*t1105/ 
     TVM(T)          /t924*t930/
     TAM(T)          /t1001*t1031/
     TFM(T)          /t1101*t1105/
     J               /Mon, Tue, Wed, Thu, Fri, Sat, Sun/    
-    TWkdy_J(T, J)
     THD(T)          /t1003, t1031/
+    T_first(T)   
+    TWkdy_J(T, J)
     TRD(T)
     TWD(T)
     TWeek_W(T, W)
@@ -198,11 +198,14 @@ TWeek_W('t1103', 'w5') = yes;
 TWeek_W('t1104', 'w6') = yes;
 TWeek_W('t1105', 'w6') = yes;
 
+T_first(T) = yes$(ord(T) = 1);
 TRD(T) = THD(t) or TWkdy_J(t, 'Sat') or TWkdy_J(t, 'Sun');
 TWD(T) = not TRD(t);
 TRD_without_first(T) = TRD(t) and not T_first(t);
 TWD_without_first(T) = TWD(t) and not T_first(t);
     
+display T_first;
+
 Sets
     I(p,s,t) //
     R(p,s,t) //;
