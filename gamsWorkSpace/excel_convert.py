@@ -23,4 +23,4 @@ if os.path.exists(output_file):
 
 with pd.ExcelWriter(output_file, engine='openpyxl') as writer:
     output_data_sheet1.to_excel(writer, index=False, sheet_name='Sheet1')
-    data[['Ärzte', 'Contract']].to_excel(writer, index=False, sheet_name='Sheet2')
+    data[['Ärzte','Contract']].to_excel(writer, index=False, sheet_name='Sheet2')

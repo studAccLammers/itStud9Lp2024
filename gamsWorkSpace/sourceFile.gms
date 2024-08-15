@@ -6,17 +6,17 @@ Die nachfolgenden Sets definieren Teilmengen der Gesamtmenge der Ärzte. Ausgele
 - PCP(P):   chief.
 - PHP(P):   head.
 $offtext
-$call gdxxrw inputData.xlsx output=inputData.gdx par=pData rng=Sheet1!A1
+$call gdxxrw inputData.xlsx output=qualification.gdx par=pData rng=Sheet1!A1
 
 Parameter
     pData(*, *)
 
-$gdxin inputData.gdx
+$gdxin qualification.gdx
 $load pData
 $gdxin
 
 Sets
-    P       /p1*p50/
+    P       /p1*p1000/
     ActualP(P)
     PAP(P)
     PSP(P)
@@ -225,7 +225,8 @@ Parameters
     delta_7     /0.7/
     omega_1     /0.4/
     omega_2     /0.5/
-    contract(P) / p1 45, p2 50, p3 55, p4 60, p5 42, p6 47, p7 48, p8 49, p9 51, p10 52, p11 44, p12 40, p13 46, p14 50, p15 56, p16 38, p17 37, p18 35, p19 29, p20 28 /
+    contractInputData(*,*)
+    contract(P)
     q_ps(p,s)
     c_st(s,t)
     cSP_st(s,t)
@@ -251,6 +252,14 @@ Parameters
     h26Wacc_p(p)
     f0_p(p);
     
+$call gdxxrw inputData.xlsx output=contract.gdx par=contractInputData rng=Sheet2!A1
+
+$gdxin contract.gdx
+$load contractInputData
+$gdxin
+
+Contract(P) = contractInputData(P, 'Contract');
+
  q_ps(p,s) = 1;
  c_st(s,t) = 1;
  cSP_st(s,t) = 1;
