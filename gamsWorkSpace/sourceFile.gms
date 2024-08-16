@@ -138,11 +138,11 @@ TWkdy_J(T, J) = tData(T,J);
 
 * Setzen Sie T_first mit dem ersten tatsächlichen Element
 T_first(T) = yes$(firstTData(T,'first') > 0);
-THD(T) = yes$(holidayTData(T,'THD') > 0);
-TRD(T) = THD(t) or TWkdy_J(t, 'Sat') or TWkdy_J(t, 'Sun');
-TWD(T) = actualT(T) and  not TRD(t);
-TRD_without_first(T) = TRD(t) and not T_first(t);
-TWD_without_first(T) = TWD(t) and not T_first(t);
+THD(T) = yes$(actualT(t) and holidayTData(T,'THD') > 0);
+TRD(T) = actualT(t) and (THD(t) or TWkdy_J(t, 'Sat') or TWkdy_J(t, 'Sun'));
+TWD(T) = actualT(t) and  not TRD(t);
+TRD_without_first(T) = actualT(t) and TRD(t) and not T_first(t);
+TWD_without_first(T) = actualT(t) and TWD(t) and not T_first(t);
 
 $call gdxxrw inputData.xlsx output=weeks.gdx par=wData rng=Sheet4!A1
 
@@ -165,11 +165,11 @@ Sets
     
 actualW(W) =  yes$(sum(t,wData(T,W)) > 0);
 
-w_w0(W) = yes$(actualW(W) and ord(W) = 1);    
-w_w1(W) = yes$(actualW(W) and ord(W) = 2);
-w_w2_to_end_minus_one(W) = yes$(actualW(W) and ord(W) >= 3 and ord(W) <= card(actualW) - 1);
-wFull(W) = yes$(actualW(W) and ord(W) > 1 and ord(W) < card(actualW));
-w_without_w0(W) = actualW(W) and not w_w0(W);
+w_w0(W) = yes$(actualW(w) and ord(W) = 1);    
+w_w1(W) = yes$(actualW(w) and ord(W) = 2);
+w_w2_to_end_minus_one(W) = yes$(actualW(w) and ord(W) >= 3 and ord(W) <= card(actualW) - 1);
+wFull(W) = yes$(actualW(w) and ord(W) > 1 and ord(W) < card(actualW));
+w_without_w0(W) = actualW(w) and not w_w0(W);
 
 
 *Zuweisung der Wochentage zu den Wochen im Set W
@@ -309,21 +309,21 @@ Equations
     mip;
     
 mip .. obj =e=    alpha_1 * sum((p, s)$(ActualP(p)), vQuali_ps(p, s))
-                + alpha_2 * sum((s, t)$(not S_AO_TBA(s)), v_st(s, t))
-                + beta_1 *  sum((s, t)$(S_AO_TBA(s)), v_st(s, t))
-                + beta_2 *  sum((p, s, t)$(ActualP(p)), (vreq1_pst(p, s, t) + vreq0_pst(p, s, t)))
-                + beta_3 *  sum((p, t)$(ActualP(p)), vOff_pt(p, t))
+                + alpha_2 * sum((s, t)$(actualT(t) and not S_AO_TBA(s)), v_st(s, t))
+                + beta_1 *  sum((s, t)$(actualT(t) and S_AO_TBA(s)), v_st(s, t))
+                + beta_2 *  sum((p, s, t)$(actualT(t) and ActualP(p)), (vreq1_pst(p, s, t) + vreq0_pst(p, s, t)))
+                + beta_3 *  sum((p, t)$(actualT(t) and ActualP(p)), vOff_pt(p, t))
                 + beta_4 *  sum((p)$(ActualP(p)), vBD(p))
                 + gamma_1 * sum((p)$(ActualP(p)), (vWEyn_p(p) + vWEmin_p(p)))
-                + gamma_2 * sum((s, t), (vSP_st(s, t) + vCP_st(s, t)))
-                + delta_1 * sum((p, w)$(ActualP(p)), vWErow_pw(p, w))
+                + gamma_2 * sum((s, t)$(actualT(t)), (vSP_st(s, t) + vCP_st(s, t)))
+                + delta_1 * sum((p, w)$(ActualP(p) and actualW(w)), vWErow_pw(p, w))
                 + delta_2 * sum(p$(ActualP(p) and contract(p) < 40), ot_p(p))
                 + delta_3 * (bdMax - bdMin)
                 + delta_4 * sum(p$(ActualP(p)), vStretch_p(p))
-                + delta_5 * sum((p, w)$(ActualP(p)), vAdy_pw(p, w))
-                + delta_6 * sum((p, t)$(ActualP(p)), vIOPL_pt(p, t))
-                + delta_7 * (sum((p, t)$(ActualP(p)), vIO_pt(p, t)) + sum((p, w), vIOMax_pw(p, w)))
-                + omega_1 * sum((p, s, t)$(ActualP(p) and S2(s)), x_pst(p, s, t))
+                + delta_5 * sum((p, w)$(ActualP(p) and actualW(w)), vAdy_pw(p, w))
+                + delta_6 * sum((p, t)$(actualT(t) and ActualP(p)), vIOPL_pt(p, t))
+                + delta_7 * (sum((p, t)$(actualT(t) and ActualP(p)), vIO_pt(p, t)) + sum((p, w)$(ActualP(p) and actualW(w)), vIOMax_pw(p, w)))
+                + omega_1 * sum((p, s, t)$(actualT(t) and ActualP(p) and S2(s)), x_pst(p, s, t))
                 + omega_2 * sum(p$(ActualP(p) and contract(p) >= 40), ot_p(p));
                 
 
@@ -409,32 +409,32 @@ Equations
 Alias(t, tt);
     
 *Dok Constraint A.2
-const_a_2(p,t)$(ActualP(p)) .. sum(s, x_pst(p,s,t)) =e= 1;
+const_a_2(p,t)$(actualT(t) and ActualP(p)) .. sum(s, x_pst(p,s,t)) =e= 1;
 
 *Dok Constraint A.3
-const_a_3(p,s,t)$(ActualP(p) and not TVM(t)) .. x_pst(p,s,t) =l= (q_ps(p,s) + vQuali_ps(p,s));
+const_a_3(p,s,t)$(actualT(t) and ActualP(p) and not TVM(t)) .. x_pst(p,s,t) =l= (q_ps(p,s) + vQuali_ps(p,s));
 
 *Dok Constraint A.4
-const_a_4(s,t)$(S1(s) and not TVM(t)) .. sum((p)$(ActualP(p)), x_pst(p,s,t)) =e= c_st(s,t) - v_st(s,t);
+const_a_4(s,t)$(actualT(t) and S1(s) and not TVM(t)) .. sum((p)$(ActualP(p)), x_pst(p,s,t)) =e= c_st(s,t) - v_st(s,t);
 
 *Dok Constraint A.5
-const_a_5(s,t)$(not TVM(t)) .. sum(p$(ActualP(p) and not PAP(p)), x_pst(p,s,t)) =g= cSP_st(s,t) - vSP_st(s,t);
+const_a_5(s,t)$(actualT(t) and not TVM(t)) .. sum(p$(ActualP(p) and not PAP(p)), x_pst(p,s,t)) =g= cSP_st(s,t) - vSP_st(s,t);
 
 *Dok Constraint A.6
-const_a_6(s,t)$(not TVM(t)) .. sum(p$(ActualP(p) and PCP(p) or PHP(p)), x_pst(p,s,t)) =g= cCP_st(s,t) - vCP_st(s,t);
+const_a_6(s,t)$(actualT(t) and not TVM(t)) .. sum(p$(ActualP(p) and PCP(p) or PHP(p)), x_pst(p,s,t)) =g= cCP_st(s,t) - vCP_st(s,t);
 
 *Dok Constraint A.7
-const_a_7(t)$(TWD(t) and not TVM(t)) .. sum((p,s)$(ActualP(p) and S_A73_S1(s) and not PAP(p)), x_pst(p,s,t)) =g= FMin;
+const_a_7(t)$(actualT(t) and TWD(t) and not TVM(t)) .. sum((p,s)$(ActualP(p) and S_A73_S1(s) and not PAP(p)), x_pst(p,s,t)) =g= FMin;
 
 *Dok Constraint A.8
 Alias(s, ss);
-const_a_8(t)$(TRD(t) and not TVM(t)) .. sum((p)$(ActualP(p) and not PAP(p)),((1/2) * sum((s)$(SRD(s)), x_pst(p,s,t)) + sum((ss)$(S_BD1_BD3(ss)), x_pst(p,ss,t)))) =g= FMin;
+const_a_8(t)$(actualT(t) and TRD(t) and not TVM(t)) .. sum((p)$(ActualP(p) and not PAP(p)),((1/2) * sum((s)$(SRD(s)), x_pst(p,s,t)) + sum((ss)$(S_BD1_BD3(ss)), x_pst(p,ss,t)))) =g= FMin;
 
 *Dok Constraint A.9
-const_a_9(p,s,t)$(ActualP(p) and I(p,s,t)) .. x_pst(p,s,t) =e= 1;
+const_a_9(p,s,t)$(actualT(t) and ActualP(p) and I(p,s,t)) .. x_pst(p,s,t) =e= 1;
 
 *Dok Constraint A.10
-const_a_10(p,s,t)$(ActualP(p) and R(p,s,t)) .. x_pst(p,s,t) =e= r_pst(p,s,t) - vreq1_pst(p,s,t) + vreq0_pst(p,s,t);
+const_a_10(p,s,t)$(actualT(t) and ActualP(p) and R(p,s,t)) .. x_pst(p,s,t) =e= r_pst(p,s,t) - vreq1_pst(p,s,t) + vreq0_pst(p,s,t);
 
 *Dok Constraint A.11
 Set
@@ -443,20 +443,20 @@ Set
 Alias(t, tMinusMMaxToT);
 T_minus_MMax_to_t(t,t) = no;
 loop(t,
-    loop(tMinusMMaxToT$(ord(tMinusMMaxToT) <= ord(t) and ord(tMinusMMaxToT) >= ord(t) - MMax),
+    loop(tMinusMMaxToT$(ord(tMinusMMaxToT) <= ord(t) and ord(tMinusMMaxToT) >= ord(t) - MMax and actualT(t) and actualT(tMinusMMaxToT)),
         T_minus_MMax_to_t(t,tMinusMMaxToT) = yes;
     );
 );
-const_a_11(p,t)$(ActualP(p) and not TVM(t)) .. sum((s,tMinusMMaxToT)$(T_minus_MMax_to_t(t,tMinusMMaxToT) and S1(s)), x_pst(p,s,tMinusMMaxToT)) =l= MMax + vStretch_p(p);
+const_a_11(p,t)$(actualT(t) and ActualP(p) and not TVM(t)) .. sum((s,tMinusMMaxToT)$(T_minus_MMax_to_t(t,tMinusMMaxToT) and S1(s)), x_pst(p,s,tMinusMMaxToT)) =l= MMax + vStretch_p(p);
 
 *Dok Constraint A.12
-const_a_12(p)$(ActualP(p)) .. sum((s,t)$(SBD(s) and TAM(t)), x_pst(p,s,t)) =g= bdMin * nBD(p);
+const_a_12(p)$(ActualP(p)) .. sum((s,t)$(actualT(t) and SBD(s) and TAM(t)), x_pst(p,s,t)) =g= bdMin * nBD(p);
 
 *Dok Constraint A.13
-const_a_13(p)$(ActualP(p)) .. sum((s,t)$(SBD(s) and TAM(t)), x_pst(p,s,t)) =l= bdMax;
+const_a_13(p)$(ActualP(p)) .. sum((s,t)$(actualT(t) and SBD(s) and TAM(t)), x_pst(p,s,t)) =l= bdMax;
 
 *Dok Constraint A.14
-const_a_14(p)$(ActualP(p)) .. sum((s,t)$(SBD(s) and TAM(t)), x_pst(p,s,t)) =l= BDMaxParam(p) * nBD(p) + vBD(p);
+const_a_14(p)$(ActualP(p)) .. sum((s,t)$(actualT(t) and SBD(s) and TAM(t)), x_pst(p,s,t)) =l= BDMaxParam(p) * nBD(p) + vBD(p);
 
 *Dok Constraint A.15
 Set
@@ -464,23 +464,23 @@ Set
 Alias(t, tMinusBDDaysToMinusOne);
 T_minus_BDDays_to_minus_one(t,t) = no;
 loop(t,
-    loop(tMinusBDDaysToMinusOne$(ord(tMinusBDDaysToMinusOne) < ord(t) and ord(tMinusBDDaysToMinusOne) >= ord(t) - BDDays),
+    loop(tMinusBDDaysToMinusOne$(ord(tMinusBDDaysToMinusOne) < ord(t) and ord(tMinusBDDaysToMinusOne) >= ord(t) - BDDays and actualT(t) and actualT(tMinusBDDaysToMinusOne)),
         T_minus_BDDays_to_minus_one(t,tMinusBDDaysToMinusOne) = yes;
     );
 );
-const_a_15(p,t,tMinusBDDaysToMinusOne)$(ActualP(p) and T_minus_BDDays_to_minus_one(t,tMinusBDDaysToMinusOne) and not TVM(t)) .. 1 - sum((s)$(SBD(s)), x_pst(p,s,t)) =g= sum((ss)$(SBD(ss)), x_pst(p,ss,tMinusBDDaysToMinusOne));
+const_a_15(p,t,tMinusBDDaysToMinusOne)$(actualT(t) and ActualP(p) and T_minus_BDDays_to_minus_one(t,tMinusBDDaysToMinusOne) and not TVM(t)) .. 1 - sum((s)$(SBD(s)), x_pst(p,s,t)) =g= sum((ss)$(SBD(ss)), x_pst(p,ss,tMinusBDDaysToMinusOne));
 
 
 *Dok Constraint A.16
-const_a_16(p,s,w)$(ActualP(p) and w_without_w0(w) and S_A(s)) .. sum((t)$(TWD(t) and TWeek_W(t,w)), x_pst(p,s,t)) =g= AMin_pw(p,w) - vAdy_pw(p,w);
+const_a_16(p,s,w)$(ActualP(p) and w_without_w0(w) and S_A(s) and actualW(w)) .. sum((t)$(actualT(t) and TWD(t) and TWeek_W(t,w)), x_pst(p,s,t)) =g= AMin_pw(p,w) - vAdy_pw(p,w);
 
 *Dok Constraint A.17
 Set
     intersection_TWD_TAM(T);
     
-intersection_TWD_TAM(t) = TWD(t) and TAM(t);
+intersection_TWD_TAM(t) = actualT(t) and  TWD(t) and TAM(t);
 
-const_a_17(p,s)$(ActualP(p) and S_A(s)) .. sum((t)$(TWD(t) and TAM(t)), x_pst(p,s,t)) =g= abs((1-(contract(p)/40)) * card(intersection_TWD_TAM))
+const_a_17(p,s)$(ActualP(p) and S_A(s)) .. sum((t)$(actualT(t) and TWD(t) and TAM(t)), x_pst(p,s,t)) =g= abs((1-(contract(p)/40)) * card(intersection_TWD_TAM))
 
 *Dok Constraint A.18
 Set
@@ -488,17 +488,17 @@ Set
 Alias(t, tMinusOne);
 T_minus_One(t,t) = no;
 loop(t,
-    loop(tMinusOne$(ord(tMinusOne) = ord(t) - 1),
+    loop(tMinusOne$(ord(tMinusOne) = ord(t) - 1 and actualT(t) and actualT(tMinusOne)),
         T_minus_One(t,tMinusOne) = yes;
     );
 );
-const_a_18(p,ss,t,tMinusOne)$(ActualP(p) and S0(ss) and TRD_without_first(t) and T_minus_One(t,tMinusOne)) .. sum((s)$(SFZA(s)), x_pst(p,s,tMinusOne)) =l= x_pst(p,ss,t);
+const_a_18(p,ss,t,tMinusOne)$(actualT(t) and ActualP(p) and S0(ss) and TRD_without_first(t) and T_minus_One(t,tMinusOne)) .. sum((s)$(SFZA(s)), x_pst(p,s,tMinusOne)) =l= x_pst(p,ss,t);
 
 *Dok Constraint A.19
-const_a_19(p,ss,t,tMinusOne)$(ActualP(p) and S_XBD(ss) and TWD_without_first(t) and T_minus_One(t,tMinusOne)) .. sum((s)$(SFZA(s)), x_pst(p,s,tMinusOne)) =e= x_pst(p,ss,t);
+const_a_19(p,ss,t,tMinusOne)$(actualT(t) and ActualP(p) and S_XBD(ss) and TWD_without_first(t) and T_minus_One(t,tMinusOne)) .. sum((s)$(SFZA(s)), x_pst(p,s,tMinusOne)) =e= x_pst(p,ss,t);
 
 *Dok Constraint A.20
-const_a_20(p,s,t)$(ActualP(p) and S_XBD(s) and TRD(t)) .. x_pst(p,s,t) =e= 0;
+const_a_20(p,s,t)$(actualT(t) and ActualP(p) and S_XBD(s) and TRD(t)) .. x_pst(p,s,t) =e= 0;
 
 *Dok Constraint A.21
 Set
@@ -506,11 +506,11 @@ Set
 Alias(t, tMinusFiveAndSix);
 T_minus_Five_and_Six(t,t) = no;
 loop(t,
-    loop(tMinusFiveAndSix$((ord(tMinusFiveAndSix) = ord(t) - 5) or (ord(tMinusFiveAndSix) = ord(t) - 6)),
+    loop(tMinusFiveAndSix$(((ord(tMinusFiveAndSix) = ord(t) - 5) or (ord(tMinusFiveAndSix) = ord(t) - 6)) and actualT(t) and actualT(tMinusFiveAndSix)),
         T_minus_Five_and_Six(t,tMinusFiveAndSix) = yes;
     );
 );
-const_a_21(p,s,ss,t,tMinusFiveAndSix)$(ActualP(p) and S0(s) and S_IOP(ss) and TWkdy_J(t, 'Fri') and not TVM(t) and T_minus_Five_and_Six(t,tMinusFiveAndSix)) .. x_pst(p,s,t) =g= x_pst(p,ss,tMinusFiveAndSix) - vOff_pt(p,t);
+const_a_21(p,s,ss,t,tMinusFiveAndSix)$(actualT(t) and ActualP(p) and S0(s) and S_IOP(ss) and TWkdy_J(t, 'Fri') and not TVM(t) and T_minus_Five_and_Six(t,tMinusFiveAndSix)) .. x_pst(p,s,t) =g= x_pst(p,ss,tMinusFiveAndSix) - vOff_pt(p,t);
 
 *Dok Constraint A.22
 Set
@@ -518,7 +518,7 @@ Set
 Alias(t, tMinusFive);
 T_minus_Five(t,t) = no;
 loop(t,
-    loop(tMinusFive$(ord(tMinusFive) = ord(t) - 5),
+    loop(tMinusFive$(ord(tMinusFive) = ord(t) - 5 and actualT(t) and actualT(tMinusFive)),
         T_minus_Five(t,tMinusFive) = yes;
     );
 );
@@ -528,11 +528,11 @@ Set
 Alias(t, tMinusFour);
 T_minus_Four(t,t) = no;
 loop(t,
-    loop(tMinusFour$(ord(tMinusFour) = ord(t) - 4),
+    loop(tMinusFour$(ord(tMinusFour) = ord(t) - 4 and actualT(t) and actualT(tMinusFour)),
         T_minus_Four(t,tMinusFour) = yes;
     );
 );
-const_a_22(p,s,ss,t,tMinusFive, tMinusFour)$(ActualP(p) and S0(s) and S_IOP(ss) and TWkdy_J(t, 'Thu') and not TVM(t) and T_minus_Five(t, tMinusFive) and T_minus_Four(t,tMinusFour)) .. x_pst(p,s,t) =g= x_pst(p,ss,tMinusFive) + x_pst(p,ss,tMinusFour) - 1 - vOff_pt(p,t);
+const_a_22(p,s,ss,t,tMinusFive, tMinusFour)$(actualT(t) and ActualP(p) and S0(s) and S_IOP(ss) and TWkdy_J(t, 'Thu') and not TVM(t) and T_minus_Five(t, tMinusFive) and T_minus_Four(t,tMinusFour)) .. x_pst(p,s,t) =g= x_pst(p,ss,tMinusFive) + x_pst(p,ss,tMinusFour) - 1 - vOff_pt(p,t);
 
 *Dok Constraint A.23
 Set
@@ -540,29 +540,29 @@ Set
 Alias(t, tMinusTwo);
 T_minus_Two(t,t) = no;
 loop(t,
-    loop(tMinusTwo$(ord(tMinusTwo) = ord(t) - 2),
+    loop(tMinusTwo$(ord(tMinusTwo) = ord(t) - 2 and actualT(t) and actualT(tMinusTwo)),
         T_minus_Two(t,tMinusTwo) = yes;
     );
 );
-const_a_23(p,s,ss,t,tMinusTwo)$(ActualP(p) and S0(s) and S_A73(ss) and (TWkdy_J(t, 'Mon') or TWkdy_J(t, 'Tue')) and not (TVM(t)) and T_minus_Two(t,tMinusTwo)) .. x_pst(p,s,t) =g= x_pst(p,ss,tMinusTwo) - vOff_pt(p,t);
+const_a_23(p,s,ss,t,tMinusTwo)$(actualT(t) and ActualP(p) and S0(s) and S_A73(ss) and (TWkdy_J(t, 'Mon') or TWkdy_J(t, 'Tue')) and not (TVM(t)) and T_minus_Two(t,tMinusTwo)) .. x_pst(p,s,t) =g= x_pst(p,ss,tMinusTwo) - vOff_pt(p,t);
 
 *Dok Constraint A.24
-const_a_24(p,w,t)$(ActualP(p) and w_without_w0(w) and (TWeek_W(t,w) and (TWkdy_J(t, 'Sat') or TWkdy_J(t, 'Sun')))) .. z_pw(p,w) =g= sum((s)$(S1(s)), x_pst(p,s,t));
+const_a_24(p,w,t)$(actualT(t) and ActualP(p) and w_without_w0(w) and TWeek_W(t,w) and (TWkdy_J(t, 'Sat') or TWkdy_J(t, 'Sun')) and actualW(w)) .. z_pw(p,w) =g= sum((s)$(S1(s)), x_pst(p,s,t));
 
 *Dok Constraint A.25
-const_a_25(p,w,t)$(ActualP(p) and w_without_w0(w) and (TWeek_W(t,w) and TWkdy_J(t, 'Fri'))) .. z_pw(p,w) =g= sum((s)$(SFRWE(s)), x_pst(p,s,t));
+const_a_25(p,w,t)$(actualT(t) and ActualP(p) and w_without_w0(w) and TWeek_W(t,w) and TWkdy_J(t, 'Fri') and actualW(w)) .. z_pw(p,w) =g= sum((s)$(SFRWE(s)), x_pst(p,s,t));
 
 *Dok Constraint A.26
-const_a_26(p,w)$(ActualP(p) and w_without_w0(w)) .. z_pw(p,w) =l= sum((s,t)$(S1(s) and (TWeek_W(t,w) and (TWkdy_J(t, 'Sat') or TWkdy_J(t, 'Sun')))), x_pst(p,s,t)) + sum((ss,t)$(SFRWE(ss) and (TWeek_W(t,w) and TWkdy_J(t, 'Fri'))), x_pst(p,ss,t));
+const_a_26(p,w)$(ActualP(p) and w_without_w0(w) and actualW(w)) .. z_pw(p,w) =l= sum((s,t)$(actualT(t) and S1(s) and (TWeek_W(t,w) and (TWkdy_J(t, 'Sat') or TWkdy_J(t, 'Sun')))), x_pst(p,s,t)) + sum((ss,t)$(actualT(t) and SFRWE(ss) and (TWeek_W(t,w) and TWkdy_J(t, 'Fri'))), x_pst(p,ss,t));
 
 *Dok Constraint A.27
-const_a_27(p,w)$(ActualP(p) and w_w0(w)) .. z_pw(p,w) =e= k0_p(p);
+const_a_27(p,w)$(ActualP(p) and w_w0(w) and actualW(w)) .. z_pw(p,w) =e= k0_p(p);
 
 *Dok Constraint A.28
-const_a_28(p)$(ActualP(p)) .. sum((w)$(w_without_w0(w)), z_pw(p,w)) =l= lEnd * nWE_p(p) + vWEyn_p(p);
+const_a_28(p)$(ActualP(p)) .. sum((w)$(w_without_w0(w) and actualW(w)), z_pw(p,w)) =l= lEnd * nWE_p(p) + vWEyn_p(p);
 
 *Dok Constraint A.29
-const_a_29(p)$(ActualP(p)) .. sum((w)$(wFull(w)), z_pw(p,w)) =l= card(wFull) - KMin + vWEmin_p(p);
+const_a_29(p)$(ActualP(p)) .. sum((w)$(wFull(w) and actualW(w)), z_pw(p,w)) =l= card(wFull) - KMin + vWEmin_p(p);
 
 *Dok Constraint A.30
 Set
@@ -570,14 +570,14 @@ Set
 Alias(w, wMinusOne);
 W_minus_One(w,w) = no;
 loop(w,
-    loop(wMinusOne$(ord(wMinusOne) = ord(w) - 1),
+    loop(wMinusOne$(ord(wMinusOne) = ord(w) - 1 and actualW(w) and actualW(wMinusOne)),
         W_minus_One(w,wMinusOne) = yes;
     );
 );
-const_a_30(p,w, wMinusOne)$(ActualP(p) and w_without_w0(w) and W_minus_One(w,wMinusOne)) .. z_pw(p,w) + z_pw(p,wMinusOne) =l= 1 + vWErow_pw(p,w);
+const_a_30(p,w, wMinusOne)$(ActualP(p) and w_without_w0(w) and W_minus_One(w,wMinusOne )and actualW(w)) .. z_pw(p,w) + z_pw(p,wMinusOne) =l= 1 + vWErow_pw(p,w);
 
 *Dok Constraint A.31
-const_a_31(p)$(ActualP(p)) .. sum((s,t)$(TAM(t)), hStdrd_s(s) * x_pst(p,s,t)) =e= (contract(p)/5) * card(intersection_TWD_TAM) - ut_p(p) + ot_p(p);
+const_a_31(p)$(ActualP(p)) .. sum((s,t)$(actualT(t) and TAM(t)), hStdrd_s(s) * x_pst(p,s,t)) =e= (contract(p)/5) * card(intersection_TWD_TAM) - ut_p(p) + ot_p(p);
 
 *Dok Constraint A.32
 const_a_32(p)$(ActualP(p)) .. hTimeAcc_p(p) - ut_p(p) + ot_p(p) =l= HTimeAccParam * contract(p);
@@ -586,10 +586,10 @@ const_a_32(p)$(ActualP(p)) .. hTimeAcc_p(p) - ut_p(p) + ot_p(p) =l= HTimeAccPara
 const_a_33(p)$(ActualP(p)) .. ot_p(p) =l= OTMax_p(p);
 
 *Dok Constraint A.34
-const_a_34(p,w)$(ActualP(p) and w_without_w0(w)) .. sum((s,t)$(TWeek_W(t,w)), hLegal_s(s) * x_pst(p,s,t)) =l= HMax_p(p);
+const_a_34(p,w)$(ActualP(p) and w_without_w0(w) and actualW(w)) .. sum((s,t)$(actualT(t) and TWeek_W(t,w)), hLegal_s(s) * x_pst(p,s,t)) =l= HMax_p(p);
 
 *Dok Constraint A.35
-const_a_35(p)$(ActualP(p)) .. (1/L26W_p(p)) * (h26Wacc_p(p) + sum((w,s,t)$(WFull(w) and TWeek_W(t,w)), hLegal_s(s) * x_pst(p,s,t))) =l= h26Wacc_p(p) * contract(p);
+const_a_35(p)$(ActualP(p)) .. (1/L26W_p(p)) * (h26Wacc_p(p) + sum((w,s,t)$(actualT(t) and WFull(w) and TWeek_W(t,w) and actualW(w)), hLegal_s(s) * x_pst(p,s,t))) =l= h26Wacc_p(p) * contract(p);
 
 *Dok Constraint A.36
 Set
@@ -597,11 +597,11 @@ Set
 Alias(t, tPlusOneToFive);
 T_plus_One_to_Five(t,t) = no;
 loop(t,
-    loop(tPlusOneToFive$(ord(tPlusOneToFive) > ord(t) and ord(tPlusOneToFive) <= ord(t) + 5),
+    loop(tPlusOneToFive$(ord(tPlusOneToFive) > ord(t) and ord(tPlusOneToFive) <= ord(t) + 5 and actualT(t) and actualT(tPlusOneToFive)),
         T_plus_One_to_Five(t,tPlusOneToFive) = yes;
     );
 );
-const_a_36(p,s,ss,t,tPlusOneToFive)$(ActualP(p) and S_IOPL(s) and S_IOP(ss) and T_plus_One_to_Five(t, tPlusOneToFive)) .. x_pst(p,s,t) =l= x_pst(p,ss,tPlusOneToFive);
+const_a_36(p,s,ss,t,tPlusOneToFive)$(actualT(t) and ActualP(p) and S_IOPL(s) and S_IOP(ss) and T_plus_One_to_Five(t, tPlusOneToFive)) .. x_pst(p,s,t) =l= x_pst(p,ss,tPlusOneToFive);
 
 
 *Dok Constraint A.37
@@ -610,11 +610,11 @@ Set
 Alias(t, tPlusSix);
 T_plus_Six(t,t) = no;
 loop(t,
-    loop(tPlusSix$(ord(tPlusSix) = ord(t) + 6),
+    loop(tPlusSix$(ord(tPlusSix) = ord(t) + 6 and actualT(t) and actualT(tPlusSix)),
         T_plus_Six(t,tPlusSix) = yes;
     );
 );
-const_a_37(p,s,ss,t, tPlusSix)$(ActualP(p) and S_IOPL(s) and S_A73(ss) and T_plus_Six(t, tPlusSix)) .. x_pst(p,s,t) =l= x_pst(p,ss,tPlusSix) + vIOPL_pt(p,tPlusSix);
+const_a_37(p,s,ss,t, tPlusSix)$(actualT(t) and ActualP(p) and S_IOPL(s) and S_A73(ss) and T_plus_Six(t, tPlusSix)) .. x_pst(p,s,t) =l= x_pst(p,ss,tPlusSix) + vIOPL_pt(p,tPlusSix);
 
 *Dok Constraint A.38
 Set
@@ -622,11 +622,11 @@ Set
 Alias(t, tPlusOne);
 T_plus_One(t,t) = no;
 loop(t,
-    loop(tPlusOne$(ord(tPlusOne) = ord(t) + 1),
+    loop(tPlusOne$(ord(tPlusOne) = ord(t) + 1 and actualT(t) and actualT(tPlusOne)),
         T_plus_One(t,tPlusOne) = yes;
     );
 );
-const_a_38(p,s,t,tPlusOne)$(ActualP(p) and S_IO(s) and (TWkdy_J(t, 'Mon') or TWkdy_J(t, 'Tue') or TWkdy_J(t, 'Wed') or TWkdy_J(t, 'Thu')) and T_plus_One(t, tPlusOne)) .. x_pst(p,s,t) =l= x_pst(p,s,tPlusOne) + vIO_pt(p,t);
+const_a_38(p,s,t,tPlusOne)$(actualT(t) and ActualP(p) and S_IO(s) and (TWkdy_J(t, 'Mon') or TWkdy_J(t, 'Tue') or TWkdy_J(t, 'Wed') or TWkdy_J(t, 'Thu')) and T_plus_One(t, tPlusOne)) .. x_pst(p,s,t) =l= x_pst(p,s,tPlusOne) + vIO_pt(p,t);
 
 *Dok Constraint A.39
 Set
@@ -634,11 +634,11 @@ Set
 Alias(t, tPlusThree);
 T_plus_Three(t,t) = no;
 loop(t,
-    loop(tPlusThree$(ord(tPlusThree) = ord(t) + 3),
+    loop(tPlusThree$(ord(tPlusThree) = ord(t) + 3 and actualT(t) and actualT(tPlusThree)),
         T_plus_Three(t,tPlusThree) = yes;
     );
 );
-const_a_39(p,s,t,tPlusThree)$(ActualP(p) and S_IO(s) and TWkdy_J(t, 'Fri') and T_plus_Three(t, tPlusThree)) .. x_pst(p,s,t) =l= x_pst(p,s,tPlusThree) + vIO_pt(p,t);
+const_a_39(p,s,t,tPlusThree)$(actualT(t) and ActualP(p) and S_IO(s) and TWkdy_J(t, 'Fri') and T_plus_Three(t, tPlusThree)) .. x_pst(p,s,t) =l= x_pst(p,s,tPlusThree) + vIO_pt(p,t);
 
 *Dok Constraint A.40
 Set
@@ -646,11 +646,11 @@ Set
 Alias(w, tWeekWMinusOneW);
 T_Week_W_Minus_One_W(t, w, w) = no;
 loop((t,w),
-    loop(tWeekWMinusOneW$(ord(tWeekWMinusOneW) = ord(w) - 1),
+    loop(tWeekWMinusOneW$(ord(tWeekWMinusOneW) = ord(w) - 1 and actualT(t) and actualW(w) and actualW(tWeekWMinusOneW)),
         T_Week_W_Minus_One_W(t,w,tWeekWMinusOneW) = yes;
     );
 );
-const_a_40(p,s,w,tWeekWMinusOneW)$(ActualP(p) and S_IO(s)) .. sum((t)$(TWeek_W(t,w)), x_pst(p,s,t)) + sum((tt)$(T_Week_W_Minus_One_W(tt,w,tWeekWMinusOneW)), x_pst(p,s,tt)) =l= 4 + vIOMax_pw(p,w);
+const_a_40(p,s,w,tWeekWMinusOneW)$(ActualP(p) and S_IO(s) and actualW(w)) .. sum((t)$(actualT(t) and TWeek_W(t,w)), x_pst(p,s,t)) + sum((tt)$(actualT(tt) and T_Week_W_Minus_One_W(tt,w,tWeekWMinusOneW)), x_pst(p,s,tt)) =l= 4 + vIOMax_pw(p,w);
 
 *Dok Constraint A.41 constraint already defined in variable declaration
 
@@ -661,20 +661,20 @@ const_a_42b(p)$(ActualP(p)) .. ut_p(p) =g= 0;
 *Dok Constraint A.43 - integer constraint already defined in variable declaration
 const_a_43a .. bdMin =g= 0;
 const_a_43b .. bdMax =g= 0;
-const_a_43c(s,t) .. v_st(s,t) =g= 0;
-const_a_43d(s,t) .. vSP_st(s,t) =g= 0;
-const_a_43e(s,t) .. vCP_st(s,t) =g= 0;
+const_a_43c(s,t)$(actualT(t)) .. v_st(s,t) =g= 0;
+const_a_43d(s,t)$(actualT(t)) .. vSP_st(s,t) =g= 0;
+const_a_43e(s,t)$(actualT(t)) .. vCP_st(s,t) =g= 0;
 const_a_43f(p)$(ActualP(p)) .. vBD(p) =g= 0;
-const_a_43g(p,w)$(ActualP(p)) .. vAdy_pw(p,w) =g= 0;
+const_a_43g(p,w)$(ActualP(p) and actualW(w)) .. vAdy_pw(p,w) =g= 0;
 const_a_43h(p)$(ActualP(p)) .. vWEyn_p(p) =g= 0;
 const_a_43i(p)$(ActualP(p)) .. vWEmin_p(p) =g= 0;
-const_a_43j(p,w)$(ActualP(p)) .. vIOMax_pw(p,w) =g= 0;
+const_a_43j(p,w)$(ActualP(p) and actualW(w)) .. vIOMax_pw(p,w) =g= 0;
 
 *Dok Constraint A.44
-const_a_44(p,s,w, tWeekWMinusOneW)$(ActualP(p) and S_HO(s) and w_w2_to_end_minus_one(w)) .. sum((ss, tt)$(SRD(ss) and (T_Week_W_Minus_One_W(tt,w,tWeekWMinusOneW) and TWD(tt))), x_pst(p,ss,tt)) =l= sum((t)$(TWeek_W(t,w) and TWD(t)), x_pst(p,s,t));
+const_a_44(p,s,w, tWeekWMinusOneW)$(ActualP(p) and S_HO(s) and w_w2_to_end_minus_one(w) and actualW(w)) .. sum((ss, tt)$(actualT(tt) and SRD(ss) and (T_Week_W_Minus_One_W(tt,w,tWeekWMinusOneW) and TWD(tt))), x_pst(p,ss,tt)) =l= sum((t)$(actualT(t) and TWeek_W(t,w) and TWD(t)), x_pst(p,s,t));
 
 *Dok Constraint A.45
-const_a_45(p,s,w)$(ActualP(p) and  S_HO(s) and w_w1(w)) .. f0_p(p) =l= sum((t)$(TWeek_W(t,w) and TWD(t)), x_pst(p,s,t));
+const_a_45(p,s,w)$(ActualP(p) and  S_HO(s) and w_w1(w) and actualW(w)) .. f0_p(p) =l= sum((t)$(actualT(t) and TWeek_W(t,w) and TWD(t)), x_pst(p,s,t));
 
 
 
@@ -734,7 +734,7 @@ file outputFileSimple / 'output_s.txt' /;
 
 put outputFileSimple;
 
-loop((p,s,t),
+loop((p,s,t)$(actualT(t) and ActualP(p)),
     if(x_pst.l(p,s,t) = 1,
         put p.tl:0, ' ', s.tl:0, ' ', t.tl:0 /;
     );
@@ -756,9 +756,9 @@ loop(t,
 put /;
 
 * Generate table rows
-loop(p, 
+loop(p$(ActualP(p)), 
     put p.tl:10 @10;
-    loop(t, 
+    loop(t$(actualT(t)), 
         if(sum(s, x_pst.l(p,s,t)) > 0,
             loop(s,
                 if(x_pst.l(p,s,t) = 1,
