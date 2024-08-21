@@ -178,6 +178,20 @@ TWeek_W(T,W) = wData(T,W);
 Sets
     I(p,s,t) //
     R(p,s,t) //;
+    
+I('p13', 'Off', 't1013') = yes;
+I('p13', 'Off', 't1014') = yes;
+I('p13', 'Off', 't1015') = yes;
+
+I('p10', 'Off', 't1020') = yes;
+I('p10', 'Off', 't1021') = yes;
+I('p10', 'Off', 't1022') = yes;
+
+R('p11', 'Off', 't1020') = yes;
+R('p11', 'Off', 't1021') = yes;
+
+R('p12', 'Off', 't1018') = yes;
+R('p12', 'Off', 't1019') = yes;
 
 Parameters
     alpha_1     /0.75/
@@ -699,7 +713,7 @@ const_a_45(p,s,w)$(ActualP(p) and  S_HO(s) and w_w1(w) and actualW(w)) .. f0_p(p
 
 *Solve
 option mip = CPLEX;
-option optcr = 0.01; 
+option optcr = 0.008; 
 Model optModel /all/;
 Solve optModel using mip minimizing obj;
 
