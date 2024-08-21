@@ -190,6 +190,20 @@ TWD_without_first(T) = TWD(t) and not T_first(t);
 Sets
     I(p,s,t) //
     R(p,s,t) //;
+    
+I('p13', 'Off', 't1013') = yes;
+I('p13', 'Off', 't1014') = yes;
+I('p13', 'Off', 't1015') = yes;
+
+I('p10', 'Off', 't1020') = yes;
+I('p10', 'Off', 't1021') = yes;
+I('p10', 'Off', 't1022') = yes;
+
+R('p11', 'Off', 't1020') = yes;
+R('p11', 'Off', 't1021') = yes;
+
+R('p12', 'Off', 't1018') = yes;
+R('p12', 'Off', 't1019') = yes;
 
 Parameters
     alpha_1     /0.75/
