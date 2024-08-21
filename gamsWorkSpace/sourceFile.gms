@@ -206,23 +206,23 @@ R('p12', 'Off', 't1018') = yes;
 R('p12', 'Off', 't1019') = yes;
 
 Parameters
-    alpha_1     /0.75/
+    alpha_1     /0.85/
     alpha_2     /0.85/
     beta_1      /0.7/
     beta_2      /0.6/
-    beta_3      /0.6/
-    beta_4      /0.7/
-    gamma_1     /0.7/
-    gamma_2     /0.85/
-    delta_1     /0.7/
-    delta_2     /0.6/
-    delta_3     /0.7/
-    delta_4     /0.8/
-    delta_5     /0.5/
-    delta_6     /0.85/
-    delta_7     /0.7/
-    omega_1     /0.4/
-    omega_2     /0.5/
+    beta_3      /0.7/
+    beta_4      /0.6/
+    gamma_1     /0.4/
+    gamma_2     /0.3/
+    delta_1     /0.2/
+    delta_2     /0.2/
+    delta_3     /0.15/
+    delta_4     /0.10/
+    delta_5     /0.10/
+    delta_6     /0.05/
+    delta_7     /0.05/
+    omega_1     /0.03/
+    omega_2     /0.03/
     contract(P) / p1 45, p2 50, p3 55, p4 60, p5 42, p6 47, p7 48, p8 49, p9 51, p10 52, p11 44, p12 40, p13 46, p14 50, p15 56, p16 38, p17 37, p18 35, p19 29, p20 28 /
     q_ps(p,s)
     c_st(s,t)
@@ -716,7 +716,7 @@ const_a_45(p,s,w)$(S_HO(s) and w_w1(w)) .. f0_p(p) =l= sum((t)$(TWeek_W(t,w) and
 
 *Solve
 option mip = CPLEX;
-option optcr = 0.01; 
+option optcr = 0.008; 
 Model optModel /all/;
 Solve optModel using mip minimizing obj;
 
