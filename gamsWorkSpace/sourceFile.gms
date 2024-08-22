@@ -194,23 +194,23 @@ R('p12', 'Off', 't1018') = yes;
 R('p12', 'Off', 't1019') = yes;
 
 Parameters
-    alpha_1     /0.75/
+    alpha_1     /0.85/
     alpha_2     /0.85/
     beta_1      /0.7/
     beta_2      /0.6/
-    beta_3      /0.6/
-    beta_4      /0.7/
-    gamma_1     /0.7/
-    gamma_2     /0.85/
-    delta_1     /0.7/
-    delta_2     /0.6/
-    delta_3     /0.7/
-    delta_4     /0.8/
-    delta_5     /0.5/
-    delta_6     /0.85/
-    delta_7     /0.7/
-    omega_1     /0.4/
-    omega_2     /0.5/
+    beta_3      /0.7/
+    beta_4      /0.6/
+    gamma_1     /0.4/
+    gamma_2     /0.3/
+    delta_1     /0.2/
+    delta_2     /0.2/
+    delta_3     /0.15/
+    delta_4     /0.10/
+    delta_5     /0.10/
+    delta_6     /0.05/
+    delta_7     /0.05/
+    omega_1     /0.03/
+    omega_2     /0.03/
     contractInputData(*,*)
     contract(P)
     q_ps(p,s)
