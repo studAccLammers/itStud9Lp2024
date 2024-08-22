@@ -74,7 +74,7 @@ Die nachfolgenden Sets definieren die Tage für den Deinstplan in diesem Fall Ok
 - TRD:     Tage, die entweder gesetzliche Feiertage oder Wochenenden sind
 $offtext
 
-$call gdxxrw inputData.xlsx output=monthCategory.gdx par=tData rng=Sheet3!A1
+$call gdxxrw inputData.xlsx output=days.gdx par=tData rng=Sheet3!A1
 
 Parameter
     tData(*, *)
